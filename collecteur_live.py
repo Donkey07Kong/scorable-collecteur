@@ -450,8 +450,11 @@ def _signal_handler(sig, frame):
 
 
 def main():
-    signal.signal(signal.SIGINT, _signal_handler)
-    signal.signal(signal.SIGTERM, _signal_handler)
+    try:
+        signal.signal(signal.SIGINT, _signal_handler)
+        signal.signal(signal.SIGTERM, _signal_handler)
+    except ValueError:
+        pass
     _log("=" * 50)
     _log("COLLECTEUR DEMARRE - attend R1 prochain cycle")
     _log("=" * 50)
