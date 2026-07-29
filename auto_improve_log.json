@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-07-21 13:39:07",
+  "total_rounds": 30,
+  "total_accumulators": 97,
+  "wins": {
+    "1X": 44,
+    "X2": 0,
+    "12": 79,
+    "total": 21
+  },
+  "defeats": 76,
+  "patterns": {
+    "common_failed_teams": {
+      "Nigeria": 26,
+      "Tanzania": 18,
+      "Senegal": 16,
+      "DR Congo": 15,
+      "Equatorial Guinea": 15,
+      "Uganda": 12,
+      "Mozambique": 12,
+      "Zimbabwe": 12,
+      "Zambia": 12,
+      "Tunisia": 11
+    },
+    "common_failed_picks": {
+      "1X": 19,
+      "X2": 1,
+      "12": 85
+    },
+    "high_edge_failures": 17,
+    "total_failures": 105,
+    "low_h2h_failures": 0
+  },
+  "next_retrain_in": 48
+}

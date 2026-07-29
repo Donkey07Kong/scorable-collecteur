@@ -1,0 +1,33 @@
+__pycache__/
+*.pyc
+*.log
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
+debug_*.py
+fix_*.py
+check_*.py
+test_*.py
+launch.py
+
+# Data files (too large for git)
+donnees_equipes.csv
+donnees_matchs.csv
+historique_predictions.json
+historique_predictions.json.bak
+auto_collect_pending.json
+auto_collect_state.json
+last_pred.json
+rounds_manuels.json
+
+# ML models
+*.pkl
+*.joblib
+*.h5
+ml_models/
+
+# Logs
+server_out.log
+server_err.log
+caf_out.log

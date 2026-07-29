@@ -28,15 +28,15 @@ HEADERS = {
     "referer": "https://bet261.mg/",
 }
 
+TARGET_MIN = 20000
 POLL_INTERVAL = 30
-SCRAPER_INTERVAL = 1800
 CSV_LOCK = threading.Lock()
 
 _cycle = 1
 _last_round = None
 _running = True
+_shutdown_requested = False
 _odds_cache = {}
-_rankings_cache = None
 
 
 def _log(msg):
@@ -332,16 +332,24 @@ def _handle_transition(old_round, new_round):
         _process_round(rnd)
 
 
+def _count_live_rows():
+    try:
+        with open(LIVE_CSV, "r", encoding="utf-8") as f:
+            return sum(1 for _ in csv.DictReader(f))
+    except Exception:
+        return 0
+
+
 def _main_loop():
     global _last_round, _running
     _detect_cycle()
     _ensure_csv()
 
-    last_scrape = 0
     retrain_count = 0
     ranking_saved_for = set()
+    stop_at_cycle = None
 
-    _log("Demarrage (cycle=%d)" % _cycle)
+    _log("Demarrage (cycle=%d, target=%d matchs)" % (_cycle, TARGET_MIN))
 
     while _running:
         try:
@@ -354,11 +362,12 @@ def _main_loop():
                         _odds_cache[current_round] = _extract_odds(matches)
                     _log("Round: R%d" % current_round)
                 elif current_round != _last_round:
-                    _log("Transition: R%d -> R%d" % (_last_round, current_round))
+                    was = _last_round
+                    _last_round = current_round
+                    _log("Transition: R%d -> R%d" % (was, current_round))
                     if matches:
                         _odds_cache[current_round] = _extract_odds(matches)
-                    _handle_transition(_last_round, current_round)
-                    _last_round = current_round
+                    _handle_transition(was, current_round)
                     retrain_count += 1
                     if retrain_count % 10 == 0:
                         threading.Thread(target=_try_retrain, daemon=True).start()
@@ -373,10 +382,17 @@ def _main_loop():
                         _save_ranking_snapshot(current_round, _cycle, rankings)
                         ranking_saved_for.add(rk_key)
 
-            now = time.time()
-            if now - last_scrape > SCRAPER_INTERVAL:
-                last_scrape = now
-                threading.Thread(target=_try_retrain, daemon=True).start()
+            if _shutdown_requested and stop_at_cycle is None:
+                total = _count_live_rows()
+                if total >= TARGET_MIN:
+                    stop_at_cycle = _cycle
+                    _log("Cible %d atteinte (%d) — arret en fin de cycle C%d" % (TARGET_MIN, total, stop_at_cycle))
+
+            if stop_at_cycle is not None and _cycle > stop_at_cycle:
+                _log("Cycle C%d termine — arret propre" % stop_at_cycle)
+                _running = False
+                break
+
         except Exception as e:
             _log("Erreur: %s" % e)
 
@@ -388,62 +404,49 @@ def _try_retrain():
         import prediction_engine
         import ml_ensemble
         import csv as csv_mod
-        import os
 
-        if not os.path.exists(DONNEES_CSV):
+        if not os.path.exists(LIVE_CSV):
             return
 
-        donnees = prediction_engine.charger_historique()
-        live_rows = []
-        if os.path.exists(LIVE_CSV):
-            with open(LIVE_CSV, "r", encoding="utf-8") as f:
-                for row in csv_mod.DictReader(f):
-                    sd = int(row.get("score_dom", 0))
-                    se = int(row.get("score_ext", 0))
-                    total = sd + se
-                    victory = "dom" if sd > se else "ext" if se > sd else "nul"
-                    live_rows.append({
-                        "round": int(row["round"]),
-                        "home_team": row["home_team"],
-                        "away_team": row["away_team"],
-                        "score_final_dom": sd,
-                        "score_final_ext": se,
-                        "nb_buts_total": total,
-                        "nb_buts_dom": sd,
-                        "nb_buts_ext": se,
-                        "victoire": victory,
-                        "cycle": int(row.get("cycle", 0)),
-                    })
+        donnees = []
+        with open(LIVE_CSV, "r", encoding="utf-8") as f:
+            for row in csv_mod.DictReader(f):
+                sd = int(row.get("score_dom", 0))
+                se = int(row.get("score_ext", 0))
+                total = sd + se
+                victory = "dom" if sd > se else "ext" if se > sd else "nul"
+                donnees.append({
+                    "round": int(row["round"]),
+                    "home_team": row["home_team"],
+                    "away_team": row["away_team"],
+                    "score_final_dom": sd,
+                    "score_final_ext": se,
+                    "nb_buts_total": total,
+                    "nb_buts_dom": sd,
+                    "nb_buts_ext": se,
+                    "victoire": victory,
+                    "cycle": int(row.get("cycle", 0)),
+                })
 
-        seen = set()
-        merged = list(donnees)
-        for d in merged:
-            seen.add((d["round"], d["home_team"], d["away_team"], d.get("cycle", 0)))
-        for d in live_rows:
-            key = (d["round"], d["home_team"], d["away_team"], d["cycle"])
-            if key not in seen:
-                seen.add(key)
-                merged.append(d)
-
-        if len(merged) < 50:
+        if len(donnees) < 50:
             return
 
-        stats = prediction_engine.calculer_stats(merged)
+        stats = prediction_engine.calculer_stats(donnees)
         models, cv = ml_ensemble.train_ensemble_fast(
-            merged, stats["team_stats"], stats["elo_ratings"],
+            donnees, stats["team_stats"], stats["elo_ratings"],
             stats["h2h_stats"], stats["tendances"]
         )
         if models:
             ml_ensemble.save_models(models)
-            _log("Retrain OK: %d matchs" % len(merged))
+            _log("Retrain OK: %d matchs (live data only)" % len(donnees))
     except Exception as e:
         _log("Retrain erreur: %s" % e)
 
 
 def _signal_handler(sig, frame):
-    global _running
-    _log("Arret (signal %d)" % sig)
-    _running = False
+    global _shutdown_requested
+    _log("Signal %d recu — arret en fin de cycle en cours" % sig)
+    _shutdown_requested = True
 
 
 def main():

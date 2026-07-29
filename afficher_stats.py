@@ -1,0 +1,52 @@
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+from prediction_engine import calculer_stats, charger_historique
+
+d = charger_historique()
+s = calculer_stats(d)
+
+print('=== STATS GLOBALES ===')
+print('Matchs total:', s['total_matchs'])
+print('Moy buts/match:', round(s['moy_buts'],2))
+print('Moy domicile:', round(s['moy_dom'],2))
+print('Moy exterieur:', round(s['moy_ext'],2))
+print('Over 2.5:', round(s['over_25']*100,1),'%')
+print('Over 3.5:', round(s['over_35']*100,1),'%')
+print('1 (dom):', round(s['v_dom']*100,1),'%')
+print('X (nul):', round(s['nuls']*100,1),'%')
+print('2 (ext):', round(s['v_ext']*100,1),'%')
+print('Pair:', round(s['pair_ratio']*100,1),'%')
+print()
+print('=== STATS PAR EQUIPE (top 5 et bottom 5) ===')
+ts = s['team_stats']
+sorted_teams = sorted(ts.items(), key=lambda x: x[1]['force'], reverse=True)
+
+for label, subset in [('TOP 5 (meilleures)', sorted_teams[:5]), ('BOTTOM 5 (plus faibles)', sorted_teams[-5:])]:
+    print()
+    print(f'--- {label} ---')
+    for t, st in subset:
+        print()
+        print(f'{t} ({st["matchs"]} matchs)')
+        print(f'  Attaque: {round(st["moy_bm"],2)} buts/m | Defense: {round(st["moy_be"],2)} buts encaisses/m')
+        print(f'  Domicile: {round(st["moy_home_bm"],2)} marques / {round(st["moy_home_be"],2)} encaisses')
+        print(f'  Exterieur: {round(st["moy_away_bm"],2)} marques / {round(st["moy_away_be"],2)} encaisses')
+        print(f'  Force: {round(st["force"],2)}')
+        print(f'  Forme (5 derniers): {round(st["recent_form"],2)} ({st["recent_wins"]}V {st["recent_draws"]}N {st["recent_losses"]}D)')
+        print(f'  Over 2.5: {round(st["over_25_ratio"]*100,1)}% | Dom: {round(st["home_over_25_ratio"]*100,1)}% | Ext: {round(st["away_over_25_ratio"]*100,1)}%')
+        print(f'  Win rates: Dom={round(st["home_win_rate"]*100,1)}% | Ext={round(st["away_win_rate"]*100,1)}%')
+        gf = dict((k,round(v*100,1)) for k,v in st["goals_for_dist"].items())
+        ga = dict((k,round(v*100,1)) for k,v in st["goals_against_dist"].items())
+        print(f'  Buts marques freq: {gf}')
+        print(f'  Buts encaisses freq: {ga}')
+
+print()
+print('=== VARIABLES UTILISEES DANS LE MODELE ===')
+print('1. Stats globales: moy_buts, moy_dom, moy_ext, over_25, v_dom, nuls, v_ext, pair_ratio, distrib scores')
+print('2. Stats par equipe (ponderees decay=0.94):')
+print('   - Attaque/Defense domicile et exterieur separees')
+print('   - Forme recente (5 derniers matchs)')
+print('   - Tendance Over/Under par equipe')
+print('   - Distribution de buts marques/concendes (0,1,2,3,4+)')
+print('   - Win/Loss rates domicile vs exterieur')
+print('3. Cotes du bookmaker: 1X2, Over/Under, Pair/Impair')
+print('4. Combinaison: lambda_dom = attaque_home * def_ext * facteur_forme * ajustement_cotes')

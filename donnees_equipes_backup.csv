@@ -1,0 +1,857 @@
+round,match_id,home_team,away_team,score_final_dom,score_final_ext,nb_buts_total,nb_buts_dom,nb_buts_ext,minutes_buts,nb_evenements,premier_but_minute,premier_but_equipe,intervalle_moyen,intervalle_max,intervalle_min,victoire
+5,73348887,Mozambique,Morocco,1,3,4,1,3,,0,,,0,0,0,ext
+5,73348888,Tanzania,South Africa,0,1,1,0,1,,0,,,0,0,0,ext
+5,73348889,Comoros,Senegal,0,0,0,0,0,,0,,,0,0,0,nul
+5,73348890,Burkina Faso,Ivory Coast,0,1,1,0,1,,0,,,0,0,0,ext
+5,73348891,Egypt,Zambia,4,0,4,4,0,,0,,,0,0,0,dom
+5,73348892,Benin,Uganda,0,1,1,0,1,,0,,,0,0,0,ext
+5,73348893,Tunisia,Cameroon,2,0,2,2,0,,0,,,0,0,0,dom
+5,73348894,Angola,Mali,0,0,0,0,0,,0,,,0,0,0,nul
+5,73348895,Equatorial Guinea,Algeria,2,1,3,2,1,,0,,,0,0,0,dom
+5,73348896,Botswana,Sudan,2,0,2,2,0,,0,,,0,0,0,dom
+5,73348897,DR Congo,Nigeria,0,1,1,0,1,,0,,,0,0,0,ext
+5,73348898,Gabon,Zimbabwe,1,1,2,1,1,,0,,,0,0,0,nul
+5,73348887,Mozambique,Morocco,1,3,4,1,3,,0,,,0,0,0,ext
+5,73348888,Tanzania,South Africa,0,1,1,0,1,,0,,,0,0,0,ext
+5,73348889,Comoros,Senegal,0,0,0,0,0,,0,,,0,0,0,nul
+5,73348890,Burkina Faso,Ivory Coast,0,1,1,0,1,,0,,,0,0,0,ext
+5,73348891,Egypt,Zambia,4,0,4,4,0,,0,,,0,0,0,dom
+5,73348892,Benin,Uganda,0,1,1,0,1,,0,,,0,0,0,ext
+5,73348893,Tunisia,Cameroon,2,0,2,2,0,,0,,,0,0,0,dom
+5,73348894,Angola,Mali,0,0,0,0,0,,0,,,0,0,0,nul
+5,73348895,Equatorial Guinea,Algeria,2,1,3,2,1,,0,,,0,0,0,dom
+5,73348896,Botswana,Sudan,2,0,2,2,0,,0,,,0,0,0,dom
+5,73348897,DR Congo,Nigeria,0,1,1,0,1,,0,,,0,0,0,ext
+5,73348898,Gabon,Zimbabwe,1,1,2,1,1,,0,,,0,0,0,nul
+6,73348899,Uganda,Gabon,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348900,Zimbabwe,Angola,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348901,Mali,Morocco,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348902,Tunisia,Comoros,2,0,2,2,0,,0,,,0,0,0,dom
+6,73348903,Nigeria,Tanzania,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348904,Sudan,Mozambique,0,1,1,0,1,,0,,,0,0,0,ext
+6,73348905,Algeria,DR Congo,6,0,6,6,0,,0,,,0,0,0,dom
+6,73348906,Cameroon,Equatorial Guinea,0,1,1,0,1,,0,,,0,0,0,ext
+6,73348907,Senegal,Egypt,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348908,Ivory Coast,Botswana,0,1,1,0,1,,0,,,0,0,0,ext
+6,73348909,Zambia,Benin,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348910,South Africa,Burkina Faso,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348899,Uganda,Gabon,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348900,Zimbabwe,Angola,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348901,Mali,Morocco,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348902,Tunisia,Comoros,2,0,2,2,0,,0,,,0,0,0,dom
+6,73348903,Nigeria,Tanzania,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348904,Sudan,Mozambique,0,1,1,0,1,,0,,,0,0,0,ext
+6,73348905,Algeria,DR Congo,6,0,6,6,0,,0,,,0,0,0,dom
+6,73348906,Cameroon,Equatorial Guinea,0,1,1,0,1,,0,,,0,0,0,ext
+6,73348907,Senegal,Egypt,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348908,Ivory Coast,Botswana,0,1,1,0,1,,0,,,0,0,0,ext
+6,73348909,Zambia,Benin,0,0,0,0,0,,0,,,0,0,0,nul
+6,73348910,South Africa,Burkina Faso,0,0,0,0,0,,0,,,0,0,0,nul
+21,73349079,Zambia,Sudan,0,0,0,0,0,,0,,,0,0,0,nul
+21,73349080,Cameroon,Angola,1,0,1,1,0,,0,,,0,0,0,dom
+21,73349081,Equatorial Guinea,Tanzania,0,2,2,0,2,,0,,,0,0,0,ext
+21,73349082,Egypt,Benin,2,0,2,2,0,,0,,,0,0,0,dom
+21,73349083,Algeria,Morocco,2,0,2,2,0,,0,,,0,0,0,dom
+21,73349084,Comoros,Gabon,1,0,1,1,0,,0,,,0,0,0,dom
+21,73349085,Tunisia,Burkina Faso,5,0,5,5,0,,0,,,0,0,0,dom
+21,73349086,Senegal,Botswana,2,0,2,2,0,,0,,,0,0,0,dom
+21,73349087,Uganda,Ivory Coast,2,0,2,2,0,,0,,,0,0,0,dom
+21,73349088,Mozambique,DR Congo,0,0,0,0,0,,0,,,0,0,0,nul
+21,73349089,South Africa,Zimbabwe,2,1,3,2,1,,0,,,0,0,0,dom
+21,73349090,Nigeria,Mali,0,0,0,0,0,,0,,,0,0,0,nul
+22,73349091,Burkina Faso,Equatorial Guinea,6,0,6,6,0,,0,,,0,0,0,dom
+22,73349092,Zimbabwe,Nigeria,1,1,2,1,1,,0,,,0,0,0,nul
+22,73349093,Botswana,Tunisia,0,0,0,0,0,,0,,,0,0,0,nul
+22,73349094,South Africa,Uganda,1,0,1,1,0,,0,,,0,0,0,dom
+22,73349095,Angola,Comoros,0,0,0,0,0,,0,,,0,0,0,nul
+22,73349096,Tanzania,DR Congo,0,0,0,0,0,,0,,,0,0,0,nul
+22,73349097,Benin,Mozambique,0,3,3,0,3,,0,,,0,0,0,ext
+22,73349098,Mali,Algeria,1,0,1,1,0,,0,,,0,0,0,dom
+22,73349099,Gabon,Egypt,0,4,4,0,4,,0,,,0,0,0,ext
+22,73349100,Morocco,Cameroon,2,1,3,2,1,,0,,,0,0,0,dom
+22,73349101,Sudan,Senegal,0,2,2,0,2,,0,,,0,0,0,ext
+22,73349102,Ivory Coast,Zambia,1,0,1,1,0,,0,,,0,0,0,dom
+23,73349103,Algeria,Zimbabwe,1,0,1,1,0,,0,,,0,0,0,dom
+23,73349104,Tunisia,Sudan,0,1,1,0,1,,0,,,0,0,0,ext
+23,73349105,Zambia,South Africa,2,0,2,2,0,,0,,,0,0,0,dom
+23,73349106,Cameroon,Mali,1,0,1,1,0,,0,,,0,0,0,dom
+23,73349107,Nigeria,Uganda,0,0,0,0,0,,0,,,0,0,0,nul
+23,73349108,Mozambique,Tanzania,0,0,0,0,0,,0,,,0,0,0,nul
+23,73349109,Equatorial Guinea,Botswana,0,0,0,0,0,,0,,,0,0,0,nul
+23,73349110,Comoros,Morocco,1,0,1,1,0,,0,,,0,0,0,dom
+23,73349111,Egypt,Angola,2,0,2,2,0,,0,,,0,0,0,dom
+23,73349112,Benin,Gabon,1,3,4,1,3,,0,,,0,0,0,ext
+23,73349113,DR Congo,Burkina Faso,0,2,2,0,2,,0,,,0,0,0,ext
+23,73349114,Senegal,Ivory Coast,1,2,3,1,2,,0,,,0,0,0,ext
+24,73349115,South Africa,Senegal,0,1,1,0,1,,0,,,0,0,0,ext
+24,73349116,Gabon,Mozambique,2,0,2,2,0,,0,,,0,0,0,dom
+24,73349117,Burkina Faso,Tanzania,1,0,1,1,0,,0,,,0,0,0,dom
+24,73349118,Uganda,Algeria,0,0,0,0,0,,0,,,0,0,0,nul
+24,73349119,Ivory Coast,Tunisia,1,0,1,1,0,,0,,,0,0,0,dom
+24,73349120,Morocco,Egypt,4,0,4,4,0,,0,,,0,0,0,dom
+24,73349121,Nigeria,Zambia,0,0,0,0,0,,0,,,0,0,0,nul
+24,73349122,Zimbabwe,Cameroon,1,0,1,1,0,,0,,,0,0,0,dom
+24,73349123,Sudan,Equatorial Guinea,0,0,0,0,0,,0,,,0,0,0,nul
+24,73349124,Botswana,DR Congo,0,0,0,0,0,,0,,,0,0,0,nul
+24,73349125,Angola,Benin,4,1,5,4,1,,0,,,0,0,0,dom
+24,73349126,Mali,Comoros,0,1,1,0,1,,0,,,0,0,0,ext
+25,73349127,Cameroon,Uganda,1,1,2,1,1,,0,,,0,0,0,nul
+25,73349128,Algeria,Zambia,3,1,4,3,1,,0,,,0,0,0,dom
+25,73349129,Equatorial Guinea,Ivory Coast,1,0,1,1,0,,0,,,0,0,0,dom
+25,73349130,Senegal,Nigeria,0,0,0,0,0,,0,,,0,0,0,nul
+25,73349131,Mozambique,Burkina Faso,0,0,0,0,0,,0,,,0,0,0,nul
+25,73349132,Tunisia,South Africa,3,1,4,3,1,,0,,,0,0,0,dom
+25,73349133,Gabon,Angola,0,4,4,0,4,,0,,,0,0,0,ext
+25,73349134,Comoros,Zimbabwe,1,0,1,1,0,,0,,,0,0,0,dom
+25,73349135,Benin,Morocco,0,2,2,0,2,,0,,,0,0,0,ext
+25,73349136,DR Congo,Sudan,2,0,2,2,0,,0,,,0,0,0,dom
+25,73349137,Egypt,Mali,0,0,0,0,0,,0,,,0,0,0,nul
+25,73349138,Tanzania,Botswana,0,1,1,0,1,,0,,,0,0,0,ext
+27,73349151,Comoros,Zambia,1,0,1,1,0,,0,,,0,0,0,dom
+27,73349152,Equatorial Guinea,Nigeria,0,0,0,0,0,,0,,,0,0,0,nul
+27,73349153,Tunisia,Algeria,1,0,1,1,0,,0,,,0,0,0,dom
+27,73349154,Angola,Morocco,0,0,0,0,0,,0,,,0,0,0,nul
+27,73349155,Mozambique,Botswana,1,2,3,1,2,,0,,,0,0,0,ext
+27,73349156,Tanzania,Ivory Coast,0,0,0,0,0,,0,,,0,0,0,nul
+27,73349157,Benin,Zimbabwe,1,0,1,1,0,,0,,,0,0,0,dom
+27,73349158,DR Congo,South Africa,0,2,2,0,2,,0,,,0,0,0,ext
+27,73349159,Burkina Faso,Sudan,3,0,3,3,0,,0,,,0,0,0,dom
+27,73349160,Cameroon,Senegal,3,0,3,3,0,,0,,,0,0,0,dom
+27,73349161,Gabon,Mali,0,2,2,0,2,,0,,,0,0,0,ext
+27,73349162,Egypt,Uganda,0,0,0,0,0,,0,,,0,0,0,nul
+28,73349163,Morocco,Mozambique,1,1,2,1,1,,0,,,0,0,0,nul
+28,73349164,South Africa,Tanzania,1,2,3,1,2,,0,,,0,0,0,ext
+28,73349165,Senegal,Comoros,0,0,0,0,0,,0,,,0,0,0,nul
+28,73349166,Ivory Coast,Burkina Faso,4,0,4,4,0,,0,,,0,0,0,dom
+28,73349167,Zambia,Egypt,0,2,2,0,2,,0,,,0,0,0,ext
+28,73349168,Uganda,Benin,1,1,2,1,1,,0,,,0,0,0,nul
+28,73349169,Cameroon,Tunisia,0,0,0,0,0,,0,,,0,0,0,nul
+28,73349170,Mali,Angola,1,0,1,1,0,,0,,,0,0,0,dom
+28,73349171,Algeria,Equatorial Guinea,5,0,5,5,0,,0,,,0,0,0,dom
+28,73349172,Sudan,Botswana,0,0,0,0,0,,0,,,0,0,0,nul
+28,73349173,Nigeria,DR Congo,0,0,0,0,0,,0,,,0,0,0,nul
+28,73349174,Zimbabwe,Gabon,1,0,1,1,0,,0,,,0,0,0,dom
+29,73349175,Gabon,Uganda,2,1,3,2,1,,0,,,0,0,0,dom
+29,73349176,Angola,Zimbabwe,1,1,2,1,1,,0,,,0,0,0,nul
+29,73349177,Morocco,Mali,1,0,1,1,0,,0,,,0,0,0,dom
+29,73349178,Comoros,Tunisia,0,0,0,0,0,,0,,,0,0,0,nul
+29,73349179,Tanzania,Nigeria,0,1,1,0,1,,0,,,0,0,0,ext
+29,73349180,Mozambique,Sudan,1,0,1,1,0,,0,,,0,0,0,dom
+29,73349181,DR Congo,Algeria,0,1,1,0,1,,0,,,0,0,0,ext
+29,73349182,Equatorial Guinea,Cameroon,0,0,0,0,0,,0,,,0,0,0,nul
+29,73349183,Egypt,Senegal,1,1,2,1,1,,0,,,0,0,0,nul
+29,73349184,Botswana,Ivory Coast,0,0,0,0,0,,0,,,0,0,0,nul
+29,73349185,Benin,Zambia,1,1,2,1,1,,0,,,0,0,0,nul
+29,73349186,Burkina Faso,South Africa,0,2,2,0,2,,0,,,0,0,0,ext
+30,73349187,Senegal,Benin,0,0,0,0,0,,0,,,0,0,0,nul
+30,73349188,Cameroon,DR Congo,0,0,0,0,0,,0,,,0,0,0,nul
+30,73349189,Nigeria,Burkina Faso,4,0,4,4,0,,0,,,0,0,0,dom
+30,73349190,Zimbabwe,Morocco,1,1,2,1,1,,0,,,0,0,0,nul
+30,73349191,Comoros,Equatorial Guinea,0,1,1,0,1,,0,,,0,0,0,ext
+30,73349192,Tunisia,Egypt,0,0,0,0,0,,0,,,0,0,0,nul
+30,73349193,Mali,Mozambique,1,1,2,1,1,,0,,,0,0,0,nul
+30,73349194,Algeria,Tanzania,1,1,2,1,1,,0,,,0,0,0,nul
+30,73349195,South Africa,Botswana,0,2,2,0,2,,0,,,0,0,0,ext
+30,73349196,Zambia,Gabon,0,0,0,0,0,,0,,,0,0,0,nul
+30,73349197,Ivory Coast,Sudan,0,0,0,0,0,,0,,,0,0,0,nul
+30,73349198,Uganda,Angola,0,0,0,0,0,,0,,,0,0,0,nul
+31,73349199,Tanzania,Cameroon,2,0,2,2,0,,0,,,0,0,0,dom
+31,73349200,DR Congo,Comoros,1,2,3,1,2,,0,,,0,0,0,ext
+31,73349201,Benin,Tunisia,4,2,6,4,2,,0,,,0,0,0,dom
+31,73349202,Sudan,South Africa,2,2,4,2,2,,0,,,0,0,0,nul
+31,73349203,Gabon,Senegal,0,0,0,0,0,,0,,,0,0,0,nul
+31,73349204,Burkina Faso,Algeria,2,3,5,2,3,,0,,,0,0,0,ext
+31,73349205,Angola,Zambia,3,0,3,3,0,,0,,,0,0,0,dom
+31,73349206,Morocco,Uganda,3,0,3,3,0,,0,,,0,0,0,dom
+31,73349207,Botswana,Nigeria,0,4,4,0,4,,0,,,0,0,0,ext
+31,73349208,Mali,Zimbabwe,2,0,2,2,0,,0,,,0,0,0,dom
+31,73349209,Mozambique,Ivory Coast,0,0,0,0,0,,0,,,0,0,0,nul
+31,73349210,Egypt,Equatorial Guinea,4,0,4,4,0,,0,,,0,0,0,dom
+32,73349211,Zimbabwe,Mozambique,0,1,1,0,1,,0,,,0,0,0,ext
+32,73349212,Tunisia,Gabon,1,0,1,1,0,,0,,,0,0,0,dom
+32,73349213,Comoros,Tanzania,0,1,1,0,1,,0,,,0,0,0,ext
+32,73349214,Egypt,DR Congo,1,1,2,1,1,,0,,,0,0,0,nul
+32,73349215,Senegal,Angola,3,0,3,3,0,,0,,,0,0,0,dom
+32,73349216,South Africa,Ivory Coast,4,0,4,4,0,,0,,,0,0,0,dom
+32,73349217,Uganda,Mali,1,1,2,1,1,,0,,,0,0,0,nul
+32,73349218,Algeria,Botswana,4,1,5,4,1,,0,,,0,0,0,dom
+32,73349219,Cameroon,Burkina Faso,4,0,4,4,0,,0,,,0,0,0,dom
+32,73349220,Zambia,Morocco,1,1,2,1,1,,0,,,0,0,0,nul
+32,73349221,Nigeria,Sudan,1,0,1,1,0,,0,,,0,0,0,dom
+32,73349222,Equatorial Guinea,Benin,0,0,0,0,0,,0,,,0,0,0,nul
+33,73349223,Botswana,Cameroon,1,1,2,1,1,,0,,,0,0,0,nul
+33,73349224,Angola,Tunisia,0,0,0,0,0,,0,,,0,0,0,nul
+33,73349225,Sudan,Algeria,0,0,0,0,0,,0,,,0,0,0,nul
+33,73349226,Mozambique,South Africa,0,1,1,0,1,,0,,,0,0,0,ext
+33,73349227,Ivory Coast,Nigeria,2,2,4,2,2,,0,,,0,0,0,nul
+33,73349228,Gabon,Equatorial Guinea,0,2,2,0,2,,0,,,0,0,0,ext
+33,73349229,Mali,Zambia,2,0,2,2,0,,0,,,0,0,0,dom
+33,73349230,Burkina Faso,Comoros,2,1,3,2,1,,0,,,0,0,0,dom
+33,73349231,Tanzania,Egypt,0,0,0,0,0,,0,,,0,0,0,nul
+33,73349232,Benin,DR Congo,0,1,1,0,1,,0,,,0,0,0,ext
+33,73349233,Morocco,Senegal,3,0,3,3,0,,0,,,0,0,0,dom
+33,73349234,Zimbabwe,Uganda,0,0,0,0,0,,0,,,0,0,0,nul
+34,73349235,Tunisia,Morocco,1,0,1,1,0,,0,,,0,0,0,dom
+34,73349236,Comoros,Botswana,0,0,0,0,0,,0,,,0,0,0,nul
+34,73349237,Egypt,Burkina Faso,4,0,4,4,0,,0,,,0,0,0,dom
+34,73349238,DR Congo,Gabon,2,0,2,2,0,,0,,,0,0,0,dom
+34,73349239,Benin,Tanzania,0,0,0,0,0,,0,,,0,0,0,nul
+34,73349240,Senegal,Mali,1,0,1,1,0,,0,,,0,0,0,dom
+34,73349241,Cameroon,Sudan,4,0,4,4,0,,0,,,0,0,0,dom
+34,73349242,Zambia,Zimbabwe,0,0,0,0,0,,0,,,0,0,0,nul
+34,73349243,Equatorial Guinea,Angola,1,1,2,1,1,,0,,,0,0,0,nul
+34,73349244,Nigeria,South Africa,1,2,3,1,2,,0,,,0,0,0,ext
+34,73349245,Algeria,Ivory Coast,3,0,3,3,0,,0,,,0,0,0,dom
+34,73349246,Uganda,Mozambique,0,1,1,0,1,,0,,,0,0,0,ext
+35,73349247,Burkina Faso,Benin,0,0,0,0,0,,0,,,0,0,0,nul
+35,73349248,Gabon,Tanzania,3,0,3,3,0,,0,,,0,0,0,dom
+35,73349249,Zimbabwe,Senegal,0,0,0,0,0,,0,,,0,0,0,nul
+35,73349250,Morocco,Equatorial Guinea,0,2,2,0,2,,0,,,0,0,0,ext
+35,73349251,Sudan,Comoros,1,2,3,1,2,,0,,,0,0,0,ext
+35,73349252,Ivory Coast,Cameroon,2,1,3,2,1,,0,,,0,0,0,dom
+35,73349253,Angola,DR Congo,2,1,3,2,1,,0,,,0,0,0,dom
+35,73349254,Mali,Tunisia,0,0,0,0,0,,0,,,0,0,0,nul
+35,73349255,Uganda,Zambia,1,1,2,1,1,,0,,,0,0,0,nul
+35,73349256,South Africa,Algeria,0,1,1,0,1,,0,,,0,0,0,ext
+35,73349257,Mozambique,Nigeria,2,0,2,2,0,,0,,,0,0,0,dom
+35,73349258,Botswana,Egypt,1,0,1,1,0,,0,,,0,0,0,dom
+36,73349259,Tanzania,Angola,1,0,1,1,0,,0,,,0,0,0,dom
+36,73349260,Cameroon,South Africa,2,1,3,2,1,,0,,,0,0,0,dom
+36,73349261,Tunisia,Zimbabwe,1,1,2,1,1,,0,,,0,0,0,nul
+36,73349262,Zambia,Mozambique,1,0,1,1,0,,0,,,0,0,0,dom
+36,73349263,Senegal,Uganda,2,0,2,2,0,,0,,,0,0,0,dom
+36,73349264,Egypt,Sudan,5,0,5,5,0,,0,,,0,0,0,dom
+36,73349265,Comoros,Ivory Coast,0,1,1,0,1,,0,,,0,0,0,ext
+36,73349266,DR Congo,Morocco,0,2,2,0,2,,0,,,0,0,0,ext
+36,73349267,Equatorial Guinea,Mali,1,1,2,1,1,,0,,,0,0,0,nul
+36,73349268,Benin,Botswana,1,0,1,1,0,,0,,,0,0,0,dom
+36,73349269,Gabon,Burkina Faso,0,1,1,0,1,,0,,,0,0,0,ext
+36,73349270,Algeria,Nigeria,0,0,0,0,0,,0,,,0,0,0,nul
+37,73349271,Uganda,Tunisia,3,1,4,3,1,,0,,,0,0,0,dom
+37,73349272,South Africa,Comoros,3,1,4,3,1,,0,,,0,0,0,dom
+37,73349273,Zimbabwe,Equatorial Guinea,2,2,4,2,2,,0,,,0,0,0,nul
+37,73349274,Mozambique,Algeria,0,0,0,0,0,,0,,,0,0,0,nul
+37,73349275,Botswana,Gabon,2,1,3,2,1,,0,,,0,0,0,dom
+37,73349276,Sudan,Benin,1,2,3,1,2,,0,,,0,0,0,ext
+37,73349277,Nigeria,Cameroon,0,4,4,0,4,,0,,,0,0,0,ext
+37,73349278,Zambia,Senegal,1,1,2,1,1,,0,,,0,0,0,nul
+37,73349279,Ivory Coast,Egypt,2,1,3,2,1,,0,,,0,0,0,dom
+37,73349280,Angola,Burkina Faso,2,1,3,2,1,,0,,,0,0,0,dom
+37,73349281,Mali,DR Congo,3,1,4,3,1,,0,,,0,0,0,dom
+37,73349282,Morocco,Tanzania,3,1,4,3,1,,0,,,0,0,0,dom
+38,73349283,Cameroon,Algeria,1,1,2,1,1,,0,,,0,0,0,nul
+38,73349284,Benin,Ivory Coast,1,1,2,1,1,,0,,,0,0,0,nul
+38,73349285,Egypt,South Africa,2,1,3,2,1,,0,,,0,0,0,dom
+38,73349286,Senegal,Mozambique,1,1,2,1,1,,0,,,0,0,0,nul
+38,73349287,Burkina Faso,Morocco,1,2,3,1,2,,0,,,0,0,0,ext
+38,73349288,Tunisia,Zambia,1,4,5,1,4,,0,,,0,0,0,ext
+38,73349289,Angola,Botswana,0,1,1,0,1,,0,,,0,0,0,ext
+38,73349290,Comoros,Nigeria,2,1,3,2,1,,0,,,0,0,0,dom
+38,73349291,Tanzania,Mali,1,0,1,1,0,,0,,,0,0,0,dom
+38,73349292,DR Congo,Zimbabwe,1,1,2,1,1,,0,,,0,0,0,nul
+38,73349293,Gabon,Sudan,0,0,0,0,0,,0,,,0,0,0,nul
+38,73349294,Equatorial Guinea,Uganda,1,0,1,1,0,,0,,,0,0,0,dom
+39,73349295,Uganda,DR Congo,0,0,0,0,0,,0,,,0,0,0,nul
+39,73349296,Zimbabwe,Tanzania,1,1,2,1,1,,0,,,0,0,0,nul
+39,73349297,South Africa,Benin,3,0,3,3,0,,0,,,0,0,0,dom
+39,73349298,Ivory Coast,Gabon,2,0,2,2,0,,0,,,0,0,0,dom
+39,73349299,Algeria,Comoros,2,0,2,2,0,,0,,,0,0,0,dom
+39,73349300,Zambia,Equatorial Guinea,4,1,5,4,1,,0,,,0,0,0,dom
+39,73349301,Morocco,Botswana,3,1,4,3,1,,0,,,0,0,0,dom
+39,73349302,Sudan,Angola,1,0,1,1,0,,0,,,0,0,0,dom
+39,73349303,Mozambique,Cameroon,1,2,3,1,2,,0,,,0,0,0,ext
+39,73349304,Nigeria,Egypt,0,0,0,0,0,,0,,,0,0,0,nul
+39,73349305,Senegal,Tunisia,0,0,0,0,0,,0,,,0,0,0,nul
+39,73349306,Mali,Burkina Faso,0,0,0,0,0,,0,,,0,0,0,nul
+40,73349307,Tanzania,Uganda,0,1,1,0,1,,0,,,0,0,0,ext
+40,73349308,Egypt,Algeria,1,0,1,1,0,,0,,,0,0,0,dom
+40,73349309,Angola,Ivory Coast,1,1,2,1,1,,0,,,0,0,0,nul
+40,73349310,Equatorial Guinea,Senegal,0,1,1,0,1,,0,,,0,0,0,ext
+40,73349311,Comoros,Cameroon,0,0,0,0,0,,0,,,0,0,0,nul
+40,73349312,Benin,Nigeria,0,2,2,0,2,,0,,,0,0,0,ext
+40,73349313,Gabon,South Africa,0,4,4,0,4,,0,,,0,0,0,ext
+40,73349314,DR Congo,Zambia,0,0,0,0,0,,0,,,0,0,0,nul
+40,73349315,Botswana,Mali,0,1,1,0,1,,0,,,0,0,0,ext
+40,73349316,Tunisia,Mozambique,0,1,1,0,1,,0,,,0,0,0,ext
+40,73349317,Burkina Faso,Zimbabwe,0,1,1,0,1,,0,,,0,0,0,ext
+40,73349318,Morocco,Sudan,0,2,2,0,2,,0,,,0,0,0,ext
+41,73349319,Tunisia,Equatorial Guinea,4,1,5,4,1,,0,,,0,0,0,dom
+41,73349320,Cameroon,Egypt,0,1,1,0,1,,0,,,0,0,0,ext
+41,73349321,Nigeria,Gabon,0,0,0,0,0,,0,,,0,0,0,nul
+41,73349322,South Africa,Angola,1,0,1,1,0,,0,,,0,0,0,dom
+41,73349323,Ivory Coast,Morocco,0,0,0,0,0,,0,,,0,0,0,nul
+41,73349324,Zimbabwe,Botswana,1,1,2,1,1,,0,,,0,0,0,nul
+41,73349325,Uganda,Burkina Faso,0,0,0,0,0,,0,,,0,0,0,nul
+41,73349326,Zambia,Tanzania,1,0,1,1,0,,0,,,0,0,0,dom
+41,73349327,Senegal,DR Congo,0,0,0,0,0,,0,,,0,0,0,nul
+41,73349328,Mali,Sudan,4,0,4,4,0,,0,,,0,0,0,dom
+41,73349329,Mozambique,Comoros,1,1,2,1,1,,0,,,0,0,0,nul
+41,73349330,Algeria,Benin,4,0,4,4,0,,0,,,0,0,0,dom
+42,73349331,Gabon,Algeria,0,3,3,0,3,,0,,,0,0,0,ext
+42,73349332,Angola,Nigeria,0,0,0,0,0,,0,,,0,0,0,nul
+42,73349333,Benin,Cameroon,3,0,3,3,0,,0,,,0,0,0,dom
+42,73349334,Morocco,South Africa,3,0,3,3,0,,0,,,0,0,0,dom
+42,73349335,Burkina Faso,Zambia,0,0,0,0,0,,0,,,0,0,0,nul
+42,73349336,Mali,Ivory Coast,1,0,1,1,0,,0,,,0,0,0,dom
+42,73349337,Equatorial Guinea,Mozambique,1,4,5,1,4,,0,,,0,0,0,ext
+42,73349338,Tanzania,Senegal,0,0,0,0,0,,0,,,0,0,0,nul
+42,73349339,Botswana,Uganda,0,4,4,0,4,,0,,,0,0,0,ext
+42,73349340,DR Congo,Tunisia,0,0,0,0,0,,0,,,0,0,0,nul
+42,73349341,Sudan,Zimbabwe,2,1,3,2,1,,0,,,0,0,0,dom
+42,73349342,Egypt,Comoros,2,0,2,2,0,,0,,,0,0,0,dom
+43,73349343,Comoros,Benin,0,0,0,0,0,,0,,,0,0,0,nul
+43,73349344,Equatorial Guinea,DR Congo,1,0,1,1,0,,0,,,0,0,0,dom
+43,73349345,Mozambique,Egypt,1,1,2,1,1,,0,,,0,0,0,nul
+43,73349346,Cameroon,Gabon,1,2,3,1,2,,0,,,0,0,0,ext
+43,73349347,Nigeria,Morocco,3,1,4,3,1,,0,,,0,0,0,dom
+43,73349348,Algeria,Angola,0,0,0,0,0,,0,,,0,0,0,nul
+43,73349349,South Africa,Mali,1,0,1,1,0,,0,,,0,0,0,dom
+43,73349350,Tunisia,Tanzania,1,0,1,1,0,,0,,,0,0,0,dom
+43,73349351,Zambia,Botswana,0,0,0,0,0,,0,,,0,0,0,nul
+43,73349352,Uganda,Sudan,0,0,0,0,0,,0,,,0,0,0,nul
+43,73349353,Zimbabwe,Ivory Coast,1,1,2,1,1,,0,,,0,0,0,nul
+43,73349354,Senegal,Burkina Faso,0,0,0,0,0,,0,,,0,0,0,nul
+44,73349355,Sudan,Zambia,0,0,0,0,0,,0,,,0,0,0,nul
+44,73349356,Angola,Cameroon,1,0,1,1,0,,0,,,0,0,0,dom
+44,73349357,Tanzania,Equatorial Guinea,0,0,0,0,0,,0,,,0,0,0,nul
+44,73349358,Benin,Egypt,3,1,4,3,1,,0,,,0,0,0,dom
+44,73349359,Morocco,Algeria,1,1,2,1,1,,0,,,0,0,0,nul
+44,73349360,Gabon,Comoros,3,0,3,3,0,,0,,,0,0,0,dom
+44,73349361,Burkina Faso,Tunisia,1,2,3,1,2,,0,,,0,0,0,ext
+44,73349362,Botswana,Senegal,4,0,4,4,0,,0,,,0,0,0,dom
+44,73349363,Ivory Coast,Uganda,0,0,0,0,0,,0,,,0,0,0,nul
+44,73349364,DR Congo,Mozambique,3,1,4,3,1,,0,,,0,0,0,dom
+44,73349365,Zimbabwe,South Africa,2,1,3,2,1,,0,,,0,0,0,dom
+44,73349366,Mali,Nigeria,0,1,1,0,1,,0,,,0,0,0,ext
+45,73349367,Equatorial Guinea,Burkina Faso,3,0,3,3,0,,0,,,0,0,0,dom
+45,73349368,Nigeria,Zimbabwe,0,0,0,0,0,,0,,,0,0,0,nul
+45,73349369,Tunisia,Botswana,1,1,2,1,1,,0,,,0,0,0,nul
+45,73349370,Uganda,South Africa,1,3,4,1,3,,0,,,0,0,0,ext
+45,73349371,Comoros,Angola,0,0,0,0,0,,0,,,0,0,0,nul
+45,73349372,DR Congo,Tanzania,1,1,2,1,1,,0,,,0,0,0,nul
+45,73349373,Mozambique,Benin,0,0,0,0,0,,0,,,0,0,0,nul
+45,73349374,Algeria,Mali,2,0,2,2,0,,0,,,0,0,0,dom
+45,73349375,Egypt,Gabon,3,0,3,3,0,,0,,,0,0,0,dom
+45,73349376,Cameroon,Morocco,4,0,4,4,0,,0,,,0,0,0,dom
+45,73349377,Senegal,Sudan,6,0,6,6,0,,0,,,0,0,0,dom
+45,73349378,Zambia,Ivory Coast,0,0,0,0,0,,0,,,0,0,0,nul
+2,73353877,DR Congo,Sudan,1,0,1,1,0,,0,,,0,0,0,dom
+2,73353878,Mali,Burkina Faso,2,0,2,2,0,,0,,,0,0,0,dom
+2,73353879,Mozambique,Cameroon,0,1,1,0,1,,0,,,0,0,0,ext
+2,73353880,Equatorial Guinea,Algeria,0,1,1,0,1,,0,,,0,0,0,ext
+2,73353881,Tanzania,Benin,0,0,0,0,0,,0,,,0,0,0,nul
+2,73353882,Zambia,Nigeria,0,1,1,0,1,,0,,,0,0,0,ext
+2,73353883,Gabon,Ivory Coast,0,0,0,0,0,,0,,,0,0,0,nul
+2,73353884,Uganda,Tunisia,0,0,0,0,0,,0,,,0,0,0,nul
+2,73353885,Zimbabwe,Botswana,1,0,1,1,0,,0,,,0,0,0,dom
+2,73353886,Angola,Egypt,0,1,1,0,1,,0,,,0,0,0,ext
+2,73353887,Morocco,Comoros,3,0,3,3,0,,0,,,0,0,0,dom
+2,73353888,South Africa,Senegal,1,0,1,1,0,,0,,,0,0,0,dom
+3,73353889,Botswana,Angola,0,0,0,0,0,,0,,,0,0,0,nul
+3,73353890,Algeria,Comoros,4,0,4,4,0,,0,,,0,0,0,dom
+3,73353891,Tanzania,Gabon,1,2,3,1,2,,0,,,0,0,0,ext
+3,73353892,Benin,Zambia,3,2,5,3,2,,0,,,0,0,0,dom
+3,73353893,Burkina Faso,Morocco,0,1,1,0,1,,0,,,0,0,0,ext
+3,73353894,Egypt,Mozambique,0,0,0,0,0,,0,,,0,0,0,nul
+3,73353895,Cameroon,Equatorial Guinea,3,0,3,3,0,,0,,,0,0,0,dom
+3,73353896,Nigeria,South Africa,1,0,1,1,0,,0,,,0,0,0,dom
+3,73353897,Tunisia,DR Congo,0,0,0,0,0,,0,,,0,0,0,nul
+3,73353898,Senegal,Uganda,3,0,3,3,0,,0,,,0,0,0,dom
+3,73353899,Sudan,Mali,0,3,3,0,3,,0,,,0,0,0,ext
+3,73353900,Ivory Coast,Zimbabwe,0,0,0,0,0,,0,,,0,0,0,nul
+4,73353901,South Africa,Zambia,3,1,4,3,1,,0,,,0,0,0,dom
+4,73353902,Zimbabwe,Tanzania,1,1,2,1,1,,0,,,0,0,0,nul
+4,73353903,Comoros,Cameroon,1,0,1,1,0,,0,,,0,0,0,dom
+4,73353904,Uganda,Nigeria,0,0,0,0,0,,0,,,0,0,0,nul
+4,73353905,DR Congo,Senegal,0,0,0,0,0,,0,,,0,0,0,nul
+4,73353906,Mali,Tunisia,0,0,0,0,0,,0,,,0,0,0,nul
+4,73353907,Morocco,Sudan,3,0,3,3,0,,0,,,0,0,0,dom
+4,73353908,Algeria,Burkina Faso,5,0,5,5,0,,0,,,0,0,0,dom
+4,73353909,Mozambique,Botswana,0,0,0,0,0,,0,,,0,0,0,nul
+4,73353910,Angola,Ivory Coast,2,0,2,2,0,,0,,,0,0,0,dom
+4,73353911,Equatorial Guinea,Egypt,1,2,3,1,2,,0,,,0,0,0,ext
+4,73353912,Gabon,Benin,1,0,1,1,0,,0,,,0,0,0,dom
+7,73353937,Zimbabwe,Angola,1,0,1,1,0,,0,,,0,0,0,dom
+7,73353938,Gabon,Mozambique,5,1,6,5,1,,0,,,0,0,0,dom
+7,73353939,Zambia,Mali,0,2,2,0,2,,0,,,0,0,0,ext
+7,73353940,Ivory Coast,Comoros,1,0,1,1,0,,0,,,0,0,0,dom
+7,73353941,Nigeria,Morocco,5,1,6,5,1,,0,,,0,0,0,dom
+7,73353942,Botswana,Burkina Faso,0,0,0,0,0,,0,,,0,0,0,nul
+7,73353943,Egypt,Sudan,4,0,4,4,0,,0,,,0,0,0,dom
+7,73353944,South Africa,DR Congo,2,1,3,2,1,,0,,,0,0,0,dom
+7,73353945,Senegal,Algeria,1,0,1,1,0,,0,,,0,0,0,dom
+7,73353946,Benin,Uganda,0,0,0,0,0,,0,,,0,0,0,nul
+7,73353947,Tanzania,Equatorial Guinea,2,0,2,2,0,,0,,,0,0,0,dom
+7,73353948,Tunisia,Cameroon,1,1,2,1,1,,0,,,0,0,0,nul
+8,73353949,Morocco,Zambia,3,1,4,3,1,,0,,,0,0,0,dom
+8,73353950,Comoros,Tanzania,0,1,1,0,1,,0,,,0,0,0,ext
+8,73353951,DR Congo,Uganda,2,1,3,2,1,,0,,,0,0,0,dom
+8,73353952,Mali,South Africa,3,1,4,3,1,,0,,,0,0,0,dom
+8,73353953,Sudan,Botswana,0,1,1,0,1,,0,,,0,0,0,ext
+8,73353954,Equatorial Guinea,Gabon,0,1,1,0,1,,0,,,0,0,0,ext
+8,73353955,Angola,Benin,3,0,3,3,0,,0,,,0,0,0,dom
+8,73353956,Algeria,Nigeria,2,0,2,2,0,,0,,,0,0,0,dom
+8,73353957,Mozambique,Zimbabwe,0,0,0,0,0,,0,,,0,0,0,nul
+8,73353958,Burkina Faso,Ivory Coast,0,1,1,0,1,,0,,,0,0,0,ext
+8,73353959,Egypt,Tunisia,1,0,1,1,0,,0,,,0,0,0,dom
+8,73353960,Cameroon,Senegal,0,0,0,0,0,,0,,,0,0,0,nul
+9,73353961,Uganda,Mali,0,0,0,0,0,,0,,,0,0,0,nul
+9,73353962,Tanzania,Burkina Faso,0,0,0,0,0,,0,,,0,0,0,nul
+9,73353963,Senegal,Egypt,2,0,2,2,0,,0,,,0,0,0,dom
+9,73353964,Zambia,Algeria,1,1,2,1,1,,0,,,0,0,0,nul
+9,73353965,Benin,DR Congo,0,3,3,0,3,,0,,,0,0,0,ext
+9,73353966,Botswana,Tunisia,0,1,1,0,1,,0,,,0,0,0,ext
+9,73353967,Ivory Coast,Sudan,1,0,1,1,0,,0,,,0,0,0,dom
+9,73353968,South Africa,Morocco,1,1,2,1,1,,0,,,0,0,0,nul
+9,73353969,Angola,Mozambique,0,0,0,0,0,,0,,,0,0,0,nul
+9,73353970,Zimbabwe,Equatorial Guinea,5,1,6,5,1,,0,,,0,0,0,dom
+9,73353971,Nigeria,Cameroon,1,0,1,1,0,,0,,,0,0,0,dom
+9,73353972,Gabon,Comoros,0,2,2,0,2,,0,,,0,0,0,ext
+10,73353973,Tunisia,Ivory Coast,0,0,0,0,0,,0,,,0,0,0,nul
+10,73353974,Botswana,Senegal,0,0,0,0,0,,0,,,0,0,0,nul
+10,73353975,Mozambique,Benin,0,0,0,0,0,,0,,,0,0,0,nul
+10,73353976,Burkina Faso,Gabon,0,2,2,0,2,,0,,,0,0,0,ext
+10,73353977,Cameroon,Zambia,0,1,1,0,1,,0,,,0,0,0,ext
+10,73353978,Sudan,Tanzania,2,1,3,2,1,,0,,,0,0,0,dom
+10,73353979,Mali,DR Congo,0,0,0,0,0,,0,,,0,0,0,nul
+10,73353980,Egypt,Nigeria,0,2,2,0,2,,0,,,0,0,0,ext
+10,73353981,Algeria,South Africa,0,2,2,0,2,,0,,,0,0,0,ext
+10,73353982,Morocco,Uganda,3,2,5,3,2,,0,,,0,0,0,dom
+10,73353983,Comoros,Zimbabwe,1,0,1,1,0,,0,,,0,0,0,dom
+10,73353984,Equatorial Guinea,Angola,0,0,0,0,0,,0,,,0,0,0,nul
+11,73353985,Mozambique,Equatorial Guinea,0,0,0,0,0,,0,,,0,0,0,nul
+11,73353986,Gabon,Sudan,0,0,0,0,0,,0,,,0,0,0,nul
+11,73353987,Zambia,Egypt,3,0,3,3,0,,0,,,0,0,0,dom
+11,73353988,Ivory Coast,Senegal,0,0,0,0,0,,0,,,0,0,0,nul
+11,73353989,Angola,Comoros,0,0,0,0,0,,0,,,0,0,0,nul
+11,73353990,Tanzania,Tunisia,0,0,0,0,0,,0,,,0,0,0,nul
+11,73353991,DR Congo,Morocco,0,4,4,0,4,,0,,,0,0,0,ext
+11,73353992,South Africa,Cameroon,1,0,1,1,0,,0,,,0,0,0,dom
+11,73353993,Benin,Mali,0,0,0,0,0,,0,,,0,0,0,nul
+11,73353994,Zimbabwe,Burkina Faso,3,0,3,3,0,,0,,,0,0,0,dom
+11,73353995,Nigeria,Botswana,3,0,3,3,0,,0,,,0,0,0,dom
+11,73353996,Uganda,Algeria,0,0,0,0,0,,0,,,0,0,0,nul
+12,73353997,Comoros,Mozambique,1,1,2,1,1,,0,,,0,0,0,nul
+12,73353998,Sudan,Zimbabwe,1,2,3,1,2,,0,,,0,0,0,ext
+12,73353999,Burkina Faso,Angola,1,1,2,1,1,,0,,,0,0,0,nul
+12,73354000,Botswana,Zambia,1,3,4,1,3,,0,,,0,0,0,ext
+12,73354001,Senegal,Tanzania,4,0,4,4,0,,0,,,0,0,0,dom
+12,73354002,Ivory Coast,Nigeria,0,1,1,0,1,,0,,,0,0,0,ext
+12,73354003,Cameroon,Uganda,4,0,4,4,0,,0,,,0,0,0,dom
+12,73354004,Morocco,Mali,0,1,1,0,1,,0,,,0,0,0,ext
+12,73354005,Egypt,South Africa,0,2,2,0,2,,0,,,0,0,0,ext
+12,73354006,Tunisia,Gabon,0,1,1,0,1,,0,,,0,0,0,ext
+12,73354007,Equatorial Guinea,Benin,0,0,0,0,0,,0,,,0,0,0,nul
+12,73354008,Algeria,DR Congo,1,0,1,1,0,,0,,,0,0,0,dom
+13,73354009,Zambia,Ivory Coast,0,1,1,0,1,,0,,,0,0,0,ext
+13,73354010,Mali,Algeria,0,0,0,0,0,,0,,,0,0,0,nul
+13,73354011,South Africa,Botswana,0,0,0,0,0,,0,,,0,0,0,nul
+13,73354012,Gabon,Senegal,0,1,1,0,1,,0,,,0,0,0,ext
+13,73354013,Mozambique,Burkina Faso,4,1,5,4,1,,0,,,0,0,0,dom
+13,73354014,Zimbabwe,Tunisia,2,0,2,2,0,,0,,,0,0,0,dom
+13,73354015,Tanzania,Nigeria,1,0,1,1,0,,0,,,0,0,0,dom
+13,73354016,Benin,Morocco,1,2,3,1,2,,0,,,0,0,0,ext
+13,73354017,Uganda,Egypt,1,1,2,1,1,,0,,,0,0,0,nul
+13,73354018,Angola,Sudan,2,1,3,2,1,,0,,,0,0,0,dom
+13,73354019,DR Congo,Cameroon,0,0,0,0,0,,0,,,0,0,0,nul
+13,73354020,Equatorial Guinea,Comoros,0,1,1,0,1,,0,,,0,0,0,ext
+14,73354021,Egypt,DR Congo,1,1,2,1,1,,0,,,0,0,0,nul
+14,73354022,Botswana,Uganda,1,0,1,1,0,,0,,,0,0,0,dom
+14,73354023,Nigeria,Gabon,1,1,2,1,1,,0,,,0,0,0,nul
+14,73354024,Algeria,Morocco,1,1,2,1,1,,0,,,0,0,0,nul
+14,73354025,Ivory Coast,South Africa,1,1,2,1,1,,0,,,0,0,0,nul
+14,73354026,Comoros,Benin,2,1,3,2,1,,0,,,0,0,0,dom
+14,73354027,Burkina Faso,Equatorial Guinea,0,1,1,0,1,,0,,,0,0,0,ext
+14,73354028,Senegal,Zimbabwe,0,0,0,0,0,,0,,,0,0,0,nul
+14,73354029,Cameroon,Mali,3,1,4,3,1,,0,,,0,0,0,dom
+14,73354030,Tunisia,Angola,0,0,0,0,0,,0,,,0,0,0,nul
+14,73354031,Tanzania,Zambia,0,0,0,0,0,,0,,,0,0,0,nul
+14,73354032,Sudan,Mozambique,0,0,0,0,0,,0,,,0,0,0,nul
+15,73354033,Uganda,Ivory Coast,0,0,0,0,0,,0,,,0,0,0,nul
+15,73354034,Morocco,Cameroon,2,0,2,2,0,,0,,,0,0,0,dom
+15,73354035,Equatorial Guinea,Sudan,1,0,1,1,0,,0,,,0,0,0,dom
+15,73354036,Zimbabwe,Nigeria,1,0,1,1,0,,0,,,0,0,0,dom
+15,73354037,Angola,Senegal,0,0,0,0,0,,0,,,0,0,0,nul
+15,73354038,Mozambique,Tunisia,1,1,2,1,1,,0,,,0,0,0,nul
+15,73354039,South Africa,Tanzania,0,0,0,0,0,,0,,,0,0,0,nul
+15,73354040,DR Congo,Botswana,0,0,0,0,0,,0,,,0,0,0,nul
+15,73354041,Benin,Algeria,1,1,2,1,1,,0,,,0,0,0,nul
+15,73354042,Gabon,Zambia,1,1,2,1,1,,0,,,0,0,0,nul
+15,73354043,Mali,Egypt,1,0,1,1,0,,0,,,0,0,0,dom
+15,73354044,Comoros,Burkina Faso,1,1,2,1,1,,0,,,0,0,0,nul
+16,73354045,Sudan,Comoros,4,0,4,4,0,,0,,,0,0,0,dom
+16,73354046,Zambia,Zimbabwe,1,0,1,1,0,,0,,,0,0,0,dom
+16,73354047,Cameroon,Algeria,1,0,1,1,0,,0,,,0,0,0,dom
+16,73354048,Egypt,Morocco,0,2,2,0,2,,0,,,0,0,0,ext
+16,73354049,Burkina Faso,Benin,2,1,3,2,1,,0,,,0,0,0,dom
+16,73354050,Botswana,Mali,1,1,2,1,1,,0,,,0,0,0,nul
+16,73354051,Tanzania,Uganda,1,0,1,1,0,,0,,,0,0,0,dom
+16,73354052,Tunisia,Equatorial Guinea,4,0,4,4,0,,0,,,0,0,0,dom
+16,73354053,Nigeria,Angola,0,0,0,0,0,,0,,,0,0,0,nul
+16,73354054,Ivory Coast,DR Congo,1,1,2,1,1,,0,,,0,0,0,nul
+16,73354055,Senegal,Mozambique,1,3,4,1,3,,0,,,0,0,0,ext
+16,73354056,Gabon,South Africa,0,0,0,0,0,,0,,,0,0,0,nul
+17,73354057,DR Congo,Tanzania,1,0,1,1,0,,0,,,0,0,0,dom
+17,73354058,Mali,Ivory Coast,2,0,2,2,0,,0,,,0,0,0,dom
+17,73354059,Comoros,Tunisia,1,0,1,1,0,,0,,,0,0,0,dom
+17,73354060,Mozambique,Nigeria,0,3,3,0,3,,0,,,0,0,0,ext
+17,73354061,Uganda,Gabon,1,1,2,1,1,,0,,,0,0,0,nul
+17,73354062,Benin,Cameroon,2,2,4,2,2,,0,,,0,0,0,nul
+17,73354063,Algeria,Egypt,2,1,3,2,1,,0,,,0,0,0,dom
+17,73354064,Equatorial Guinea,Senegal,0,1,1,0,1,,0,,,0,0,0,ext
+17,73354065,Morocco,Botswana,0,0,0,0,0,,0,,,0,0,0,nul
+17,73354066,Zimbabwe,South Africa,0,1,1,0,1,,0,,,0,0,0,ext
+17,73354067,Angola,Zambia,0,0,0,0,0,,0,,,0,0,0,nul
+17,73354068,Burkina Faso,Sudan,2,1,3,2,1,,0,,,0,0,0,dom
+18,73354069,Tunisia,Burkina Faso,0,1,1,0,1,,0,,,0,0,0,ext
+18,73354070,Sudan,Benin,0,0,0,0,0,,0,,,0,0,0,nul
+18,73354071,Botswana,Algeria,0,0,0,0,0,,0,,,0,0,0,nul
+18,73354072,South Africa,Angola,1,0,1,1,0,,0,,,0,0,0,dom
+18,73354073,Senegal,Comoros,1,2,3,1,2,,0,,,0,0,0,ext
+18,73354074,Tanzania,Mali,0,0,0,0,0,,0,,,0,0,0,nul
+18,73354075,Egypt,Cameroon,1,2,3,1,2,,0,,,0,0,0,ext
+18,73354076,Ivory Coast,Morocco,1,0,1,1,0,,0,,,0,0,0,dom
+18,73354077,Zambia,Mozambique,0,3,3,0,3,,0,,,0,0,0,ext
+18,73354078,Nigeria,Equatorial Guinea,0,0,0,0,0,,0,,,0,0,0,nul
+18,73354079,Gabon,DR Congo,1,0,1,1,0,,0,,,0,0,0,dom
+18,73354080,Zimbabwe,Uganda,0,0,0,0,0,,0,,,0,0,0,nul
+19,73354081,Algeria,Ivory Coast,3,0,3,3,0,,0,,,0,0,0,dom
+19,73354082,Morocco,Tanzania,5,0,5,5,0,,0,,,0,0,0,dom
+19,73354083,Comoros,Nigeria,1,1,2,1,1,,0,,,0,0,0,nul
+19,73354084,Benin,Egypt,0,0,0,0,0,,0,,,0,0,0,nul
+19,73354085,Burkina Faso,Senegal,0,1,1,0,1,,0,,,0,0,0,ext
+19,73354086,DR Congo,Zimbabwe,0,0,0,0,0,,0,,,0,0,0,nul
+19,73354087,Equatorial Guinea,Zambia,1,0,1,1,0,,0,,,0,0,0,dom
+19,73354088,Sudan,Tunisia,0,0,0,0,0,,0,,,0,0,0,nul
+19,73354089,Angola,Uganda,4,0,4,4,0,,0,,,0,0,0,dom
+19,73354090,Mozambique,South Africa,2,1,3,2,1,,0,,,0,0,0,dom
+19,73354091,Cameroon,Botswana,3,0,3,3,0,,0,,,0,0,0,dom
+19,73354092,Mali,Gabon,1,0,1,1,0,,0,,,0,0,0,dom
+20,73354093,Angola,DR Congo,1,1,2,1,1,,0,,,0,0,0,nul
+20,73354094,Zimbabwe,Mali,0,0,0,0,0,,0,,,0,0,0,nul
+20,73354095,Zambia,Comoros,0,1,1,0,1,,0,,,0,0,0,ext
+20,73354096,Senegal,Sudan,1,0,1,1,0,,0,,,0,0,0,dom
+20,73354097,Gabon,Morocco,0,3,3,0,3,,0,,,0,0,0,ext
+20,73354098,Uganda,Mozambique,2,1,3,2,1,,0,,,0,0,0,dom
+20,73354099,Tanzania,Algeria,0,1,1,0,1,,0,,,0,0,0,ext
+20,73354100,Botswana,Egypt,1,4,5,1,4,,0,,,0,0,0,ext
+20,73354101,South Africa,Equatorial Guinea,3,1,4,3,1,,0,,,0,0,0,dom
+20,73354102,Ivory Coast,Cameroon,1,0,1,1,0,,0,,,0,0,0,dom
+20,73354103,Tunisia,Benin,3,0,3,3,0,,0,,,0,0,0,dom
+20,73354104,Nigeria,Burkina Faso,0,0,0,0,0,,0,,,0,0,0,nul
+26,73361316,Benin,Morocco,1,0,1,1,0,,0,,,0,0,0,dom
+26,73361317,Mali,Equatorial Guinea,1,0,1,1,0,,0,,,0,0,0,dom
+26,73361318,Nigeria,Tunisia,4,0,4,4,0,,0,,,0,0,0,dom
+26,73361319,Burkina Faso,Cameroon,1,0,1,1,0,,0,,,0,0,0,dom
+26,73361320,Algeria,DR Congo,1,0,1,1,0,,0,,,0,0,0,dom
+26,73361321,Angola,Comoros,1,2,3,1,2,,0,,,0,0,0,ext
+26,73361322,Gabon,Tanzania,1,1,2,1,1,,0,,,0,0,0,nul
+26,73361323,Zambia,Mozambique,0,0,0,0,0,,0,,,0,0,0,nul
+26,73361324,Zimbabwe,Ivory Coast,0,1,1,0,1,,0,,,0,0,0,ext
+26,73361325,Sudan,Uganda,1,0,1,1,0,,0,,,0,0,0,dom
+26,73361326,Senegal,South Africa,1,0,1,1,0,,0,,,0,0,0,dom
+26,73361327,Egypt,Botswana,5,0,5,5,0,,0,,,0,0,0,dom
+1,73367231,Uganda,Comoros,1,0,1,1,0,,0,,,0,0,0,dom
+1,73367232,Senegal,Sudan,3,0,3,3,0,,0,,,0,0,0,dom
+1,73367233,Morocco,Zimbabwe,2,0,2,2,0,,0,,,0,0,0,dom
+1,73367234,Mozambique,Mali,0,0,0,0,0,,0,,,0,0,0,nul
+1,73367235,Gabon,Zambia,1,2,3,1,2,,0,,,0,0,0,ext
+1,73367236,South Africa,Nigeria,1,0,1,1,0,,0,,,0,0,0,dom
+1,73367237,Ivory Coast,Egypt,0,1,1,0,1,,0,,,0,0,0,ext
+1,73367238,Equatorial Guinea,Burkina Faso,1,2,3,1,2,,0,,,0,0,0,ext
+1,73367239,Tunisia,DR Congo,1,0,1,1,0,,0,,,0,0,0,dom
+1,73367240,Algeria,Tanzania,2,0,2,2,0,,0,,,0,0,0,dom
+1,73367241,Botswana,Benin,1,0,1,1,0,,0,,,0,0,0,dom
+1,73367242,Angola,Cameroon,2,0,2,2,0,,0,,,0,0,0,dom
+1,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+1,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+1,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+1,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+1,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+1,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+1,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+1,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+1,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+1,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+1,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+2,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+2,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+2,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+2,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+2,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+2,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+2,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+2,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+2,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+2,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+2,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+2,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+3,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+3,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+3,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+3,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+3,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+3,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+3,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+3,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+3,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+3,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+3,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+3,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+4,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+4,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+4,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+4,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+4,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+4,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+4,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+4,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+4,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+4,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+4,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+4,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+5,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+5,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+5,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+5,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+5,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+5,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+5,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+5,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+5,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+5,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+5,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+5,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+6,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+6,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+6,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+6,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+6,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+6,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+6,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+6,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+6,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+6,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+6,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+7,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+7,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+7,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+7,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+7,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+7,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+7,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+7,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+7,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+7,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+7,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+7,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+8,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+8,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+8,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+8,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+8,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+8,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+8,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+8,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+8,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+8,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+8,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+8,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+9,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+9,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+9,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+9,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+9,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+9,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+9,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+9,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+9,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+9,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+9,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+9,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+10,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+10,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+10,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+10,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+10,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+10,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+10,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+10,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+10,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+10,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+10,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+10,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+11,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+11,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+11,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+11,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+11,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+11,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+11,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+11,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+11,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+11,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+12,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+12,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+12,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+12,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+12,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+12,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+12,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+12,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+12,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+12,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+12,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+12,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+13,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+13,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+13,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+13,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+13,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+13,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+13,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+13,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+13,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+13,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+13,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+13,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+14,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+14,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+14,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+14,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+14,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+14,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+14,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+14,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+14,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+14,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+14,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+14,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+15,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+15,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+15,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+15,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+15,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+15,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+15,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+15,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+15,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+15,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+15,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+16,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+16,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+16,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+16,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+16,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+16,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+16,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+16,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+16,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+16,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+16,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+17,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+17,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+17,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+17,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+17,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+17,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+17,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+17,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+17,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+17,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+17,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+18,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+18,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+18,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+18,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+18,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+18,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+18,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+18,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+18,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+18,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+18,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+18,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+19,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+19,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+19,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+19,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+19,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+19,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+19,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+19,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+19,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+19,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+19,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+19,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+20,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+20,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+20,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+20,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+20,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+20,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+20,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+20,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+20,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+20,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+20,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+20,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+21,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+21,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+21,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+21,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+21,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+21,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+21,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+21,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+21,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+21,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+21,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+21,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+22,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+22,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+22,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+22,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+22,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+22,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+22,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+22,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+22,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+22,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+22,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+23,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+23,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+23,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+23,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+23,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+23,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+23,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+23,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+23,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+23,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+23,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+23,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+24,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+24,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+24,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+24,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+24,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+24,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+24,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+24,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+24,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+24,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+24,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+24,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338
+25,Ivory Coast,Equatorial Guinea,73430784,0,0,0,0,X,1.01,15.27,100.0,0.9292,0.0615,0.0094
+25,Morocco,Zimbabwe,73430785,0,0,0,0,X,1.21,5.16,24.59,0.779,0.1827,0.0383
+25,Benin,Mozambique,73430786,0,0,0,0,X,2.95,2.77,2.77,0.3195,0.3403,0.3403
+25,DR Congo,Botswana,73430787,0,0,0,0,X,3.31,1.73,5.58,0.2852,0.5456,0.1692
+25,Uganda,Gabon,73430788,0,0,0,0,X,2.3,2.55,4.29,0.4102,0.3699,0.2199
+25,Tunisia,Tanzania,73430789,0,0,0,0,X,1.6,2.94,10.51,0.5895,0.3208,0.0897
+25,Comoros,Mali,73430790,0,0,0,0,X,6.1,1.47,4.66,0.1548,0.6425,0.2027
+25,Zambia,Egypt,73430791,0,0,0,0,X,7.9,2.33,1.98,0.1193,0.4046,0.4761
+25,Algeria,Senegal,73430792,0,0,0,0,X,2.1,2.47,5.58,0.4491,0.3818,0.169
+25,Sudan,Burkina Faso,73430793,0,0,0,0,X,3.76,3.31,2.04,0.2513,0.2855,0.4632
+25,South Africa,Cameroon,73430794,0,0,0,0,X,1.33,3.7,26.98,0.7098,0.2552,0.035
+25,Nigeria,Angola,73430795,0,0,0,0,X,2.26,2.1,7.05,0.4172,0.449,0.1338

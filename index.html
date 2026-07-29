@@ -1,0 +1,2836 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCORABLE - CAF Match Engine</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e17;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1f35 0%, #0d1020 100%);
+            border-bottom: 2px solid #2ecc71;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            font-size: 24px;
+            color: #2ecc71;
+        }
+        .header h1 span { color: #e0e0e0; font-weight: 300; }
+        .header .stats-bar {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #888;
+        }
+        .header .stats-bar .val { color: #2ecc71; font-weight: bold; }
+
+        .tabs {
+            display: flex;
+            background: #111628;
+            border-bottom: 1px solid #1e2540;
+        }
+        .tab {
+            padding: 14px 28px;
+            cursor: pointer;
+            color: #888;
+            font-size: 14px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        .tab:hover { color: #ccc; }
+        .tab.active {
+            color: #2ecc71;
+            border-bottom-color: #2ecc71;
+            background: #151b30;
+        }
+
+        .main { padding: 25px 30px; }
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        .section-title {
+            font-size: 18px;
+            color: #2ecc71;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #1e2540;
+        }
+
+        .alert-banner {
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .alert-banner.haute {
+            display: block;
+            background: rgba(231, 76, 60, 0.15);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+        .alert-banner.moyenne {
+            display: block;
+            background: rgba(243, 156, 18, 0.15);
+            border: 1px solid #f39c12;
+            color: #f39c12;
+        }
+
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 18px;
+        }
+
+        .match-card {
+            background: #131830;
+            border: 1px solid #1e2540;
+            border-radius: 10px;
+            padding: 18px;
+            transition: transform 0.2s, border-color 0.2s;
+            position: relative;
+        }
+        .match-card:hover {
+            transform: translateY(-2px);
+            border-color: #2ecc71;
+        }
+        .match-card.alert-haute {
+            border-color: #e74c3c;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.2);
+        }
+        .match-card.alert-moyenne {
+            border-color: #f39c12;
+            box-shadow: 0 0 15px rgba(243, 156, 18, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .round-badge {
+            background: #1e2540;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            color: #888;
+        }
+        .confidence-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .confidence-haute { background: rgba(231,76,60,0.2); color: #e74c3c; }
+        .confidence-moyenne { background: rgba(243,156,18,0.2); color: #f39c12; }
+        .confidence-faible { background: rgba(39,174,96,0.2); color: #27ae60; }
+
+        .teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .team {
+            text-align: center;
+            flex: 1;
+        }
+        .team-name {
+            font-size: 15px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .vs {
+            color: #555;
+            font-size: 12px;
+            padding: 0 10px;
+        }
+        .score-big {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2ecc71;
+            text-align: center;
+            margin: 10px 0;
+            letter-spacing: 8px;
+        }
+        .result-label {
+            text-align: center;
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 14px;
+        }
+
+        .probs-section {
+            margin-top: 10px;
+        }
+        .probs-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        .probs-row .label { color: #888; }
+        .probs-row .val { font-weight: bold; }
+        .probs-row .val.green { color: #2ecc71; }
+        .probs-row .val.red { color: #e74c3c; }
+        .probs-row .val.yellow { color: #f39c12; }
+
+        .bar-container {
+            background: #1a1f35;
+            border-radius: 4px;
+            height: 6px;
+            margin-top: 3px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+
+        .top-scores {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid #1e2540;
+        }
+        .top-scores-title {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+        .score-chip {
+            display: inline-block;
+            background: #1a1f35;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin: 2px 4px 2px 0;
+            color: #ccc;
+        }
+        .score-chip .pct { color: #2ecc71; font-weight: bold; }
+
+        .odds-section {
+            margin-top: 12px;
+            border-top: 1px solid #1e2540;
+            padding-top: 10px;
+        }
+        .odds-toggle {
+            background: none;
+            border: 1px solid #2a3050;
+            color: #3498db;
+            border-radius: 6px;
+            padding: 4px 12px;
+            font-size: 11px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .odds-toggle:hover { background: #1a1f35; }
+        .odds-market { margin-bottom: 8px; }
+        .odds-market-title {
+            font-size: 10px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .odds-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .odds-val {
+            background: #1a1f35;
+            border: 1px solid #2a3050;
+            border-radius: 4px;
+            padding: 3px 6px;
+            font-size: 11px;
+            color: #ccc;
+            white-space: nowrap;
+        }
+        .odds-val .odds-label { color: #888; margin-right: 3px; }
+        .odds-val .odds-num { color: #2ecc71; font-weight: bold; }
+
+        .matrix-section {
+            margin-top: 10px;
+            background: #0d1225;
+            border: 1px solid #2a3050;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .matrix-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .matrix-zone {
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+        .matrix-zone.haute { background: #27ae60; color: #fff; }
+        .matrix-zone.moyenne { background: #f39c12; color: #000; }
+        .matrix-zone.faible { background: #e74c3c; color: #fff; }
+        .matrix-fav { font-size: 11px; color: #3498db; }
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            font-size: 11px;
+        }
+        .matrix-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 6px;
+            background: #131830;
+            border-radius: 4px;
+        }
+        .matrix-item .label { color: #888; }
+        .matrix-item .val { font-weight: bold; color: #ccc; }
+        .matrix-tips {
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid #1e2540;
+        }
+        .matrix-tip {
+            font-size: 11px;
+            color: #f39c12;
+            margin-bottom: 2px;
+        }
+        .matrix-scores { margin-top: 6px; }
+        .matrix-score {
+            display: inline-block;
+            background: #1a1f35;
+            border: 1px solid #2ecc71;
+            border-radius: 4px;
+            padding: 2px 6px;
+            margin: 2px;
+            font-size: 11px;
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        .interactif-form {
+            background: #131830;
+            border: 1px solid #1e2540;
+            border-radius: 10px;
+            padding: 25px;
+            max-width: 500px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 6px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            background: #1a1f35;
+            border: 1px solid #2a3055;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus { border-color: #2ecc71; }
+        .form-group input::placeholder { color: #555; }
+
+        .btn {
+            padding: 12px 30px;
+            background: #2ecc71;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #27ae60; }
+        .btn-secondary {
+            background: #1e2540;
+            color: #ccc;
+        }
+        .btn-secondary:hover { background: #2a3055; }
+
+        .cotes-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .cotes-inputs input { text-align: center; }
+
+        .ajouter-form {
+            background: #131830;
+            border: 1px solid #1e2540;
+            border-radius: 10px;
+            padding: 25px;
+        }
+        .form-row {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+        .manual-match-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #0d1020;
+            border-radius: 8px;
+            border: 1px solid #1e2540;
+        }
+        .manual-match-row .form-group { flex: 1; min-width: 120px; }
+        .manual-match-row .match-num {
+            color: #2ecc71;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 8px 10px;
+            min-width: 30px;
+            text-align: center;
+        }
+        .manual-match-row select {
+            width: 100%;
+            padding: 8px 10px;
+            background: #1a1f35;
+            border: 1px solid #2a3055;
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 13px;
+        }
+        .manual-match-row input[type="time"] {
+            width: 100%;
+            padding: 8px 10px;
+            background: #1a1f35;
+            border: 1px solid #2a3055;
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 13px;
+        }
+        .btn-remove {
+            background: rgba(231,76,60,0.2);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-remove:hover { background: rgba(231,76,60,0.4); }
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .saved-round-card {
+            background: #0d1020;
+            border: 1px solid #1e2540;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .saved-round-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 18px;
+            background: #1a1f35;
+            cursor: pointer;
+        }
+        .saved-round-header:hover { background: #1e2540; }
+        .saved-round-body { display: none; padding: 15px; }
+        .saved-round-card.open .saved-round-body { display: block; }
+
+        .result-box {
+            margin-top: 20px;
+            background: #131830;
+            border: 1px solid #1e2540;
+            border-radius: 10px;
+            padding: 25px;
+            display: none;
+        }
+        .result-box.show { display: block; }
+
+        .refresh-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .auto-refresh {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #888;
+        }
+        .auto-refresh input[type="checkbox"] {
+            accent-color: #2ecc71;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .history-table th {
+            text-align: left;
+            padding: 10px 12px;
+            background: #1a1f35;
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        .history-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #1e2540;
+            font-size: 13px;
+        }
+        .history-table tr:hover { background: #151b30; }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #555;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #2ecc71;
+        }
+        .loading::after {
+            content: '';
+            animation: dots 1.5s steps(4) infinite;
+        }
+        @keyframes dots {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+        }
+
+        @media (max-width: 768px) {
+            .header { flex-direction: column; gap: 10px; }
+            .matches-grid { grid-template-columns: 1fr; }
+            .cotes-inputs { grid-template-columns: 1fr; }
+        }
+
+        .history-round {
+            background: #131830;
+            border: 1px solid #1e2540;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .history-round-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            background: #151b30;
+            border-bottom: 1px solid #1e2540;
+            cursor: pointer;
+        }
+        .history-round-header:hover { background: #1a2040; }
+        .history-round-header .round-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .history-round-header .round-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .history-round-header .round-time {
+            font-size: 12px;
+            color: #666;
+        }
+        .history-round-header .accuracy-badges {
+            display: flex;
+            gap: 10px;
+        }
+        .accuracy-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .accuracy-badge.good { background: rgba(46, 204, 113, 0.15); color: #2ecc71; }
+        .accuracy-badge.mid { background: rgba(243, 156, 18, 0.15); color: #f39c12; }
+        .accuracy-badge.bad { background: rgba(231, 76, 60, 0.15); color: #e74c3c; }
+
+        .history-round-body {
+            display: none;
+            padding: 0;
+        }
+        .history-round.open .history-round-body { display: block; }
+
+        .history-match-row {
+            display: grid;
+            grid-template-columns: 1fr 80px 80px 80px 100px;
+            align-items: center;
+            padding: 10px 20px;
+            border-bottom: 1px solid #1a1f35;
+            font-size: 13px;
+        }
+        .history-match-row:last-child { border-bottom: none; }
+        .history-match-row:hover { background: #151b30; }
+        .history-match-row .teams-col { color: #ccc; }
+        .history-match-row .pred-col {
+            font-weight: bold;
+            color: #2ecc71;
+            text-align: center;
+        }
+        .history-match-row .actual-col {
+            text-align: center;
+            font-weight: bold;
+        }
+        .history-match-row .actual-col.correct { color: #2ecc71; }
+        .history-match-row .actual-col.wrong { color: #e74c3c; }
+        .history-match-row .total-col {
+            text-align: center;
+            color: #aaa;
+        }
+        .history-match-row .result-check {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .history-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        .summary-card {
+            background: #131830;
+            border: 1px solid #1e2540;
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+        }
+        .summary-card .summary-val {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+        .summary-card .summary-label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SCORABLE <span>CAF Match Engine</span></h1>
+        <div class="stats-bar">
+            <div>Matchs historiques: <span class="val" id="stat-total">-</span></div>
+            <div>Moy buts/match: <span class="val" id="stat-moy">-</span></div>
+            <div>Derniere MAJ: <span class="val" id="stat-maj">-</span></div>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" data-panel="live">Matchs en Direct</div>
+        <div class="tab" data-panel="h2h">H2H Analyse</div>
+        <div class="tab" data-panel="historique">Historique</div>
+        <div class="tab" data-panel="valuebets">Value Bets</div>
+        <div class="tab" data-panel="strategie">Strategie</div>
+        <div class="tab" data-panel="alerts">Alertes</div>
+        <div class="tab" data-panel="calibration">Calibration</div>
+        <div class="tab" data-panel="classement">Classement</div>
+        <div class="tab" data-panel="cotes">Cotes</div>
+        <div class="tab" data-panel="calendrier">Calendrier</div>
+        <div class="tab" data-panel="profiling">Profil Equipes</div>
+    </div>
+
+    <div class="main">
+        <div class="panel active" id="panel-live">
+            <div class="refresh-bar">
+                <h2 class="section-title">Matchs a venir</h2>
+                <div class="auto-refresh">
+                    <input type="checkbox" id="auto-refresh-check" checked>
+                    <label for="auto-refresh-check">Auto-refresh (10s)</label>
+                    <button class="btn btn-secondary" onclick="refreshLive()" style="padding: 6px 14px; font-size: 12px;">Actualiser</button>
+                </div>
+            </div>
+            <div id="alerts-live"></div>
+            <div id="simples-live"></div>
+            <div id="best-bets-live"></div>
+            <div id="dc-favoris-live"></div>
+            <div id="accumulators-live"></div>
+            <div id="value-bets-live"></div>
+            <div id="matches-container" class="matches-grid">
+                <div class="loading">Chargement</div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel-valuebets">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+                <h2 class="section-title" style="margin:0">Value Bets & Avantage Reel</h2>
+                <button class="btn" onclick="loadValueBets()" style="padding:6px 14px;font-size:12px;">Analyser</button>
+            </div>
+            <div id="valuebets-content"><div class="loading">Cliquez sur Analyser pour detecter les value bets</div></div>
+        </div>
+
+        <div class="panel" id="panel-strategie">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+                <h2 class="section-title" style="margin:0">Strategie & Simulation</h2>
+                <button class="btn" onclick="loadStrategy()" style="padding:6px 14px;font-size:12px;">Simuler</button>
+            </div>
+            <div id="strategy-content"><div class="loading">Cliquez sur Simuler pour analyser les strategies</div></div>
+        </div>
+
+        <div class="panel" id="panel-historique">
+            <h2 class="section-title">Historique des 10 derniers rounds predits</h2>
+            <div id="history-summary" style="margin-bottom:20px;"></div>
+            <div id="history-container">
+                <div class="loading">Chargement</div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel-alerts">
+            <h2 class="section-title">Alertes de confiance elevee</h2>
+            <p style="color:#888;font-size:13px;margin-bottom:15px;">Matchs avec confiance >= 18% (prediction differentiante)</p>
+            <div id="alerts-container">
+                <div class="loading">Chargement</div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel-calibration">
+            <h2 class="section-title">Calibration des Modeles</h2>
+            <p style="color:#888;font-size:13px;margin-bottom:15px;">Mesure en live si les probabilites predites correspondent aux resultats reels</p>
+            <div id="calibration-container">
+                <div class="loading">Chargement des donnees de calibration...</div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel-classement">
+            <h2 class="section-title">Classement en Direct</h2>
+            <p style="color:#888;font-size:13px;margin-bottom:15px;">Classement recupere depuis la source officielle - compare avec le site</p>
+            <div id="classement-container">
+                <div class="loading">Chargement du classement...</div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel-cotes">
+            <h2 class="section-title">Matrice des Cotes CAF</h2>
+            <p style="color:#888;font-size:13px;margin-bottom:15px;">Cotes collectees automatiquement depuis la source officielle</p>
+            <div style="margin-bottom:12px">
+                <button class="btn btn-secondary" onclick="collectCotes()" style="padding:6px 14px;font-size:12px">Collecter maintenant</button>
+                <span id="cotes-collect-status" style="margin-left:10px;color:#888;font-size:12px"></span>
+            </div>
+            <div id="cotes-container">
+                <div class="loading">Chargement des cotes...</div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel-calendrier">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+                <div>
+                    <h2 class="section-title" style="margin:0">Calendrier & Previsions</h2>
+                    <p style="color:#888;font-size:12px;margin-top:4px">Matchs en cours avec cotes - Predictons Poisson + ML</p>
+                </div>
+                <button class="btn" onclick="loadCalendrier()" style="padding:6px 14px;font-size:12px;">Actualiser</button>
+            </div>
+            <div id="calendrier-filters" style="display:none;margin-bottom:15px;">
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <label style="color:#888;font-size:12px;">Filtrer DC:</label>
+                    <select id="cal-filter-dc" onchange="renderCalendrier()" style="background:#1a1f35;color:#e0e0e0;border:1px solid #1e2540;border-radius:4px;padding:4px 8px;font-size:12px;">
+                        <option value="all">Tous DC</option>
+                        <option value="1X">1X uniquement</option>
+                        <option value="X2">X2 uniquement</option>
+                    </select>
+                    <label style="color:#888;font-size:12px;margin-left:10px;">Conf min:</label>
+                    <input type="range" id="cal-min-conf" min="0" max="100" value="0" oninput="document.getElementById('cal-min-conf-val').textContent=this.value+'%';renderCalendrier()" style="width:100px;">
+                    <span id="cal-min-conf-val" style="color:#2ecc71;font-size:12px;">0%</span>
+                    <label style="color:#888;font-size:12px;margin-left:10px;">ML concorde:</label>
+                    <input type="checkbox" id="cal-ml-only" onchange="renderCalendrier()">
+                </div>
+            </div>
+            <div id="calendrier-summary" style="margin-bottom:15px;"></div>
+            <div id="calendrier-container">
+                <div class="loading">Chargement...</div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel-profiling">
+            <div style="padding:10px 16px">
+                <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+                    <select id="profiling-team" style="padding:6px;background:#0a0e17;color:#fff;border:1px solid #2c3e50;border-radius:4px;min-width:200px">
+                        <option value="">Selectionner une equipe...</option>
+                    </select>
+                    <button class="btn" onclick="loadTeamProfile()" style="padding:6px 14px;font-size:12px;">Analyser</button>
+                    <button class="btn" onclick="loadAllTeamProfiles()" style="padding:6px 14px;font-size:12px;background:#8e44ad">Vue d'ensemble</button>
+                </div>
+                <div id="profiling-summary" style="margin-bottom:15px;"></div>
+                <div id="profiling-container">
+                    <div class="no-data">Selectionnez une equipe pour analyser ses patterns de victoire/defaite, zones de cotes, et conditions gagnantes.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" id="panel-h2h">
+            <div style="padding:10px 16px">
+                <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+                    <select id="h2h-home" style="padding:6px;background:#0a0e17;color:#fff;border:1px solid #2c3e50;border-radius:4px">
+                        <option value="">Domicile</option>
+                    </select>
+                    <span style="color:#e74c3c;font-weight:bold">VS</span>
+                    <select id="h2h-away" style="padding:6px;background:#0a0e17;color:#fff;border:1px solid #2c3e50;border-radius:4px">
+                        <option value="">Exterieur</option>
+                    </select>
+                    <button class="btn" onclick="loadH2H()" style="padding:6px 14px;font-size:12px">Analyser</button>
+                    <button class="btn" onclick="loadH2HFull()" style="padding:6px 14px;font-size:12px;background:#8e44ad">Top Exploits</button>
+                </div>
+                <div id="h2h-container"><div class="no-data">Entrez deux equipes ou cliquez "Top Exploits" pour voir les patterns exploitables</div></div>
+            </div>
+        </div>
+
+    <script>
+        let allPredictions = [];
+        let allValueBets = [];
+        let allAccumulators = [];
+        let allSimples = [];
+        let refreshInterval = null;
+        let roundCheckInterval = null;
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+                if (tab.dataset.panel === 'historique') loadHistory();
+                if (tab.dataset.panel === 'valuebets') loadValueBets();
+                if (tab.dataset.panel === 'strategie') loadStrategy();
+                if (tab.dataset.panel === 'calibration') loadCalibration();
+                if (tab.dataset.panel === 'classement') loadClassement();
+                if (tab.dataset.panel === 'cotes') loadCotes();
+                if (tab.dataset.panel === 'calendrier') loadCalendrier();
+                if (tab.dataset.panel === 'h2h') { loadH2HTeams(); }
+                if (tab.dataset.panel === 'profiling') { loadProfilingTeams(); }
+                if (tab.dataset.panel === 'live') {
+                    document.getElementById('auto-refresh-check').checked = true;
+                    startAutoRefresh();
+                } else {
+                    stopAutoRefresh();
+                }
+            });
+        });
+
+        document.getElementById('auto-refresh-check').addEventListener('change', (e) => {
+            if (e.target.checked) {
+                startAutoRefresh();
+            } else {
+                stopAutoRefresh();
+            }
+        });
+
+        let currentRound = 0;
+
+        function startAutoRefresh() {
+            stopAutoRefresh();
+            refreshInterval = setInterval(refreshLive, 10000);
+            if (!roundCheckInterval) roundCheckInterval = setInterval(checkRound, 3000);
+        }
+        function stopAutoRefresh() {
+            if (refreshInterval) clearInterval(refreshInterval);
+            if (roundCheckInterval) clearInterval(roundCheckInterval);
+        }
+
+        async function checkRound() {
+            try {
+                const res = await fetch('/api/round');
+                const data = await res.json();
+                const r = data.round || 0;
+                if (r > 0 && r !== currentRound) {
+                    currentRound = r;
+                    refreshLive();
+                }
+            } catch (e) {}
+        }
+
+        async function refreshLive() {
+            try {
+                const t0 = performance.now();
+                const res = await fetch('/api/predict');
+                const data = await res.json();
+                const elapsed = ((performance.now() - t0) / 1000).toFixed(1);
+                const newPreds = data.predictions || [];
+                const newRound = newPreds.length ? newPreds[0].round : 0;
+                const roundChanged = currentRound > 0 && newRound > 0 && newRound !== currentRound;
+                currentRound = newRound;
+
+                allPredictions = newPreds;
+                allValueBets = data.value_bets || [];
+                allAccumulators = data.accumulators || [];
+                allSimples = data.simples || [];
+                document.getElementById('stat-total').textContent = data.stats?.total_matchs || '-';
+                document.getElementById('stat-moy').textContent = data.stats?.moy_buts?.toFixed(2) || '-';
+                document.getElementById('stat-maj').textContent = new Date().toLocaleTimeString('fr') + ' (' + elapsed + 's)' + (roundChanged ? ' NEW ROUND' : '');
+                renderMatches();
+                renderAlerts();
+                renderValueBets();
+                renderAccumulators();
+                renderSimples();
+
+                if (roundChanged) {
+                    setTimeout(refreshLive, 3000);
+                }
+            } catch (e) {
+                document.getElementById('matches-container').innerHTML =
+                    '<div class="no-data">Erreur de chargement. Verifiez que le serveur tourne.</div>';
+            }
+        }
+
+        function renderMatches() {
+            const container = document.getElementById('matches-container');
+            if (!allPredictions.length) {
+                container.innerHTML = '<div class="no-data">Aucun match disponible</div>';
+                return;
+            }
+
+            let alertsHtml = '';
+            const highConf = allPredictions.filter(p => p.alert_level === 'HAUTE');
+            if (highConf.length) {
+                alertsHtml = `<div class="alert-banner haute">
+                    ALERTES: ${highConf.length} match(s) avec confiance elevee!
+                    ${highConf.map(p => ` ${p.home_team} vs ${p.away_team} (${p.confidence}% score | ${p.ou_confidence}% O/U)`).join(' | ')}
+                </div>`;
+            }
+            document.getElementById('alerts-live').innerHTML = alertsHtml;
+
+            const bestBets = allPredictions.map(p => {
+                const max1x2 = Math.max(p.prob_dom, p.prob_nul, p.prob_ext);
+                const label1x2 = p.prob_dom >= p.prob_nul && p.prob_dom >= p.prob_ext ? '1' :
+                                 p.prob_ext >= p.prob_nul ? '2' : 'X';
+                const maxOU = Math.max(p.prob_over_25, p.prob_under_25);
+                const labelOU = p.prob_over_25 >= p.prob_under_25 ? 'Over' : 'Under';
+                return { ...p, max1x2, label1x2, maxOU, labelOU };
+            });
+
+            const top1x2 = [...bestBets].sort((a, b) => b.max1x2 - a.max1x2).filter(p => p.max1x2 >= 55);
+            const topOU = [...bestBets].sort((a, b) => b.maxOU - a.maxOU).filter(p => p.maxOU >= 55);
+
+            if (top1x2.length || topOU.length) {
+                let html = '<div style="margin-bottom:20px">';
+                html += '<div style="font-size:16px;font-weight:bold;color:#2ecc71;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #1e2540">MEILLEURS PARIS RECOMMANDES</div>';
+
+                const sureBets = allPredictions.filter(p => {
+                    if (p.confidence < 85) return false;
+                    if (!p.ml_pred_1x2) return false;
+                    return p.ml_pred_1x2 === p.res_code;
+                });
+                if (sureBets.length) {
+                    html += '<div style="background:linear-gradient(135deg,#0a1a0a,#0a2d0a);border:2px solid #2ecc71;border-radius:10px;padding:14px;margin-bottom:14px">';
+                    html += '<div style="color:#2ecc71;font-weight:bold;font-size:14px;margin-bottom:10px">COUPS SURS - Poisson + ML d\'accord (>= 85%)</div>';
+                    html += '<div style="display:flex;flex-wrap:wrap;gap:10px">';
+                    sureBets.sort((a,b) => b.confidence - a.confidence).forEach(p => {
+                        html += `<div style="background:#0a0e17;border:1px solid #2ecc71;border-radius:8px;padding:10px 16px;display:inline-flex;align-items:center;gap:12px">
+                            <span style="font-size:20px;font-weight:bold;color:#2ecc71">${p.res_code}</span>
+                            <span style="color:#fff;font-size:13px">${p.home_team} vs ${p.away_team}</span>
+                            <span style="color:#2ecc71;font-weight:bold;font-size:14px">${p.confidence}%</span>
+                            <span style="color:#888;font-size:11px">ML:${p.ml_confidence||'?'}%</span>
+                        </div>`;
+                    });
+                    html += '</div></div>';
+                }
+
+                if (top1x2.length) {
+                    html += '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px">';
+                    html += '<div style="color:#888;font-size:12px;width:100%;margin-bottom:4px">1X2 (probabilite >= 55%)</div>';
+                    top1x2.forEach(p => {
+                        const color = p.max1x2 >= 70 ? '#e74c3c' : p.max1x2 >= 62 ? '#f39c12' : '#2ecc71';
+                        html += `<div style="background:#131830;border:1px solid ${color};border-radius:8px;padding:10px 16px;display:inline-flex;align-items:center;gap:12px">
+                            <span style="font-size:20px;font-weight:bold;color:${color}">${p.label1x2}</span>
+                            <span style="color:#fff;font-size:13px">${p.home_team} vs ${p.away_team}</span>
+                            <span style="color:${color};font-weight:bold;font-size:14px">${p.max1x2}%</span>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+
+                if (topOU.length) {
+                    html += '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px">';
+                    html += '<div style="color:#888;font-size:12px;width:100%;margin-bottom:4px">Over/Under 2.5 (probabilite >= 55%)</div>';
+                    topOU.forEach(p => {
+                        const color = p.maxOU >= 70 ? '#e74c3c' : p.maxOU >= 62 ? '#f39c12' : '#2ecc71';
+                        html += `<div style="background:#131830;border:1px solid ${color};border-radius:8px;padding:10px 16px;display:inline-flex;align-items:center;gap:12px">
+                            <span style="font-size:20px;font-weight:bold;color:${color}">${p.labelOU}</span>
+                            <span style="color:#fff;font-size:13px">${p.home_team} vs ${p.away_team}</span>
+                            <span style="color:${color};font-weight:bold;font-size:14px">${p.maxOU}%</span>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+
+                html += '</div>';
+                document.getElementById('best-bets-live').innerHTML = html;
+            } else {
+                document.getElementById('best-bets-live').innerHTML = '';
+            }
+
+            const dcFavoris = allPredictions.filter(p => p.dc_favori).sort((a, b) => b.dc_confidence - a.dc_confidence);
+
+            if (dcFavoris.length) {
+                let dcHtml = '<div style="background:linear-gradient(135deg,#0a1a2e,#0a0e2e);border:2px solid #3498db;border-radius:12px;padding:16px;margin-bottom:20px">';
+                dcHtml += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">';
+                dcHtml += '<span style="font-size:18px">&#11088;</span>';
+                dcHtml += '<span style="color:#3498db;font-weight:bold;font-size:16px">TOP 5 DOUBLE CHANCE - MEILLEURS PARIS DU ROUND</span>';
+                dcHtml += '</div>';
+                dcHtml += '<div style="display:flex;flex-wrap:wrap;gap:10px">';
+
+                dcFavoris.forEach(p => {
+                    const rank = p.dc_favori_rank || 0;
+                    const conf = p.dc_confidence || 0;
+                    const border = conf >= 90 ? '#2ecc71' : conf >= 80 ? '#3498db' : '#f39c12';
+                    const star = rank === 1 ? '&#127942;' : rank <= 3 ? '&#11088;' : '&#9733;';
+                    dcHtml += `<div style="background:#0a0e17;border:2px solid ${border};border-radius:10px;padding:12px 18px;min-width:220px;flex:1">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                            <span style="font-size:16px">${star}</span>
+                            <span style="color:${border};font-weight:bold;font-size:15px">${p.dc_pred}</span>
+                            <span style="color:${border};font-weight:bold;font-size:15px">${conf}%</span>
+                        </div>
+                        <div style="color:#fff;font-weight:bold;font-size:13px">${p.home_team} vs ${p.away_team}</div>
+                        <div style="color:#888;font-size:11px;margin-top:4px">1X2: ${p.res_code} (${p.confidence}%) | ${p.dc_label || ''}</div>
+                    </div>`;
+                });
+
+                dcHtml += '</div></div>';
+                document.getElementById('dc-favoris-live').innerHTML = dcHtml;
+            } else {
+                document.getElementById('dc-favoris-live').innerHTML = '';
+            }
+
+            container.innerHTML = [...allPredictions].sort((a, b) => {
+                const maxA = Math.max(a.prob_dom, a.prob_nul, a.prob_ext, a.prob_over_25, a.prob_under_25);
+                const maxB = Math.max(b.prob_dom, b.prob_nul, b.prob_ext, b.prob_over_25, b.prob_under_25);
+                return maxB - maxA;
+            }).map(p => {
+                const alertClass = p.alert_level === 'HAUTE' ? 'alert-haute' :
+                                   p.alert_level === 'MOYENNE' ? 'alert-moyenne' : '';
+                const confClass = `confidence-${p.alert_level.toLowerCase()}`;
+
+                return `
+                <div class="match-card ${alertClass}" ${p.dc_favori ? 'style="border:2px solid #3498db;box-shadow:0 0 12px rgba(52,152,219,0.3)"' : ''}>
+                    <div class="card-header">
+                        ${p.dc_favori ? `<span style="background:linear-gradient(135deg,#3498db,#2980b9);color:#fff;font-size:10px;font-weight:bold;padding:3px 8px;border-radius:6px;margin-right:6px">&#11088; FAVORI DC #${p.dc_favori_rank}</span>` : ''}
+                        <span class="round-badge">Round ${p.round}</span>
+                        <span class="confidence-badge ${confClass}">${p.confidence}% score</span>
+                        <span class="confidence-badge confidence-moyenne" style="margin-left:4px">${p.ou_confidence}% ${p.ou_pred}</span>
+                        ${p.btts_pred ? `<span class="confidence-badge" style="margin-left:4px;background:${p.btts_pred === 'BTTS Oui' ? '#e67e22' : '#8e44ad'};color:#fff" title="Cote Oui: ${p.cotes_btts_oui || '-'} | Cote Non: ${p.cotes_btts_non || '-'}">${p.btts_confidence}% ${p.btts_pred}</span>` : ''}
+                        ${p.ml_confidence ? `<span class="confidence-badge" style="margin-left:4px;background:#9b59b6;color:#fff">ML ${p.ml_confidence}%</span>` : ''}
+                        ${p.profiler && p.profiler.has_profiler_data ? `<span class="confidence-badge" style="margin-left:4px;background:linear-gradient(135deg,#f39c12,#e67e22);color:#000;font-weight:bold" title="${p.profiler.signal_summary}">&#9889; PROFILER ${p.profiler.critical_count > 0 ? 'CRITIQUE' : p.profiler.high_count > 0 ? 'FORT' : ''}</span>` : ''}
+                    </div>
+                    <div class="teams">
+                        <div class="team"><div class="team-name">${p.home_team}</div>
+                            <div style="font-size:10px;color:#888;margin-top:2px">ELO ${p.home_elo||'?'} | F:${(p.home_form||0).toFixed(2)} M:${p.home_momentum||0}</div>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team"><div class="team-name">${p.away_team}</div>
+                            <div style="font-size:10px;color:#888;margin-top:2px">ELO ${p.away_elo||'?'} | F:${(p.away_form||0).toFixed(2)} M:${p.away_momentum||0}</div>
+                        </div>
+                    </div>
+                    <div class="score-big">${p.score_dom} - ${p.score_ext}</div>
+                    <div class="result-label">${p.resultat}</div>
+
+                    <div class="probs-section">
+                        <div class="probs-row">
+                            <span class="label">1X2</span>
+                            <span class="val">${p.prob_dom}% / ${p.prob_nul}% / ${p.prob_ext}%</span>
+                        </div>
+                        <div class="probs-row">
+                            <span class="label">Over/Under 2.5</span>
+                            <span class="val ${p.prob_over_25 > 55 ? 'green' : 'red'}">O: ${p.prob_over_25}% | U: ${p.prob_under_25}%</span>
+                        </div>
+                        <div class="probs-row">
+                            <span class="label">Pair/Impair</span>
+                            <span class="val">P: ${p.prob_pair}% | I: ${p.prob_impair}%</span>
+                        </div>
+                        <div class="probs-row">
+                            <span class="label">Double Chance</span>
+                            <span class="val" style="color:#3498db;font-weight:bold">${p.dc_pred || '-'} (${p.dc_confidence || 0}%) <span style="color:#888;font-weight:normal">${p.dc_label || ''}</span></span>
+                        </div>
+                        ${p.prob_btts_oui !== undefined ? `<div class="probs-row">
+                            <span class="label">G/NG (BTTS)</span>
+                            <span class="val" style="color:${p.btts_pred === 'BTTS Oui' ? '#e67e22' : '#8e44ad'};font-weight:bold">${p.btts_pred} (${p.btts_confidence}%) <span style="color:#888;font-weight:normal">Oui:${p.prob_btts_oui}% Non:${p.prob_btts_non}%</span> <span style="color:#f39c12;font-size:10px">| Cote Oui: ${p.cotes_btts_oui || '-'} Non: ${p.cotes_btts_non || '-'}</span></span>
+                        </div>` : ''}
+                        ${p.dc_analysis ? `<div class="probs-row">
+                            <span class="label">DC Value</span>
+                            <span class="val" style="font-size:11px">${p.dc_analysis.map(dc => {
+                                const color = dc.value ? '#2ecc71' : '#888';
+                                return `<span style="color:${color}">${dc.code}:${dc.site_odds} (${dc.edge > 0 ? '+' : ''}${dc.edge}pp)</span>`;
+                            }).join(' | ')}</span>
+                        </div>` : ''}
+                        <div class="probs-row">
+                            <span class="label">Total predit</span>
+                            <span class="val yellow">${p.total_buts_pred} buts</span>
+                        </div>
+                        ${p.h2h_matches >= 3 ? `<div class="probs-row"><span class="label">H2H</span><span class="val" style="color:#9b59b6">${p.h2h_matches} matchs (${p.h2h_home_wr}%/${p.h2h_draws}%/${p.h2h_away_wr}%)</span></div>` : ''}
+                        ${p.profiler && p.profiler.has_profiler_data ? `
+                        <div style="margin-top:6px;padding:6px;background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.3);border-radius:4px;">
+                            <div style="font-size:10px;color:#f39c12;font-weight:bold;margin-bottom:4px">&#9889; PROFILER SIGNALS</div>
+                            ${p.profiler.signals.map(s => {
+                                const col = s.severity === 'critical' ? '#e74c3c' : s.severity === 'high' ? '#f39c12' : s.severity === 'danger' ? '#e74c3c' : '#3498db';
+                                return '<div style="font-size:11px;color:' + col + ';padding:1px 0">' + s.desc + ' <span style="color:#888">(' + s.evidence + ')</span></div>';
+                            }).join('')}
+                            ${p.profiler.dc_boosts['1X'] > 0 || p.profiler.dc_boosts['X2'] > 0 ? '<div style="font-size:10px;color:#2ecc71;margin-top:2px">DC Boost: +' + Math.round(Math.max(p.profiler.dc_boosts['1X'], p.profiler.dc_boosts['X2']) * 100) + '%</div>' : ''}
+                        </div>` : ''}
+                    </div>
+
+                    <div class="top-scores">
+                        <div class="top-scores-title">Scores les plus probables:</div>
+                        ${p.top_scores.map(s => `
+                            <span class="score-chip">${s.dom}-${s.ext} <span class="pct">${s.prob}%</span></span>
+                        `).join('')}
+                    </div>
+
+                    ${renderMatrixSection(p)}
+
+                    ${renderOddsSection(p)}
+                </div>`;
+            }).join('');
+        }
+
+        function renderMatrixSection(p) {
+            const m = p.odds_matrix;
+            if (!m) return '';
+
+            const confClass = (m.confidence || '').toLowerCase();
+            const favLabel = m.fav_side === '1' ? p.home_team : (m.fav_side === '2' ? p.away_team : 'Match nul');
+
+            let scoresHtml = (m.likely_scores || []).map(s => '<span class="matrix-score">' + s + '</span>').join('');
+            let tipsHtml = (m.bet_tips || []).map(t => '<div class="matrix-tip">' + t + '</div>').join('');
+
+            const cp = p.combined_prediction || {};
+            const finalConf = (cp.combined_confidence || '').toLowerCase();
+            const isAgreement = cp.agreement;
+
+            let combinedHtml = '';
+            if (cp.combined_confidence) {
+                combinedHtml = `
+                    <div style="margin-top:8px;padding-top:6px;border-top:1px solid ${isAgreement ? '#2ecc71' : '#e74c3c'}">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+                            <span style="font-size:11px;color:${isAgreement ? '#2ecc71' : '#e74c3c'};font-weight:bold">
+                                ${isAgreement ? '✅ ML + Matrice d\'accord' : '⚠️ ML / Matrice en désaccord'}
+                            </span>
+                            <span class="matrix-zone ${finalConf}">${cp.combined_confidence}</span>
+                        </div>
+                        ${cp.ml_pred ? '<div style="font-size:10px;color:#888">ML prédit: ' + cp.ml_pred + ' (conf: ' + Math.round((cp.ml_confidence || 0) * 100) + '%)</div>' : ''}
+                        ${p.final_reco ? '<div class="matrix-tip" style="color:#f1c40f;margin-top:4px">🎯 ' + p.final_reco + '</div>' : ''}
+                    </div>`;
+            }
+
+            return `
+                <div class="matrix-section">
+                    <div class="matrix-header">
+                        <span class="matrix-zone ${confClass}">${m.label}</span>
+                        <span class="matrix-fav">Favori: ${favLabel} (${m.fav_odds})</span>
+                    </div>
+                    <div class="matrix-grid">
+                        <div class="matrix-item"><span class="label">Fav. gagne</span><span class="val">${m.fav_win_pct}%</span></div>
+                        <div class="matrix-item"><span class="label">BTTS</span><span class="val">${m.btts_pct}%</span></div>
+                        <div class="matrix-item"><span class="label">Over 2.5</span><span class="val">${m.over25_pct}%</span></div>
+                        <div class="matrix-item"><span class="label">Over 3.5</span><span class="val">${m.over35_pct}%</span></div>
+                        <div class="matrix-item"><span class="label">Buts moy.</span><span class="val">${m.avg_goals}</span></div>
+                        <div class="matrix-item"><span class="label">BTTS pred</span><span class="val">${m.btts_pred}</span></div>
+                        <div class="matrix-item"><span class="label">O/U pred</span><span class="val">${m.ou_pred}</span></div>
+                        <div class="matrix-item"><span class="label">Style</span><span class="val">${m.style}</span></div>
+                    </div>
+                    ${scoresHtml ? '<div class="matrix-scores"><div style="font-size:10px;color:#666;margin-bottom:3px">Scores frequents:</div>' + scoresHtml + '</div>' : ''}
+                    ${tipsHtml ? '<div class="matrix-tips">' + tipsHtml + '</div>' : ''}
+                    ${combinedHtml}
+                </div>`;
+        }
+
+        function renderOddsSection(p) {
+            const all = p.cotes_raw && p.cotes_raw.cotes_all ? p.cotes_raw.cotes_all : {};
+            const keys = Object.keys(all);
+            if (!keys.length) return '';
+
+            const marketOrder = [
+                '1X2', 'Double Chance', 'Mi-tps 1X2', 'Mi-tps DC',
+                '+/-', 'Total de buts', 'Total equipe domicile', 'Total equipe ext\u00e9rieur',
+                'G/NG', 'Pair/Impair',
+                'Score exact', 'HT/FT', '1X2 & Total', '1X2 & G/NG',
+                'Minute du premier but', 'FTTS', 'Multi-Buts',
+                '2\u00e8me mi-tps - CS', 'Mi-tps CS',
+                'Les deux \u00e9quipes marquent / 1\u00e8re mi temps',
+                'G/NG equipe domicile', 'G/NG equipe ext\u00e9rieur'
+            ];
+            const sorted = keys.sort((a, b) => {
+                const ia = marketOrder.indexOf(a);
+                const ib = marketOrder.indexOf(b);
+                return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
+            });
+
+            const uid = 'odds_' + Math.random().toString(36).substr(2, 6);
+
+            let marketsHtml = '';
+            for (const name of sorted) {
+                const market = all[name];
+                const entries = Object.entries(market);
+                if (!entries.length) continue;
+
+                const valsHtml = entries.map(([sn, odds]) => {
+                    return `<span class="odds-val"><span class="odds-label">${sn}</span><span class="odds-num">${odds}</span></span>`;
+                }).join('');
+
+                marketsHtml += `
+                    <div class="odds-market">
+                        <div class="odds-market-title">${name}</div>
+                        <div class="odds-row">${valsHtml}</div>
+                    </div>`;
+            }
+
+            return `
+                <div class="odds-section">
+                    <button class="odds-toggle" onclick="var el=document.getElementById('${uid}');el.style.display=el.style.display==='none'?'block':'none'">
+                        Cotes du site (${keys.length} march\u00e9s)
+                    </button>
+                    <div id="${uid}" style="display:none">${marketsHtml}</div>
+                </div>`;
+        }
+
+        function renderAlerts() {
+            const container = document.getElementById('alerts-container');
+            const alerts = allPredictions
+                .filter(p => p.alert_level !== 'FAIBLE')
+                .sort((a, b) => b.confidence - a.confidence);
+
+            if (!alerts.length) {
+                container.innerHTML = '<div class="no-data">Aucune alerte en cours</div>';
+                return;
+            }
+
+            container.innerHTML = `
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Round</th>
+                            <th>Match</th>
+                            <th>Score</th>
+                            <th>Resultat</th>
+                            <th>Score Conf.</th>
+                            <th>O/U Conf.</th>
+                            <th>G/NG</th>
+                            <th>Alerte</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${alerts.map(p => `
+                            <tr>
+                                <td>${p.round}</td>
+                                <td>${p.home_team} vs ${p.away_team}</td>
+                                <td style="color:#2ecc71;font-weight:bold">${p.score_dom}-${p.score_ext}</td>
+                                <td>${p.resultat}</td>
+                                <td style="color:${p.alert_color}">${p.confidence}%</td>
+                                <td style="color:#3498db">${p.ou_confidence}% ${p.ou_pred}</td>
+                                <td style="color:${p.btts_pred === 'BTTS Oui' ? '#e67e22' : '#8e44ad'}">${p.btts_pred || '-'} ${p.btts_confidence ? p.btts_confidence + '%' : ''} <span style="color:#f39c12;font-size:9px">(${p.cotes_btts_oui || '-'} / ${p.cotes_btts_non || '-'})</span></td>
+                                <td style="color:${p.alert_color}">${p.alert_level}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>`;
+        }
+
+        function renderValueBets() {
+            const container = document.getElementById('value-bets-live');
+            if (!allValueBets.length) {
+                container.innerHTML = '';
+                return;
+            }
+            const valueMatches = allValueBets.filter(vb => vb.is_value_bet);
+            const highEdge = allValueBets.filter(vb => vb.home_edge_pct >= 6);
+
+            let html = '<div style="margin-bottom:20px">';
+            html += '<div style="font-size:16px;font-weight:bold;color:#f39c12;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #1e2540">VALUE BETS - BIAIS DOMICILE (' + (valueMatches.length) + ' matchs)</div>';
+
+            if (highEdge.length) {
+                html += '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px">';
+                highEdge.forEach(vb => {
+                    const edgeColor = vb.home_edge_pct >= 10 ? '#e74c3c' : vb.home_edge_pct >= 6 ? '#f39c12' : '#2ecc71';
+                    const confBadge = vb.confidence === 'HAUTE' ? 'background:#e74c3c;color:#fff' : vb.confidence === 'MOYENNE' ? 'background:#f39c12;color:#000' : 'background:#34495e;color:#888';
+                    html += `<div style="background:#131830;border:1px solid ${edgeColor};border-radius:8px;padding:10px 16px;display:inline-flex;flex-direction:column;gap:6px;min-width:220px">
+                        <div style="display:flex;align-items:center;gap:10px">
+                            <span style="font-size:18px;font-weight:bold;color:${edgeColor}">1</span>
+                            <span style="color:#fff;font-size:13px">${vb.home_team} vs ${vb.away_team}</span>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:center;font-size:12px">
+                            <span style="color:${edgeColor};font-weight:bold">Edge: +${vb.home_edge_pct}%</span>
+                            <span style="color:#888">Proba: ${vb.home_prob_adj}% vs ${vb.home_prob_implied}%</span>
+                            <span style="${confBadge};padding:2px 6px;border-radius:4px;font-size:10px">${vb.confidence}</span>
+                        </div>
+                        <div style="font-size:11px;color:#888">Cotes: 1=${vb.cote_1} | X=${vb.cote_X} | 2=${vb.cote_2}</div>
+                    </div>`;
+                });
+                html += '</div>';
+            }
+
+            if (valueMatches.length > highEdge.length) {
+                html += '<div style="color:#888;font-size:12px;margin-bottom:6px">Autres value bets (edge >= 3%):</div>';
+                html += '<div style="display:flex;flex-wrap:wrap;gap:8px">';
+                valueMatches.filter(vb => vb.home_edge_pct < 6).forEach(vb => {
+                    html += `<div style="background:#0a0e17;border:1px solid #34495e;border-radius:6px;padding:8px 12px;font-size:12px">
+                        <span style="color:#f39c12;font-weight:bold">1</span>
+                        <span style="color:#fff">${vb.home_team} vs ${vb.away_team}</span>
+                        <span style="color:#2ecc71">+${vb.home_edge_pct}%</span>
+                        <span style="color:#888">(${vb.cote_1})</span>
+                    </div>`;
+                });
+                html += '</div>';
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function renderAccumulators() {
+            const container = document.getElementById('accumulators-live');
+            if (!allAccumulators.length) {
+                container.innerHTML = '';
+                return;
+            }
+            let html = '<div style="background:linear-gradient(135deg,#1a0a2e,#0a1a2e);border:2px solid #e74c3c;border-radius:12px;padding:16px;margin-bottom:20px">';
+            html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">';
+            html += '<span style="font-size:18px">&#127920;</span>';
+            html += '<span style="color:#e74c3c;font-weight:bold;font-size:16px">ACCUMULATEURS DC - COMBINAISONS VALUE</span>';
+            html += '</div>';
+            html += '<div style="display:flex;flex-wrap:wrap;gap:12px">';
+
+            allAccumulators.forEach((acc, ai) => {
+                const evColor = acc.expected_value > 5 ? '#2ecc71' : acc.expected_value > 0 ? '#f39c12' : '#e74c3c';
+                const rating = acc.grade || (acc.adjusted_score >= 55 ? 'A' : acc.adjusted_score >= 40 ? 'B' : acc.adjusted_score >= 25 ? 'C' : acc.adjusted_score >= 10 ? 'D' : 'F');
+                const ratingColors = {'A':'#2ecc71','B':'#3498db','C':'#f39c12','D':'#e67e22','F':'#e74c3c'};
+                const ratingColor = ratingColors[rating] || '#e74c3c';
+                const gradeDesc = {'A':'Forte confiance','B':'Bonne','C':'Moyenne','D':'Faible','F':'Ne pas miser'};
+                const oddsBadge = acc.has_real_odds ? '<span style="background:#2ecc71;color:#000;padding:1px 5px;border-radius:3px;font-size:9px;margin-left:6px">COTES LIVE</span>' : '<span style="background:#f39c12;color:#000;padding:1px 5px;border-radius:3px;font-size:9px;margin-left:6px">ESTIME</span>';
+                html += `<div style="background:#0a0e17;border:2px solid ${ratingColor};border-radius:10px;padding:14px 18px;min-width:280px;flex:1;max-width:400px">`;
+                html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">`;
+                html += `<span style="color:${evColor};font-weight:bold;font-size:14px">${acc.n_legs} matchs ${oddsBadge}</span>`;
+                html += `<span style="background:${ratingColor};color:#000;padding:2px 8px;border-radius:4px;font-weight:bold;font-size:12px">Note ${rating}</span>`;
+                html += `</div>`;
+                html += `<div style="font-size:10px;color:#888;margin-bottom:8px">${gradeDesc[rating] || ''} | Score: ${acc.adjusted_score}${acc.team_penalty ? ' | Pen: '+acc.team_penalty : ''}</div>`;
+
+                acc.legs.forEach((leg, li) => {
+                    const dcColor = leg.dc_pick === '1X' ? '#3498db' : leg.dc_pick === 'X2' ? '#2ecc71' : '#e74c3c';
+                    const modelColor = leg.model_pred === '1X' ? '#3498db' : leg.model_pred === 'X2' ? '#2ecc71' : '#e74c3c';
+                    const edgeColor = leg.edge_vs_site > 0 ? '#2ecc71' : leg.edge_vs_site < -3 ? '#e74c3c' : '#f39c12';
+                    const pickChanged = leg.model_pred && leg.model_pred !== leg.dc_pick;
+                    html += `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;${li < acc.legs.length - 1 ? 'border-bottom:1px solid #1e2540' : ''}">`;
+                    html += `<span style="background:${dcColor};color:#000;padding:2px 6px;border-radius:4px;font-weight:bold;font-size:11px">${leg.dc_pick}</span>`;
+                    html += `<span style="color:#fff;font-size:12px;min-width:120px">${leg.home} vs ${leg.away}</span>`;
+                    if (pickChanged) {
+                        html += `<span style="color:#888;font-size:10px">(modèle: <span style="color:${modelColor}">${leg.model_pred}</span>)</span>`;
+                    }
+                    html += `<span style="color:#888;font-size:11px">Cote:${leg.site_odds}</span>`;
+                    html += `<span style="color:${edgeColor};font-size:11px;margin-left:auto">+${leg.edge_vs_site}pp</span>`;
+                    html += `</div>`;
+                });
+
+                html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:8px;border-top:1px solid #1e2540">`;
+                html += `<div style="font-size:12px">`;
+                html += `<span style="color:#888">Cote:</span> <span style="color:#fff;font-weight:bold">${acc.combined_odds}</span>`;
+                html += `<span style="color:#888;margin-left:12px">P:</span> <span style="color:#fff">${acc.total_probability}%</span>`;
+                html += `</div>`;
+                html += `<div style="font-size:12px">`;
+                html += `<span style="color:${evColor};font-weight:bold">EV: ${acc.expected_value > 0 ? '+' : ''}${acc.expected_value}%</span>`;
+                html += `<span style="color:#888;margin-left:10px">Kelly: ${acc.kelly_stake}%</span>`;
+                html += `</div>`;
+                html += `</div>`;
+                html += `</div>`;
+            });
+
+            html += '</div></div>';
+            container.innerHTML = html;
+        }
+
+        function renderSimples() {
+            const container = document.getElementById('simples-live');
+            if (!allSimples.length) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const recoverySimples = allSimples.filter(s => s.recovery_signal);
+            const normalSimples = allSimples.filter(s => !s.recovery_signal);
+
+            let html = '';
+
+            if (recoverySimples.length) {
+                html += '<div style="background:linear-gradient(135deg,#2e1a00,#1a0a00);border:3px solid #f39c12;border-radius:12px;padding:16px;margin-bottom:16px;animation:pulse-glow 2s infinite">';
+                html += '<style>@keyframes pulse-glow{0%,100%{box-shadow:0 0 15px #f39c1255}50%{box-shadow:0 0 35px #f39c12aa}}</style>';
+                html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">';
+                html += '<span style="font-size:22px">&#9889;</span>';
+                html += '<span style="color:#f39c12;font-weight:bold;font-size:16px">RECOVERY SIGNAL - MISES OBLIGATOIRES</span>';
+                html += '</div>';
+                html += '<div style="font-size:11px;color:#f39c12;margin-bottom:12px;font-weight:bold">Ces equipes ont perdu 2x de suite a domicile. Historiquement: 0 exception sur 33 matchs -> 67-83% de 1X</div>';
+                html += '<div style="display:flex;flex-wrap:wrap;gap:10px">';
+
+                recoverySimples.forEach(s => {
+                    const lossText = s.recovery_losses + ' defaites dom consecutives';
+                    const details = (s.recovery_details || []).map(d => d.opponent + ' ' + d.score).join(', ');
+                    html += `<div style="background:#0a0e17;border:3px solid #f39c12;border-radius:10px;padding:14px 18px;min-width:280px;flex:1;max-width:400px;box-shadow:0 0 20px #f39c1233;animation:pulse-glow 2s infinite">`;
+                    html += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">`;
+                    html += `<span style="background:#f39c12;color:#000;padding:3px 10px;border-radius:4px;font-weight:bold;font-size:14px">1X</span>`;
+                    html += `<span style="color:#fff;font-weight:bold;font-size:15px">${s.home_team} vs ${s.away_team}</span>`;
+                    html += `<span style="background:#e74c3c;color:#fff;padding:2px 6px;border-radius:4px;font-weight:bold;font-size:10px;margin-left:4px">RECOVERY</span>`;
+                    html += `</div>`;
+                    html += `<div style="font-size:11px;color:#f39c12;margin-bottom:6px">&#9889; ${lossText} -> Prochain match = 1X GARANTI</div>`;
+                    html += `<div style="font-size:10px;color:#888;margin-bottom:6px">Defaites: ${details}</div>`;
+                    html += `<div style="display:flex;justify-content:space-between;align-items:center">`;
+                    html += `<span style="color:#2ecc71;font-size:11px;font-weight:bold">Confiance: ${s.dc_confidence}% | Cote: ${s.site_odds}</span>`;
+                    html += `<span style="color:#f39c12;font-size:11px">Boost: +${s.recovery_bonus}pp</span>`;
+                    html += `</div>`;
+                    html += `</div>`;
+                });
+
+                html += '</div></div>';
+            }
+
+            html += '<div style="background:linear-gradient(135deg,#0a1a0a,#0a2e1a);border:2px solid #2ecc71;border-radius:12px;padding:16px;margin-bottom:20px">';
+            html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">';
+            html += '<span style="font-size:18px">&#127919;</span>';
+            html += '<span style="color:#2ecc71;font-weight:bold;font-size:16px">SIMPLES DC - MISES PAR MATCH</span>';
+            html += '</div>';
+            html += '<div style="font-size:11px;color:#888;margin-bottom:12px">83% WR historique sur 1X domicile fort | 1 mise = 1 resultat | Pas de risque combine</div>';
+            html += '<div style="display:flex;flex-wrap:wrap;gap:10px">';
+
+            normalSimples.forEach((s, si) => {
+                const pickColor = s.dc_pick === '1X' ? '#3498db' : '#2ecc71';
+                const edgeVal = s.edge || 0;
+                const edgeColor = edgeVal > 5 ? '#2ecc71' : edgeVal > 0 ? '#f39c12' : '#e74c3c';
+                const conf = s.dc_confidence || 0;
+                const confColor = conf >= 70 ? '#2ecc71' : conf >= 60 ? '#3498db' : conf >= 50 ? '#f39c12' : '#e74c3c';
+                const modelMatch = s.model_matches_pick;
+                const penaltyNote = s.team_penalty < 0 ? ` | Pen: ${s.team_penalty}` : '';
+                const recoveryNote = s.recovery_bonus > 0 ? ` | Recovery: +${s.recovery_bonus}` : '';
+                const strongTag = s.is_strong_home ? '<span style="background:#2ecc71;color:#000;padding:1px 4px;border-radius:3px;font-size:8px;margin-left:4px">FORT</span>' : '';
+                const weakTag = s.is_weak_away ? '<span style="background:#f39c12;color:#000;padding:1px 4px;border-radius:3px;font-size:8px;margin-left:4px">FAIBLE</span>' : '';
+                const pickTag = s.dc_pick === '1X' ? strongTag : weakTag;
+
+                html += `<div style="background:#0a0e17;border:1px solid ${edgeVal > 0 ? '#2ecc71' : '#444'};border-radius:8px;padding:10px 14px;min-width:200px;flex:1;max-width:320px">`;
+                html += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">`;
+                html += `<span style="background:${pickColor};color:#000;padding:2px 8px;border-radius:4px;font-weight:bold;font-size:13px">${s.dc_pick}</span>`;
+                html += `<span style="color:#fff;font-weight:bold;font-size:13px">${s.home_team} vs ${s.away_team}</span>`;
+                html += `${pickTag}`;
+                if (s.profiler_boosted) {
+                    html += `<span style="background:linear-gradient(135deg,#f39c12,#e67e22);color:#000;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:bold;margin-left:4px" title="${(s.profiler_signals||[]).join('; ')}">&#9889; PROFILER</span>`;
+                }
+                html += `</div>`;
+                html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">`;
+                html += `<span style="color:${confColor};font-size:11px">Confiance: ${conf.toFixed(0)}%</span>`;
+                html += `<span style="color:#888;font-size:11px">Cote: ${s.site_odds}</span>`;
+                html += `</div>`;
+                html += `<div style="display:flex;justify-content:space-between;align-items:center">`;
+                html += `<span style="color:${edgeColor};font-size:11px;font-weight:bold">Edge: ${edgeVal > 0 ? '+' : ''}${edgeVal.toFixed(1)}pp</span>`;
+                html += `<span style="color:#888;font-size:10px">DR: ${s.home_draw_rate}% | DR ext: ${s.away_draw_rate}%${penaltyNote}${recoveryNote}</span>`;
+                html += `</div>`;
+                if (!modelMatch) {
+                    html += `<div style="font-size:9px;color:#888;margin-top:4px">Modele predit: <span style="color:${s.model_pred === '1X' ? '#3498db' : '#2ecc71'}">${s.model_pred}</span> (edge > confiance)</div>`;
+                }
+                html += `</div>`;
+            });
+
+            html += '</div></div>';
+            container.innerHTML = html;
+        }
+
+        function renderSimplesHistory(simples) {
+            if (!simples || !simples.length) return '';
+            let html = '<div style="margin-top:10px;padding-top:10px;border-top:1px dashed #1e2540">';
+            html += '<div style="font-size:11px;font-weight:bold;color:#2ecc71;margin-bottom:8px">SIMPLES DC</div>';
+            html += '<div style="display:flex;flex-wrap:wrap;gap:6px">';
+
+            simples.forEach(s => {
+                const won = s.simple_won;
+                const borderColor = won === true ? '#2ecc71' : won === false ? '#e74c3c' : '#f39c12';
+                const pickColor = s.dc_pick === '1X' ? '#3498db' : '#2ecc71';
+                const icon = won === true ? '\u2705' : won === false ? '\u274c' : '\u23f3';
+                const edgeVal = s.edge || 0;
+                const edgeColor = edgeVal > 5 ? '#2ecc71' : edgeVal > 0 ? '#f39c12' : '#e74c3c';
+                const conf = s.dc_confidence || 0;
+                html += `<div style="background:#0a0e17;border:1px solid ${borderColor};border-radius:6px;padding:6px 10px;font-size:10px;margin-bottom:4px">`;
+                html += `<div style="display:flex;align-items:center;gap:6px">`;
+                html += `<span style="background:${pickColor};color:#000;padding:1px 4px;border-radius:3px;font-weight:bold;font-size:9px">${s.dc_pick}</span>`;
+                html += `<span style="color:#ccc;font-weight:bold">${s.home_team} vs ${s.away_team}</span>`;
+                html += `<span style="color:#888">Cote:${s.site_odds}</span>`;
+                html += `<span style="color:${edgeColor};font-size:10px">Edge:${edgeVal > 0 ? '+' : ''}${edgeVal.toFixed(1)}pp</span>`;
+                html += `<span style="color:#3498db">Conf:${conf.toFixed(0)}%</span>`;
+                if (s.ml_pred) {
+                    const mlColor = s.ml_matches_pick ? '#2ecc71' : '#e74c3c';
+                    html += `<span style="color:${mlColor};font-size:9px">ML:${s.ml_pred}</span>`;
+                }
+                html += `<span>${icon}</span>`;
+                html += `</div>`;
+                if (s.ou_pred) {
+                    const ouWon = s.ou_won;
+                    const ouIcon = ouWon === true ? '\u2705' : ouWon === false ? '\u274c' : '\u23f3';
+                    const ouColor = ouWon === true ? '#2ecc71' : ouWon === false ? '#e74c3c' : '#f39c12';
+                    const ouPickColor = s.ou_pred === 'Over 2.5' ? '#e67e22' : '#9b59b6';
+                    html += `<div style="display:flex;align-items:center;gap:6px;margin-top:3px;padding-top:3px;border-top:1px dashed #1e2540">`;
+                    html += `<span style="background:${ouPickColor};color:#000;padding:1px 4px;border-radius:3px;font-weight:bold;font-size:8px">${s.ou_pred}</span>`;
+                    html += `<span style="color:#888;font-size:9px">${(s.ou_confidence || 0).toFixed(0)}%</span>`;
+                    if (s.ou_actual) {
+                        html += `<span style="color:#555;font-size:9px">-> ${s.ou_actual} (${s.ou_total_goals}b)</span>`;
+                    }
+                    html += `<span style="font-size:10px">${ouIcon}</span>`;
+                    html += `</div>`;
+                }
+                html += `</div>`;
+            });
+
+            html += '</div></div>';
+            return html;
+        }
+
+        function renderH2HSimplesHistory(h2hSimples) {
+            if (!h2hSimples || !h2hSimples.length) return '';
+            let html = '<div style="margin-top:10px;padding-top:10px;border-top:1px dashed #1e2540">';
+            html += '<div style="font-size:11px;font-weight:bold;color:#e67e22;margin-bottom:8px">H2H EXPLOITS</div>';
+            html += '<div style="display:flex;flex-wrap:wrap;gap:6px">';
+            h2hSimples.forEach(s => {
+                const won = s.h2h_won;
+                const borderColor = won === true ? '#2ecc71' : won === false ? '#e74c3c' : '#f39c12';
+                const pickColor = s.h2h_pick === '1X' ? '#3498db' : s.h2h_pick === 'X2' ? '#2ecc71' : s.h2h_pick === 'Under 2.5' ? '#9b59b6' : '#e67e22';
+                const icon = won === true ? '\u2705' : won === false ? '\u274c' : '\u23f3';
+                html += `<div style="background:#0a0e17;border:1px solid ${borderColor};border-radius:6px;padding:6px 10px;font-size:10px;margin-bottom:4px">`;
+                html += `<div style="display:flex;align-items:center;gap:6px">`;
+                html += `<span style="background:${pickColor};color:#000;padding:1px 4px;border-radius:3px;font-weight:bold;font-size:9px">${s.h2h_pick}</span>`;
+                html += `<span style="color:#ccc;font-weight:bold">${s.home_team} vs ${s.away_team}</span>`;
+                html += `<span style="color:${s.h2h_confidence >= 90 ? '#2ecc71' : '#f39c12'}">${s.h2h_confidence}%</span>`;
+                html += `<span style="color:#555;font-size:9px">${s.h2h_source} (${s.h2h_n_matches}m)</span>`;
+                html += `<span>${icon}</span>`;
+                html += `</div>`;
+                if (s.h2h_actual_result) {
+                    html += `<div style="color:#555;font-size:9px;margin-top:2px">Resultat: ${s.h2h_actual_result} | Buts: ${s.h2h_total_goals} | O/U: ${s.h2h_actual_ou}</div>`;
+                }
+                html += `</div>`;
+            });
+            html += '</div></div>';
+            return html;
+        }
+
+        function renderH2HAccuHistory(h2hAccus) {
+            if (!h2hAccus || !h2hAccus.length) return '';
+            let html = '<div style="margin-top:10px;padding-top:10px;border-top:1px dashed #1e2540">';
+            html += '<div style="font-size:11px;font-weight:bold;color:#e74c3c;margin-bottom:8px">H2H ACCUMULATEURS</div>';
+            html += '<div style="display:flex;flex-wrap:wrap;gap:8px">';
+            h2hAccus.forEach(acc => {
+                const won = acc.accu_won;
+                const borderColor = won === true ? '#2ecc71' : won === false ? '#e74c3c' : '#f39c12';
+                const gradeColor = acc.grade === 'A' ? '#2ecc71' : acc.grade === 'B' ? '#3498db' : '#f39c12';
+                html += `<div style="background:#0a0e17;border:1px solid ${borderColor};border-radius:8px;padding:8px 12px;font-size:11px;min-width:200px;flex:1;max-width:350px">`;
+                html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">`;
+                html += `<span style="color:${borderColor};font-weight:bold">${acc.n_legs} jambes | ${acc.total_prob}% | Cote ${acc.combined_odds}</span>`;
+                html += `<span style="color:${gradeColor};font-weight:bold">Grade ${acc.grade}</span>`;
+                html += `</div>`;
+                acc.legs.forEach(leg => {
+                    const legIcon = leg.leg_won === true ? '\u2705' : leg.leg_won === false ? '\u274c' : '\u23f3';
+                    const pickColor = leg.dc_pick === '1X' ? '#3498db' : '#2ecc71';
+                    html += `<div style="display:flex;align-items:center;gap:4px;padding:2px 0;color:#ccc;font-size:10px">`;
+                    html += `<span style="background:${pickColor};color:#000;padding:0 4px;border-radius:3px;font-weight:bold;font-size:9px">${leg.dc_pick}</span>`;
+                    html += `<span style="flex:1">${leg.home} vs ${leg.away}</span>`;
+                    html += `<span style="color:#888">${leg.confidence}%</span>`;
+                    html += `<span style="color:#555">(${leg.actual_result || '?'})</span>`;
+                    html += `<span>${legIcon}</span>`;
+                    html += `</div>`;
+                });
+                html += `</div>`;
+            });
+            html += '</div></div>';
+            return html;
+        }
+
+        function renderOUH2HSimplesHistory(ouSimples) {
+            if (!ouSimples || !ouSimples.length) return '';
+            let html = '<div style="margin-top:10px;padding-top:10px;border-top:1px dashed #1e2540">';
+            html += '<div style="font-size:11px;font-weight:bold;color:#9b59b6;margin-bottom:8px">H2H UNDER / BTTS</div>';
+            html += '<div style="display:flex;flex-wrap:wrap;gap:6px">';
+            ouSimples.forEach(s => {
+                const won = s.ou_h2h_won;
+                const borderColor = won === true ? '#2ecc71' : won === false ? '#e74c3c' : '#f39c12';
+                const pickColor = s.ou_pick.includes('Under') ? '#9b59b6' : '#e67e22';
+                const icon = won === true ? '\u2705' : won === false ? '\u274c' : '\u23f3';
+                html += `<div style="background:#0a0e17;border:1px solid ${borderColor};border-radius:6px;padding:6px 10px;font-size:10px;margin-bottom:4px">`;
+                html += `<div style="display:flex;align-items:center;gap:6px">`;
+                html += `<span style="background:${pickColor};color:#000;padding:1px 4px;border-radius:3px;font-weight:bold;font-size:9px">${s.ou_pick}</span>`;
+                html += `<span style="color:#ccc;font-weight:bold">${s.home_team} vs ${s.away_team}</span>`;
+                html += `<span style="color:${s.ou_confidence >= 85 ? '#2ecc71' : '#f39c12'}">${s.ou_confidence}%</span>`;
+                html += `<span style="color:#555;font-size:9px">${s.ou_source} (${s.ou_n_matches}m)</span>`;
+                html += `<span>${icon}</span>`;
+                html += `</div>`;
+                if (s.ou_h2h_actual_ou) {
+                    html += `<div style="color:#555;font-size:9px;margin-top:2px">Buts: ${s.ou_h2h_total_goals} | O/U: ${s.ou_h2h_actual_ou} | BTTS: ${s.ou_h2h_actual_btts}</div>`;
+                }
+                html += `</div>`;
+            });
+            html += '</div></div>';
+            return html;
+        }
+
+        function renderAccuHistory(accumulators) {
+            if (!accumulators || !accumulators.length) return '';
+            let html = '<div style="margin-top:10px;padding-top:10px;border-top:1px dashed #1e2540">';
+            html += '<div style="font-size:11px;font-weight:bold;color:#e74c3c;margin-bottom:8px">ACCUMULATEURS DC</div>';
+            html += '<div style="display:flex;flex-wrap:wrap;gap:8px">';
+
+            accumulators.forEach(acc => {
+                const won = acc.accu_won;
+                const legsWon = acc.legs_won || 0;
+                const legsTotal = acc.legs_total || acc.legs.length;
+                const borderColor = won === true ? '#2ecc71' : won === false ? '#e74c3c' : '#f39c12';
+                const statusIcon = won === true ? '✅' : won === false ? '❌' : '⏳';
+                const grade = acc.grade || '-';
+                const gradeColors = {'A':'#2ecc71','B':'#3498db','C':'#f39c12','D':'#e67e22','F':'#e74c3c'};
+                const gradeColor = gradeColors[grade] || '#888';
+
+                html += `<div style="background:#0a0e17;border:1px solid ${borderColor};border-radius:8px;padding:8px 12px;font-size:11px;min-width:200px;flex:1;max-width:350px">`;
+                html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">`;
+                html += `<span style="color:${borderColor};font-weight:bold">${statusIcon} ${acc.n_legs} matchs | Cote ${acc.combined_odds}</span>`;
+                html += `<span style="color:${gradeColor};font-weight:bold">Note ${grade}</span>`;
+                html += `</div>`;
+
+                acc.legs.forEach(leg => {
+                    const dcColor = leg.dc_pick === '1X' ? '#3498db' : leg.dc_pick === 'X2' ? '#2ecc71' : '#e74c3c';
+                    const legIcon = leg.leg_won === true ? '\u2705' : leg.leg_won === false ? '\u274c' : '\u23f3';
+                    const actualText = leg.actual_result || '?';
+                    const pickChanged = leg.model_pred && leg.model_pred !== leg.dc_pick;
+                    const edgeVal = leg.edge_vs_site || 0;
+                    const edgeColor = edgeVal > 5 ? '#2ecc71' : edgeVal > 0 ? '#f39c12' : '#e74c3c';
+                    html += `<div style="display:flex;align-items:center;gap:4px;padding:2px 0;color:#ccc;font-size:10px">`;
+                    html += `<span style="background:${dcColor};color:#000;padding:0 4px;border-radius:3px;font-weight:bold;font-size:9px">${leg.dc_pick}</span>`;
+                    if (leg.profiler_boosted) {
+                        html += `<span style="background:linear-gradient(135deg,#f39c12,#e67e22);color:#000;padding:0 3px;border-radius:3px;font-size:8px;font-weight:bold" title="${(leg.profiler_signals||[]).join('; ')}">&#9889;</span>`;
+                    }
+                    html += `<span style="flex:1">${leg.home} vs ${leg.away}${pickChanged ? ' <span style="color:#888;font-size:8px">(mod:' + leg.model_pred + ')</span>' : ''}</span>`;
+                    html += `<span style="color:#888">Cote:${leg.site_odds}</span>`;
+                    html += `<span style="color:${edgeColor};font-size:9px">Edge:${edgeVal > 0 ? '+' : ''}${edgeVal.toFixed(1)}pp</span>`;
+                    html += `<span style="color:#888">(${actualText})</span>`;
+                    html += `<span>${legIcon}</span>`;
+                    html += `</div>`;
+                });
+
+                html += `</div>`;
+            });
+
+            html += '</div></div>';
+            return html;
+        }
+
+        async function loadHistory() {
+            try {
+                const res = await fetch('/api/history');
+                const data = await res.json();
+                const history = data.history || [];
+                renderHistory(history);
+            } catch (e) {
+                document.getElementById('history-container').innerHTML =
+                    '<div class="no-data">Erreur de chargement de l\'historique</div>';
+            }
+        }
+
+        function renderHistory(history) {
+            const container = document.getElementById('history-container');
+            const summaryDiv = document.getElementById('history-summary');
+
+            if (!history.length) {
+                summaryDiv.innerHTML = '';
+                container.innerHTML = '<div class="no-data">Aucun historique. Les predictions seront sauvegardees automatiquement.</div>';
+                return;
+            }
+
+            let totalChecked = 0;
+            let totalCorrect = 0;
+            let totalOU = 0;
+            let totalDC = 0;
+            let totalDCMatches = 0;
+            let roundsWithResults = 0;
+            let totalAccu = 0;
+            let totalAccuWon = 0;
+            let totalSimples = 0;
+            let totalSimplesWon = 0;
+            let totalSimplesOU = 0;
+            let totalSimplesOUWon = 0;
+            let totalH2HSimples = 0;
+            let totalH2HSimplesWon = 0;
+            let totalH2HAccus = 0;
+            let totalH2HAccusWon = 0;
+            let totalOUH2H = 0;
+            let totalOUH2HWon = 0;
+            let totalBTTS = 0;
+            let totalBTTSWon = 0;
+
+            history.forEach(h => {
+                if (h.total_matches_checked > 0) {
+                    totalChecked += h.total_matches_checked;
+                    totalCorrect += Math.round(h.accuracy_result * h.total_matches_checked / 100);
+                    totalOU += Math.round(h.accuracy_over_under * h.total_matches_checked / 100);
+                    if (h.accuracy_dc_pred !== null && h.accuracy_dc_pred !== undefined && h.total_matches_checked > 0) {
+                        totalDC += Math.round(h.accuracy_dc_pred * h.total_matches_checked / 100);
+                        totalDCMatches += h.total_matches_checked;
+                    }
+                    roundsWithResults++;
+                }
+                const accs = h.accumulators || [];
+                accs.forEach(a => {
+                    if (a.accu_won !== undefined) {
+                        totalAccu++;
+                        if (a.accu_won) totalAccuWon++;
+                    }
+                });
+                const sims = h.simples || [];
+                sims.forEach(s => {
+                    if (s.simple_won !== undefined) {
+                        totalSimples++;
+                        if (s.simple_won) totalSimplesWon++;
+                    }
+                    if (s.ou_won !== undefined && s.ou_won !== null) {
+                        totalSimplesOU++;
+                        if (s.ou_won) totalSimplesOUWon++;
+                    }
+                });
+                const h2hs = h.h2h_simples || [];
+                h2hs.forEach(s => {
+                    if (s.h2h_won !== undefined && s.h2h_won !== null) {
+                        totalH2HSimples++;
+                        if (s.h2h_won) totalH2HSimplesWon++;
+                    }
+                });
+                const h2has = h.h2h_accumulators || [];
+                h2has.forEach(a => {
+                    if (a.accu_won !== undefined) {
+                        totalH2HAccus++;
+                        if (a.accu_won) totalH2HAccusWon++;
+                    }
+                });
+                const ouhs = h.ou_h2h_simples || [];
+                ouhs.forEach(s => {
+                    if (s.ou_h2h_won !== undefined && s.ou_h2h_won !== null) {
+                        totalOUH2H++;
+                        if (s.ou_h2h_won) totalOUH2HWon++;
+                    }
+                });
+                const preds = h.predictions || [];
+                preds.forEach(p => {
+                    if (p.btts_correct !== undefined && p.btts_correct !== null && p.has_result) {
+                        totalBTTS++;
+                        if (p.btts_correct) totalBTTSWon++;
+                    }
+                });
+            });
+
+            const avgAccuracy = totalChecked > 0 ? Math.round(totalCorrect / totalChecked * 100) : 0;
+            const avgOU = totalChecked > 0 ? Math.round(totalOU / totalChecked * 100) : 0;
+            const avgDC = totalDCMatches > 0 ? Math.round(totalDC / totalDCMatches * 100) : 0;
+
+            summaryDiv.innerHTML = `
+                <div class="history-summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-val">${history.length}</div>
+                        <div class="summary-label">Rounds sauvegardes</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-val">${totalChecked}</div>
+                        <div class="summary-label">Matchs verifies</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-val" style="color:${avgAccuracy >= 50 ? '#2ecc71' : '#e74c3c'}">${avgAccuracy}%</div>
+                        <div class="summary-label">Precision 1X2</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-val" style="color:${avgOU >= 50 ? '#2ecc71' : '#e74c3c'}">${avgOU}%</div>
+                        <div class="summary-label">Precision O/U 2.5</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-val" style="color:${avgDC >= 60 ? '#2ecc71' : avgDC >= 45 ? '#f39c12' : '#e74c3c'}">${avgDC}%</div>
+                        <div class="summary-label">Precision Double Chance</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-val" style="color:${totalAccu > 0 && totalAccuWon/totalAccu >= 0.5 ? '#2ecc71' : '#e74c3c'}">${totalAccuWon}/${totalAccu}</div>
+                        <div class="summary-label">Accumulateurs gagnes</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-val" style="color:${totalSimples > 0 && totalSimplesWon/totalSimples >= 0.7 ? '#2ecc71' : '#e74c3c'}">${totalSimplesWon}/${totalSimples}</div>
+                        <div class="summary-label">Simples DC gagnes</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-val" style="color:${totalSimplesOU > 0 && totalSimplesOUWon/totalSimplesOU >= 0.6 ? '#2ecc71' : '#e74c3c'}">${totalSimplesOUWon}/${totalSimplesOU}</div>
+                        <div class="summary-label">Simples O/U gagnes</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-val" style="color:${totalH2HSimples > 0 && totalH2HSimplesWon/totalH2HSimples >= 0.8 ? '#2ecc71' : '#e74c3c'}">${totalH2HSimplesWon}/${totalH2HSimples}</div>
+                        <div class="summary-label">H2H Exploits</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-val" style="color:${totalH2HAccus > 0 && totalH2HAccusWon/totalH2HAccus >= 0.8 ? '#2ecc71' : '#e74c3c'}">${totalH2HAccusWon}/${totalH2HAccus}</div>
+                        <div class="summary-label">H2H Accumulateurs</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-val" style="color:${totalOUH2H > 0 && totalOUH2HWon/totalOUH2H >= 0.8 ? '#2ecc71' : '#e74c3c'}">${totalOUH2HWon}/${totalOUH2H}</div>
+                        <div class="summary-label">H2H Under/BTTS</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-val" style="color:${totalBTTS > 0 && totalBTTSWon/totalBTTS >= 0.55 ? '#2ecc71' : '#e74c3c'}">${totalBTTSWon}/${totalBTTS}</div>
+                        <div class="summary-label">Precision BTTS</div>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = history.map(h => {
+                const hasResults = h.total_matches_checked > 0;
+                const accBadge = h.accuracy_result !== null
+                    ? `<span class="accuracy-badge ${h.accuracy_result >= 55 ? 'good' : h.accuracy_result >= 40 ? 'mid' : 'bad'}">
+                        1X2: ${h.accuracy_result}%
+                       </span>`
+                    : '';
+                const ouBadge = h.accuracy_over_under !== null
+                    ? `<span class="accuracy-badge ${h.accuracy_over_under >= 55 ? 'good' : h.accuracy_over_under >= 40 ? 'mid' : 'bad'}">
+                        O/U: ${h.accuracy_over_under}%
+                       </span>`
+                    : '';
+                const piBadge = h.accuracy_pair_impair !== null
+                    ? `<span class="accuracy-badge ${h.accuracy_pair_impair >= 55 ? 'good' : h.accuracy_pair_impair >= 40 ? 'mid' : 'bad'}">
+                        P/I: ${h.accuracy_pair_impair}%
+                       </span>`
+                    : '';
+                const dcBadge = h.accuracy_dc_pred !== null && h.accuracy_dc_pred !== undefined
+                    ? `<span class="accuracy-badge ${h.accuracy_dc_pred >= 60 ? 'good' : h.accuracy_dc_pred >= 45 ? 'mid' : 'bad'}">
+                        DC: ${h.accuracy_dc_pred}%
+                       </span>`
+                    : '';
+                const bttsBadge = h.accuracy_btts !== null && h.accuracy_btts !== undefined
+                    ? `<span class="accuracy-badge ${h.accuracy_btts >= 60 ? 'good' : h.accuracy_btts >= 45 ? 'mid' : 'bad'}">
+                        BTTS: ${h.accuracy_btts}%
+                       </span>`
+                    : '';
+
+                const dcFavs = h.predictions.filter(p => p.dc_favori).sort((a, b) => (b.dc_favori_rank || 99) - (a.dc_favori_rank || 99));
+                let favBadge = '';
+                if (dcFavs.length) {
+                    const favOk = dcFavs.filter(p => p.dc_correct).length;
+                    const favTotal = dcFavs.length;
+                    const favColor = favOk === favTotal ? '#2ecc71' : favOk >= favTotal * 0.6 ? '#f39c12' : '#e74c3c';
+                    favBadge = `<span class="accuracy-badge" style="background:linear-gradient(135deg,${favColor}22,${favColor}11);color:${favColor};border:1px solid ${favColor}55">
+                        ★ FAV DC: ${favOk}/${favTotal}
+                       </span>`;
+                }
+
+                const matchesHtml = h.predictions.map(p => {
+                    let actualHtml = '';
+                    let checkHtml = '';
+                    let totalHtml = '';
+                    let dcHtml = '';
+                    let rowClass = '';
+
+                    if (p.has_result) {
+                        const actualScore = `${p.actual_score_dom}-${p.actual_score_ext}`;
+                        const resultCorrect = p.res_code === (
+                            p.actual_score_dom > p.actual_score_ext ? '1' :
+                            p.actual_score_ext > p.actual_score_dom ? '2' : 'X'
+                        );
+
+                        const sourceLabels = {site: 'S', csv: 'C', snapshot: 'P', csv_id: 'C', playout_id: 'PID'};
+                        const sourceColors = {site: '#2ecc71', csv: '#f39c12', snapshot: '#3498db', csv_id: '#f39c12', playout_id: '#9b59b6'};
+                        const srcLabel = sourceLabels[p.result_source] || '';
+                        const srcColor = sourceColors[p.result_source] || '#888';
+
+                        actualHtml = `<span class="actual-col ${resultCorrect ? 'correct' : 'wrong'}">${actualScore}</span>`;
+                        checkHtml = `<span class="result-check">${resultCorrect ? '\u2705' : '\u274c'} <span style="font-size:10px;color:${srcColor}">${srcLabel}</span></span>`;
+                        totalHtml = `<span class="total-col">${p.total_buts} -> ${p.actual_total} buts</span>`;
+
+                        const dcPred = p.dc_pred || '';
+                        const dcCorrect = p.dc_correct;
+                        const dcConf = p.dc_confidence || 0;
+
+                        const actualDC = p.actual_dc_1X ? '1X' : (p.actual_dc_X2 ? 'X2' : '12');
+                        if (dcPred) {
+                            const dcIcon = dcCorrect ? '\u2705' : '\u274c';
+                            const dcColor = dcCorrect ? '#2ecc71' : '#e74c3c';
+                            dcHtml = `<span style="font-size:11px;color:#3498db">${dcPred}</span> <span style="font-size:10px;color:#888">\u2192</span> <span style="font-size:11px;color:${dcColor}">${actualDC} ${dcIcon}</span>`;
+                        } else {
+                            dcHtml = '<span style="font-size:11px;color:#555">-</span>';
+                        }
+
+                        rowClass = resultCorrect ? '' : 'style="background: rgba(231,76,60,0.05)"';
+                    } else {
+                        actualHtml = '<span class="actual-col" style="color:#f39c12;font-weight:bold">En attente</span>';
+                        checkHtml = '<span class="result-check" style="color:#f39c12">\u23f3</span>';
+                        totalHtml = `<span class="total-col" style="color:#555">${p.total_buts} buts predits</span>`;
+                        const dcPred = p.dc_pred || '';
+                        const dcConf = p.dc_confidence || 0;
+                        dcHtml = dcPred
+                            ? `<span style="font-size:11px;color:#3498db">${dcPred} (${dcConf}%)</span>`
+                            : '<span style="font-size:11px;color:#555">-</span>';
+                    }
+
+                    const favBadge = p.dc_favori
+                        ? `<span style="background:linear-gradient(135deg,#3498db,#2980b9);color:#fff;font-size:9px;font-weight:bold;padding:2px 6px;border-radius:4px;margin-left:4px" title="Favori DC #${p.dc_favori_rank}">FAV #${p.dc_favori_rank}</span>`
+                        : '';
+
+                    return `
+                        <div class="history-match-row" ${rowClass}>
+                            <span class="teams-col">${p.home_team} vs ${p.away_team}${favBadge}</span>
+                            <span class="pred-col">${p.score_dom}-${p.score_ext}</span>
+                            ${actualHtml}
+                            ${totalHtml}
+                            <span style="text-align:center;min-width:60px">${dcHtml}</span>
+                            <span style="text-align:center;min-width:60px;font-size:10px">
+                                ${p.ou_pred ? '<span style="color:' + (p.ou_pred === 'Over 2.5' ? '#e67e22' : '#9b59b6') + '">' + p.ou_pred + '</span>' + (p.ou_pred_correct !== undefined ? (p.ou_pred_correct ? ' \u2705' : ' \u274c') : ' \u23f3') : '<span style="color:#555">-</span>'}
+                            </span>
+                            <span style="text-align:center;min-width:60px;font-size:10px">
+                                ${p.btts_pred ? '<span style="color:' + (p.btts_pred === 'BTTS Oui' ? '#e67e22' : '#8e44ad') + '">' + (p.btts_pred === 'BTTS Oui' ? 'G/NG Oui' : 'G/NG Non') + '</span>' + (p.btts_correct !== undefined ? (p.btts_correct ? ' \u2705' : ' \u274c') : ' \u23f3') + (p.cotes_btts_oui ? '<span style="color:#f39c12;font-size:8px"> (' + p.cotes_btts_oui + '/' + p.cotes_btts_non + ')</span>' : '') : '<span style="color:#555">-</span>'}
+                            </span>
+                            ${checkHtml}
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="history-round" onclick="this.classList.toggle('open')">
+                        <div class="history-round-header">
+                            <div class="round-info">
+                                <span class="round-title">Round ${h.round}</span>
+                                <span class="round-time">${h.timestamp}</span>
+                            </div>
+                            <div class="accuracy-badges">
+                                ${accBadge}
+                                ${ouBadge}
+                                ${piBadge}
+                                ${dcBadge}
+                                ${bttsBadge}
+                                ${favBadge}
+                                ${hasResults ? '' : '<span class="accuracy-badge mid">En attente</span>'}
+                            </div>
+                        </div>
+                        <div class="history-round-body">
+                            <div class="history-match-row" style="background:#1a1f35;font-weight:bold;color:#888;font-size:11px;text-transform:uppercase">
+                                <span>Match</span>
+                                <span style="text-align:center">Predit</span>
+                                <span style="text-align:center">Reel</span>
+                                <span style="text-align:center">Total</span>
+                            <span style="text-align:center">DC</span>
+                            <span style="text-align:center">O/U</span>
+                            <span style="text-align:center">G/NG</span>
+                            <span style="text-align:center">OK (Src)</span>
+                            </div>
+                            ${matchesHtml}
+                            ${renderSimplesHistory(h.simples)}
+                            ${renderH2HSimplesHistory(h.h2h_simples)}
+                            ${renderH2HAccuHistory(h.h2h_accumulators)}
+                            ${renderOUH2HSimplesHistory(h.ou_h2h_simples)}
+                            ${renderAccuHistory(h.accumulators)}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML += `<div style="padding:10px 20px;font-size:11px;color:#666;border-top:1px solid #1e2540">
+                Sources: <span style="color:#2ecc71">S</span>=Site source | <span style="color:#f39c12">C</span>=CSV | <span style="color:#3498db">P</span>=Snapshot | <span style="color:#f39c12">⏳</span>=En attente
+            </div>`;
+        }
+
+        refreshLive();
+        startAutoRefresh();
+
+        async function loadValueBets() {
+            const container = document.getElementById('valuebets-content');
+            container.innerHTML = '<div class="loading">Analyse en cours...</div>';
+            try {
+                const res = await fetch('/api/value_bets');
+                const data = await res.json();
+
+                let html = '';
+
+                if (data.value_bets && data.value_bets.length > 0) {
+                    const highEdge = data.value_bets.filter(vb => vb.home_edge_pct >= 6);
+                    const otherBets = data.value_bets.filter(vb => vb.home_edge_pct < 6);
+
+                    html += '<div style="margin-bottom:20px"><h3 style="color:#f39c12;margin-bottom:10px">VALUE BETS - Biais Domicile</h3>';
+                    html += '<p style="color:#888;font-size:12px;margin-bottom:10px">Matchs o&ugrave; l\'avantage du domicile (+8%) cr&eacute;e une edge r&eacute;elle vs cotes du site</p>';
+
+                    highEdge.forEach(vb => {
+                        const edgeColor = vb.home_edge_pct >= 10 ? '#e74c3c' : '#f39c12';
+                        const confBadge = vb.confidence === 'HAUTE' ? 'background:#e74c3c;color:#fff' : vb.confidence === 'MOYENNE' ? 'background:#f39c12;color:#000' : 'background:#34495e;color:#888';
+                        html += `<div style="background:#151b30;border:1px solid ${edgeColor};border-radius:8px;padding:15px;margin-bottom:10px">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                                <span style="font-weight:bold;color:#fff">${vb.home_team} vs ${vb.away_team}</span>
+                                <span style="background:${edgeColor};color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:bold">EDGE +${vb.home_edge_pct}%</span>
+                            </div>
+                            <div style="display:flex;gap:15px;font-size:13px;color:#aaa">
+                                <span>Pari: <b style="color:#f39c12">1 (Domicile)</b></span>
+                                <span>Proba ajust&eacute;e: <b style="color:#2ecc71">${vb.home_prob_adj}%</b></span>
+                                <span>Proba site: <b style="color:#e74c3c">${vb.home_prob_implied}%</b></span>
+                                <span>${confBadge ? '<span style="' + confBadge + ';padding:2px 6px;border-radius:4px;font-size:10px">' + vb.confidence + '</span>' : ''}</span>
+                            </div>
+                            <div style="display:flex;gap:15px;font-size:12px;color:#666;margin-top:5px">
+                                <span>Cotes: 1=${vb.cote_1} | X=${vb.cote_X} | 2=${vb.cote_2}</span>
+                            </div>
+                        </div>`;
+                    });
+
+                    if (otherBets.length) {
+                        html += '<div style="margin-top:15px;color:#888;font-size:12px;margin-bottom:6px">Autres value bets (edge 3-6%):</div>';
+                        otherBets.forEach(vb => {
+                            html += `<div style="background:#151b30;border:1px solid #34495e;border-radius:6px;padding:10px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center">
+                                <span style="color:#fff;font-size:13px">${vb.home_team} vs ${vb.away_team}</span>
+                                <span style="color:#2ecc71;font-weight:bold">+${vb.home_edge_pct}%</span>
+                            </div>`;
+                        });
+                    }
+
+                    html += '</div>';
+                } else {
+                    html += '<div style="background:#151b30;border:1px solid #333;border-radius:8px;padding:20px;text-align:center;color:#888">Aucun value bet d&eacute;tect&eacute;. Les cotes sont bien calibr&eacute;es.</div>';
+                }
+
+                container.innerHTML = html || '<div class="no-data">Aucune donn&eacute;e disponible</div>';
+            } catch (e) {
+                container.innerHTML = '<div class="error">Erreur: ' + e.message + '</div>';
+            }
+        }
+
+        async function loadStrategy() {
+            const container = document.getElementById('strategy-content');
+            container.innerHTML = '<div class="loading">Simulation en cours...</div>';
+            try {
+                const strategies = ['flat', 'value', 'kelly'];
+                const labels = {'flat': 'Mise Fixe (2%)', 'value': 'Value Bet + Kelly (0.5x)', 'kelly': 'Kelly Fraction (1x)'};
+                const colors = {'flat': '#3498db', 'value': '#2ecc71', 'kelly': '#e74c3c'};
+
+                let html = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:20px">';
+
+                for (const strat of strategies) {
+                    const res = await fetch('/api/simulate?strategy=' + strat + '&bankroll=100000&stake_pct=0.02');
+                    const data = await res.json();
+                    const roiColor = data.roi >= 0 ? '#2ecc71' : '#e74c3c';
+                    html += `<div style="background:#151b30;border:1px solid ${colors[strat]};border-radius:8px;padding:15px">
+                        <h4 style="color:${colors[strat]};margin-bottom:10px">${labels[strat]}</h4>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:#aaa">
+                            <div>Paris: <b style="color:#fff">${data.total_bets}</b></div>
+                            <div>Gagnes: <b style="color:#2ecc71">${data.wins}</b></div>
+                            <div>Perdus: <b style="color:#e74c3c">${data.losses}</b></div>
+                            <div>Taux: <b style="color:#fff">${data.win_rate}%</b></div>
+                            <div>Mise tot: <b style="color:#fff">${data.total_bet}</b></div>
+                            <div>Gagne tot: <b style="color:#2ecc71">${data.total_won}</b></div>
+                        </div>
+                        <div style="margin-top:10px;padding-top:10px;border-top:1px solid #1e2540;display:flex;justify-content:space-between;align-items:center">
+                            <span style="color:#888;font-size:13px">ROI: <b style="color:${roiColor};font-size:16px">${data.roi}%</b></span>
+                            <span style="color:#888;font-size:13px">P/L: <b style="color:${roiColor}">${data.net_profit}</b></span>
+                        </div>
+                        <div style="color:#666;font-size:11px;margin-top:5px">Max drawdown: ${data.max_drawdown_pct}% | Bankroll final: ${data.final_bankroll}</div>
+                    </div>`;
+                }
+                html += '</div>';
+
+                const patternsRes = await fetch('/api/rng_patterns');
+                const patterns = await patternsRes.json();
+
+                html += '<div style="background:#151b30;border:1px solid #1a2444;border-radius:8px;padding:15px;margin-bottom:15px">';
+                html += '<h4 style="color:#f39c12;margin-bottom:10px">Analyse RNG - Patterns</h4>';
+                html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;font-size:13px">';
+                html += `<div style="text-align:center"><div style="color:#888">Domicile</div><div style="color:#2ecc71;font-size:20px;font-weight:bold">${patterns.home_pct}%</div></div>`;
+                html += `<div style="text-align:center"><div style="color:#888">Ext\u00e9rieur</div><div style="color:#e74c3c;font-size:20px;font-weight:bold">${patterns.away_pct}%</div></div>`;
+                html += `<div style="text-align:center"><div style="color:#888">Nul</div><div style="color:#f39c12;font-size:20px;font-weight:bold">${patterns.draw_pct}%</div></div>`;
+                html += `<div style="text-align:center"><div style="color:#888">Over 2.5</div><div style="color:#3498db;font-size:20px;font-weight:bold">${patterns.over25_pct}%</div></div>`;
+                html += '</div>';
+
+                if (patterns.recent_form) {
+                    const rf = patterns.recent_form;
+                    html += `<div style="margin-top:10px;padding-top:10px;border-top:1px solid #1e2540;font-size:12px;color:#888">
+                        Forme recente (5 matchs): D=${rf.home} | X=${rf.draw} | E=${rf.away} | Over=${rf.over}
+                    </div>`;
+                }
+                html += '</div>';
+
+                html += '<div style="background:#151b30;border:1px solid #1a2444;border-radius:8px;padding:15px">';
+                html += '<h4 style="color:#e74c3c;margin-bottom:8px">VERITE SUR LE JEU VIRTUAL</h4>';
+                html += '<ul style="color:#aaa;font-size:12px;line-height:1.8;padding-left:20px">';
+                html += '<li>Le RNG est <b style="color:#fff">pond\u00e9r\u00e9 par la force des \u00e9quipes</b> mais reste <b style="color:#e74c3c">al\u00e9atoire</b></li>';
+                html += '<li>Aucune strat\u00e9gie ne <b style="color:#e74c3c">garantit des gains</b> - la maison a toujours un avantage</li>';
+                html += '<li>La meilleure strat\u00e9gie est de <b style="color:#2ecc71">parier uniquement ce qu\'on peut se permettre de perdre</b></li>';
+                html += '<li>Value bets = quand notre prob > prob implicite du site (edge > 3%)</li>';
+                html += '<li>Kelly = mise optimale bas\u00e9e sur l\'edge d\u00e9tect\u00e9 (fraction du bankroll)</li>';
+                html += '</ul></div>';
+
+                container.innerHTML = html;
+            } catch (e) {
+                container.innerHTML = '<div class="error">Erreur: ' + e.message + '</div>';
+            }
+        }
+
+        async function loadCalibration() {
+            const container = document.getElementById('calibration-container');
+            container.innerHTML = '<div class="loading">Chargement...</div>';
+            try {
+                const res = await fetch('/api/calibration');
+                const data = await res.json();
+
+                if (!data.total) {
+                    container.innerHTML = '<div class="no-data">Pas encore de donnees resolues pour la calibration</div>';
+                    return;
+                }
+
+                const m = data.metrics;
+                let html = '';
+
+                html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">';
+                html += card('Echantillons', m.total_samples, '#3498db');
+                html += card('Accuracy 1X2', m.accuracy_1x2 + '%', m.accuracy_1x2 >= 60 ? '#2ecc71' : '#e74c3c');
+                html += card('Brier (Home)', m.brier_home, m.brier_home <= 0.2 ? '#2ecc71' : '#e74c3c');
+                html += card('Conf. moyenne', m.avg_confidence + '%', '#f39c12');
+                html += '</div>';
+
+                html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:20px">';
+
+                html += '<div style="background:#151b30;border:1px solid #1a2444;border-radius:8px;padding:15px">';
+                html += '<h4 style="color:#3498db;margin-bottom:10px">Distribution Reelle</h4>';
+                html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:13px;text-align:center">';
+                html += '<div><div style="color:#888">Domicile</div><div style="color:#2ecc71;font-size:18px;font-weight:bold">' + (m.distribution.home / m.total_samples * 100).toFixed(1) + '%</div></div>';
+                html += '<div><div style="color:#888">Nul</div><div style="color:#f39c12;font-size:18px;font-weight:bold">' + (m.distribution.draw / m.total_samples * 100).toFixed(1) + '%</div></div>';
+                html += '<div><div style="color:#888">Ext\u00e9rieur</div><div style="color:#e74c3c;font-size:18px;font-weight:bold">' + (m.distribution.away / m.total_samples * 100).toFixed(1) + '%</div></div>';
+                html += '</div>';
+                html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;text-align:center;margin-top:8px">';
+                html += '<div><div style="color:#888">Over 2.5</div><div style="color:#2ecc71;font-size:18px;font-weight:bold">' + (m.distribution.over25 / m.total_samples * 100).toFixed(1) + '%</div></div>';
+                html += '<div><div style="color:#888">Under 2.5</div><div style="color:#e74c3c;font-size:18px;font-weight:bold">' + (m.distribution.under25 / m.total_samples * 100).toFixed(1) + '%</div></div>';
+                html += '</div></div>';
+
+                html += '<div style="background:#151b30;border:1px solid #1a2444;border-radius:8px;padding:15px">';
+                html += '<h4 style="color:#f39c12;margin-bottom:10px">Precision par Confiance</h4>';
+                html += '<table style="width:100%;font-size:12px;border-collapse:collapse">';
+                html += '<tr style="color:#666"><td>Seuil</td><td>N</td><td>Accuracy</td><td></td></tr>';
+                for (const [thr, info] of Object.entries(m.high_conf_accuracy)) {
+                    const barW = Math.min(info.accuracy, 100);
+                    const barColor = info.accuracy >= 65 ? '#2ecc71' : info.accuracy >= 55 ? '#f39c12' : '#e74c3c';
+                    html += `<tr style="color:#aaa;border-top:1px solid #1e2540">
+                        <td style="padding:4px 0">&gt;=${thr}%</td>
+                        <td>${info.n}</td>
+                        <td><b style="color:${barColor}">${info.accuracy}%</b></td>
+                        <td style="width:60%"><div style="background:#1e2540;height:8px;border-radius:4px;overflow:hidden"><div style="background:${barColor};width:${barW}%;height:100%"></div></div></td>
+                    </tr>`;
+                }
+                html += '</table></div>';
+                html += '</div>';
+
+                html += '<div style="background:#151b30;border:1px solid #1a2444;border-radius:8px;padding:15px;margin-bottom:20px">';
+                html += '<h4 style="color:#2ecc71;margin-bottom:10px">Courbes de Calibration (Prob predite vs Reel)</h4>';
+                html += '<p style="color:#666;font-size:11px;margin-bottom:15px">Si le modele est bien calibre, les points suivent la diagonale (y=x)</p>';
+
+                const curveData = [
+                    {name: 'Domicile (1)', bins: data.bins.home_1x2, color: '#2ecc71'},
+                    {name: 'Nul (X)', bins: data.bins.draw_1x2, color: '#f39c12'},
+                    {name: 'Ext\u00e9rieur (2)', bins: data.bins.away_1x2, color: '#e74c3c'},
+                    {name: 'Over 2.5', bins: data.bins.over_ou25, color: '#3498db'},
+                ];
+
+                for (const cd of curveData) {
+                    const entries = Object.values(cd.bins);
+                    if (!entries.length) continue;
+                    html += `<div style="margin-bottom:12px">`;
+                    html += `<div style="color:${cd.color};font-size:12px;font-weight:bold;margin-bottom:4px">${cd.name}</div>`;
+                    html += `<div style="display:flex;align-items:flex-end;gap:2px;height:80px">`;
+                    for (const e of entries) {
+                        const hPred = Math.max(e.predicted / 100 * 70, 3);
+                        const hActual = Math.max(e.actual / 100 * 70, 3);
+                        const diff = e.actual - e.predicted;
+                        const diffColor = Math.abs(diff) < 10 ? '#2ecc71' : Math.abs(diff) < 20 ? '#f39c12' : '#e74c3c';
+                        html += `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:1px" title="Pred: ${e.predicted}% | Reel: ${e.actual}% | N=${e.count}">
+                            <div style="width:100%;display:flex;gap:1px;align-items:flex-end;height:70px">
+                                <div style="flex:1;background:${cd.color};opacity:0.4;height:${hPred}px;border-radius:2px 2px 0 0"></div>
+                                <div style="flex:1;background:${diffColor};height:${hActual}px;border-radius:2px 2px 0 0"></div>
+                            </div>
+                            <div style="color:#555;font-size:9px">${e.predicted.toFixed(0)}</div>
+                        </div>`;
+                    }
+                    html += '</div></div>';
+                }
+                html += '<div style="color:#555;font-size:10px;margin-top:5px"><span style="opacity:0.4;background:#aaa;display:inline-block;width:10px;height:10px;border-radius:2px"></span> Prob predite &nbsp; <span style="background:#2ecc71;display:inline-block;width:10px;height:10px;border-radius:2px"></span> Prob reelle</div>';
+                html += '</div>';
+
+                html += '<div style="background:#151b30;border:1px solid #1a2444;border-radius:8px;padding:15px;margin-bottom:20px">';
+                html += '<h4 style="color:#e74c3c;margin-bottom:10px">Brier Scores (plus bas = mieux, max = 0.5)</h4>';
+                html += '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;text-align:center">';
+                const brierMetrics = [
+                    {label: 'Home (1)', val: m.brier_home, color: '#2ecc71'},
+                    {label: 'Draw (X)', val: m.brier_draw, color: '#f39c12'},
+                    {label: 'Away (2)', val: m.brier_away, color: '#e74c3c'},
+                    {label: 'Over 2.5', val: m.brier_ou25, color: '#3498db'},
+                    {label: 'Accuracy 1X2', val: m.accuracy_1x2 / 100, color: '#9b59b6'},
+                ];
+                for (const bm of brierMetrics) {
+                    const quality = bm.val <= 0.15 ? '#2ecc71' : bm.val <= 0.22 ? '#f39c12' : '#e74c3c';
+                    html += `<div style="padding:10px;background:#1e2540;border-radius:6px">
+                        <div style="color:#888;font-size:11px">${bm.label}</div>
+                        <div style="color:${quality};font-size:20px;font-weight:bold;margin:4px 0">${bm.val}</div>
+                        <div style="color:#555;font-size:10px">${bm.val <= 0.15 ? 'Bon' : bm.val <= 0.22 ? 'Moyen' : 'Mauvais'}</div>
+                    </div>`;
+                }
+                html += '</div></div>';
+
+                if (m.recent_5r) {
+                    html += '<div style="background:#151b30;border:1px solid #1a2444;border-radius:8px;padding:15px;margin-bottom:20px">';
+                    html += '<h4 style="color:#9b59b6;margin-bottom:8px">Performance 5 Derniers Rounds</h4>';
+                    html += `<div style="font-size:13px;color:#aaa">${m.recent_5r.total} matchs | Accuracy: <b style="color:${m.recent_5r.accuracy_1x2 >= 55 ? '#2ecc71' : '#e74c3c'}">${m.recent_5r.accuracy_1x2}%</b></div>`;
+                    html += '</div>';
+                }
+
+                html += '<div style="background:#151b30;border:1px solid #1a2444;border-radius:8px;padding:15px">';
+                html += '<h4 style="color:#888;margin-bottom:8px">50 Derniers Resultats</h4>';
+                html += '<div style="display:flex;flex-wrap:wrap;gap:3px">';
+                for (const s of data.last_50) {
+                    const correct = s.res_code === s.actual_result;
+                    const bgColor = correct ? '#2ecc71' : '#e74c3c';
+                    html += `<div style="width:18px;height:18px;border-radius:3px;background:${bgColor};display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;font-weight:bold" title="R${s.round}: ${s.home} vs ${s.away} | Pred:${s.res_code} Reel:${s.actual_result} Conf:${s.confidence}%">${s.actual_result}</div>`;
+                }
+                html += '</div>';
+                html += '<div style="margin-top:6px;font-size:10px;color:#555"><span style="color:#2ecc71">\u2588</span> Correct &nbsp; <span style="color:#e74c3c">\u2588</span> Incorrect</div>';
+                html += '</div>';
+
+                container.innerHTML = html;
+            } catch (e) {
+                container.innerHTML = '<div class="error">Erreur: ' + e.message + '</div>';
+            }
+        }
+
+        async function loadClassement() {
+            const container = document.getElementById('classement-container');
+            container.innerHTML = '<div class="loading">Chargement du classement...</div>';
+            try {
+                const res = await fetch('/api/ranking');
+                const data = await res.json();
+
+                if (!data.teams || !data.teams.length) {
+                    container.innerHTML = '<div class="no-data">Pas de donnees de classement disponibles</div>';
+                    return;
+                }
+
+                let html = '<div style="background:#151b30;border:1px solid #1a2444;border-radius:8px;padding:15px;overflow-x:auto">';
+                html += '<h4 style="color:#3498db;margin-bottom:12px">Classement General (' + data.total + ' equipes)</h4>';
+                html += '<table style="width:100%;font-size:12px;border-collapse:collapse;min-width:600px">';
+                html += '<tr style="color:#666;border-bottom:1px solid #1e2540">';
+                html += '<th style="text-align:left;padding:6px 8px">#</th>';
+                html += '<th style="text-align:left;padding:6px 8px">Equipe</th>';
+                html += '<th style="text-align:center;padding:6px 8px">Pts</th>';
+                html += '<th style="text-align:center;padding:6px 8px">MJ</th>';
+                html += '<th style="text-align:center;padding:6px 8px">G</th>';
+                html += '<th style="text-align:center;padding:6px 8px">N</th>';
+                html += '<th style="text-align:center;padding:6px 8px">P</th>';
+                html += '<th style="text-align:center;padding:6px 8px">Forme</th>';
+                html += '</tr>';
+
+                for (const team of data.teams) {
+                    const pos = team.position || 0;
+                    const isTop4 = pos <= 4;
+                    const isBottom = pos >= data.total - 3;
+                    const posBg = isTop4 ? '#2ecc7115' : isBottom ? '#e74c3c15' : 'transparent';
+                    const posColor = isTop4 ? '#2ecc71' : isBottom ? '#e74c3c' : '#aaa';
+
+                    const formStr = (team.history || []).map(h => {
+                        if (h === 'Won') return '<span style="background:#2ecc71;color:#fff;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:bold">G</span>';
+                        if (h === 'Draw') return '<span style="background:#f39c12;color:#fff;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:bold">N</span>';
+                        return '<span style="background:#e74c3c;color:#fff;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:bold">P</span>';
+                    }).join(' ');
+
+                    html += `<tr style="color:#ccc;border-bottom:1px solid #1e2540;background:${posBg}">
+                        <td style="padding:6px 8px;font-weight:bold;color:${posColor}">${pos}</td>
+                        <td style="padding:6px 8px;font-weight:bold">${team.name || '???'}${team.slug ? ' <span style="color:#555;font-size:10px">(' + team.slug + ')</span>' : ''}</td>
+                        <td style="padding:6px 8px;text-align:center;font-weight:bold;color:#3498db">${team.points || 0}</td>
+                        <td style="padding:6px 8px;text-align:center">${team.matches || 0}</td>
+                        <td style="padding:6px 8px;text-align:center;color:#2ecc71">${team.won || 0}</td>
+                        <td style="padding:6px 8px;text-align:center;color:#f39c12">${team.draw || 0}</td>
+                        <td style="padding:6px 8px;text-align:center;color:#e74c3c">${team.lost || 0}</td>
+                        <td style="padding:6px 8px;text-align:center">${formStr || '-'}</td>
+                    </tr>`;
+                }
+
+                html += '</table>';
+                html += '<div style="margin-top:8px;font-size:10px;color:#555"><span style="background:#2ecc7115;padding:2px 6px;border-radius:3px">Top 4</span> <span style="background:#e74c3c15;padding:2px 6px;border-radius:3px;margin-left:4px">Derniers</span></div>';
+                html += '</div>';
+
+                container.innerHTML = html;
+            } catch (e) {
+                container.innerHTML = '<div class="error">Erreur: ' + e.message + '</div>';
+            }
+        }
+
+        async function collectCotes() {
+            const status = document.getElementById('cotes-collect-status');
+            status.textContent = 'Collecte en cours...';
+            status.style.color = '#f39c12';
+            try {
+                const res = await fetch('/api/cotes/collect');
+                const data = await res.json();
+                status.textContent = data.error ? 'Erreur: ' + data.error : `${data.collected} nouvelles cotes collectees (${data.total_matches} total)`;
+                status.style.color = data.error ? '#e74c3c' : '#2ecc71';
+                loadCotes();
+            } catch (e) {
+                status.textContent = 'Erreur: ' + e.message;
+                status.style.color = '#e74c3c';
+            }
+        }
+
+        async function loadCotes() {
+            const container = document.getElementById('cotes-container');
+            container.innerHTML = '<div class="loading">Chargement des cotes...</div>';
+            try {
+                const [statsRes, matriceRes] = await Promise.all([
+                    fetch('/api/cotes'),
+                    fetch('/api/cotes/matrice')
+                ]);
+                const stats = await statsRes.json();
+                const matrice = await matriceRes.json();
+
+                let html = '';
+
+                html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">';
+                html += card('Rounds collectes', stats.total_rounds || 0, '#3498db');
+                html += card('Total matchs', stats.total_matches || 0, '#2ecc71');
+                html += card('Derniere MAJ', stats.last_update ? new Date(stats.last_update).toLocaleTimeString() : '-', '#f39c12');
+                html += '</div>';
+
+                if (matrice.total_matches) {
+                    html += '<div style="background:#151b30;border:1px solid #1a2444;border-radius:8px;padding:15px;margin-bottom:15px">';
+                    html += '<h4 style="color:#3498db;margin-bottom:10px">Matrice des Cotes</h4>';
+                    html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center">';
+                    html += '<div><div style="color:#888;font-size:11px">Cote moyenne Domicile</div><div style="color:#2ecc71;font-size:18px;font-weight:bold">' + matrice.avg_home_odds + '</div></div>';
+                    html += '<div><div style="color:#888;font-size:11px">Prob implicite moyenne</div><div style="color:#f39c12;font-size:18px;font-weight:bold">' + matrice.avg_implied_home_prob + '%</div></div>';
+                    html += '<div><div style="color:#888;font-size:11px">Matchs analyses</div><div style="color:#3498db;font-size:18px;font-weight:bold">' + matrice.total_matches + '</div></div>';
+                    html += '</div></div>';
+                }
+
+                if (stats.rounds_summary && stats.rounds_summary.length) {
+                    html += '<div style="background:#151b30;border:1px solid #1a2444;border-radius:8px;padding:15px">';
+                    html += '<h4 style="color:#3498db;margin-bottom:10px">Cotes par Round</h4>';
+                    html += '<table style="width:100%;font-size:12px;border-collapse:collapse">';
+                    html += '<tr style="color:#666;border-bottom:1px solid #1e2540"><th style="text-align:left;padding:6px 8px">Round</th><th style="text-align:center">Matchs</th><th style="text-align:center">Avg 1</th><th style="text-align:center">Avg X</th><th style="text-align:center">Avg 2</th><th style="text-align:center">Marge</th></tr>';
+                    for (const rs of stats.rounds_summary) {
+                        const total_implied = (1/rs.avg_cote_1 + 1/rs.avg_cote_X + 1/rs.avg_cote_2) * 100;
+                        const margin = total_implied - 100;
+                        const marginColor = margin > 15 ? '#e74c3c' : margin > 10 ? '#f39c12' : '#2ecc71';
+                        html += `<tr style="color:#ccc;border-bottom:1px solid #1e2540">
+                            <td style="padding:6px 8px;font-weight:bold;color:#3498db">R${rs.round}</td>
+                            <td style="text-align:center">${rs.matches}</td>
+                            <td style="text-align:center;color:#2ecc71">${rs.avg_cote_1}</td>
+                            <td style="text-align:center;color:#f39c12">${rs.avg_cote_X}</td>
+                            <td style="text-align:center;color:#e74c3c">${rs.avg_cote_2}</td>
+                            <td style="text-align:center;color:${marginColor}">${margin.toFixed(1)}%</td>
+                        </tr>`;
+                    }
+                    html += '</table></div>';
+                }
+
+                if (!stats.total_rounds) {
+                    html += '<div class="no-data">Aucune cote collectee. Cliquez "Collecter maintenant" pour commencer.</div>';
+                }
+
+                container.innerHTML = html;
+            } catch (e) {
+                container.innerHTML = '<div class="error">Erreur: ' + e.message + '</div>';
+            }
+        }
+
+        async function loadCalendrier() {
+            const container = document.getElementById('calendrier-container');
+            container.innerHTML = '<div class="loading">Chargement des matchs + predictions Poisson/ML...</div>';
+            try {
+                const res = await fetch('/api/futurs_rounds');
+                const data = await res.json();
+                window._calendrierData = data;
+                document.getElementById('calendrier-filters').style.display = 'flex';
+                renderCalendrier();
+            } catch (e) {
+                container.innerHTML = '<div class="error">Erreur: ' + e.message + '</div>';
+            }
+        }
+
+        function renderCalendrier() {
+            const data = window._calendrierData;
+            if (!data || !data.rounds) return;
+
+            const container = document.getElementById('calendrier-container');
+            const summary = document.getElementById('calendrier-summary');
+            const dcFilter = document.getElementById('cal-filter-dc').value;
+            const minConf = parseInt(document.getElementById('cal-min-conf').value);
+            const mlOnly = document.getElementById('cal-ml-only').checked;
+
+            let totalMatches = 0, total1X = 0, totalX2 = 0, totalHighConf = 0;
+
+            let html = '';
+            for (const rnd of data.rounds) {
+                let matches = rnd.matches || [];
+                if (dcFilter === '1X') matches = matches.filter(m => m.dc_pred === '1X');
+                if (dcFilter === 'X2') matches = matches.filter(m => m.dc_pred === 'X2');
+                if (minConf > 0) matches = matches.filter(m => (m.dc_confidence || 0) >= minConf);
+                if (mlOnly) matches = matches.filter(m => m.ml_pred_1x2 === m.dc_pred);
+                if (!matches.length) continue;
+
+                const round1X = matches.filter(m => m.dc_pred === '1X').length;
+                const roundX2 = matches.filter(m => m.dc_pred === 'X2').length;
+                const roundHigh = matches.filter(m => (m.dc_confidence || 0) >= 75).length;
+                totalMatches += matches.length;
+                total1X += round1X;
+                totalX2 += roundX2;
+                totalHighConf += roundHigh;
+
+                const avgConf = matches.length ? (matches.reduce((s,m) => s + (m.dc_confidence||0), 0) / matches.length).toFixed(1) : 0;
+
+                html += `<div style="background:#151b30;border:1px solid #1a2444;border-radius:8px;margin-bottom:12px;overflow:hidden;">`;
+                html += `<div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;border-bottom:1px solid #1e2540;" onclick="this.parentElement.querySelector('.cal-round-body').style.display=this.parentElement.querySelector('.cal-round-body').style.display==='none'?'block':'none'">`;
+                html += `<div><span style="color:#2ecc71;font-weight:bold;font-size:15px;">Round ${rnd.round}</span>`;
+                html += ` <span style="color:#666;font-size:12px;margin-left:10px">${matches.length} matchs</span>`;
+                if (roundHigh > 0) {
+                    html += ` <span style="background:#2ecc7122;color:#2ecc71;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:6px;">${roundHigh} haute conf</span>`;
+                }
+                html += `</div>`;
+                html += `<div style="display:flex;gap:12px;align-items:center;">`;
+                html += `<span style="color:#2ecc71;font-size:12px;">1X: ${round1X}</span>`;
+                html += `<span style="color:#e74c3c;font-size:12px;">X2: ${roundX2}</span>`;
+                html += `<span style="color:#f39c12;font-size:12px;">Conf: ${avgConf}%</span>`;
+                html += `</div></div>`;
+
+                html += `<div class="cal-round-body">`;
+
+                for (const m of matches) {
+                    const conf = m.dc_confidence || 0;
+                    const confColor = conf >= 85 ? '#2ecc71' : conf >= 75 ? '#f39c12' : conf >= 65 ? '#3498db' : '#666';
+                    const dcColor = m.dc_pred === '1X' ? '#2ecc71' : m.dc_pred === 'X2' ? '#e74c3c' : '#f39c12';
+                    const dcLabel = m.dc_pred === '1X' ? 'Dom/Nul' : m.dc_pred === 'X2' ? 'Nul/Ext' : 'Dom/Ext';
+                    const mlMatch = m.ml_pred_1x2 && m.ml_pred_1x2 === m.dc_pred;
+                    const mlBadge = m.ml_pred_1x2 ? `<span style="background:${mlMatch ? '#2ecc7122' : '#e74c3c22'};color:${mlMatch ? '#2ecc71' : '#e74c3c'};padding:1px 6px;border-radius:4px;font-size:10px;margin-left:6px;" title="ML predit: ${m.ml_pred_1x2}">ML:${m.ml_pred_1x2}</span>` : '';
+
+                    html += `<div style="padding:10px 16px;border-bottom:1px solid #0f1525;display:flex;align-items:center;gap:12px;">`;
+
+                    html += `<div style="flex:1;">`;
+                    html += `<span style="color:#2ecc71;font-weight:bold;font-size:13px;">${m.home_team}</span>`;
+                    html += `<span style="color:#666;margin:0 6px;">vs</span>`;
+                    html += `<span style="color:#e74c3c;font-weight:bold;font-size:13px;">${m.away_team}</span>`;
+                    html += `</div>`;
+
+                    html += `<div style="text-align:center;min-width:100px;">`;
+                    html += `<div style="color:${dcColor};font-weight:bold;font-size:13px;">${m.dc_pred} ${dcLabel}</div>`;
+                    html += `<div style="color:${confColor};font-size:11px;">${conf.toFixed(1)}% conf</div>`;
+                    html += `</div>`;
+
+                    html += `<div style="text-align:right;min-width:130px;font-size:11px;">`;
+                    html += `<span style="color:#888;">1:</span><span style="color:#2ecc71;">${m.cotes?.cote_1 || '-'}</span> `;
+                    html += `<span style="color:#888;">X:</span><span style="color:#f39c12;">${m.cotes?.cote_X || '-'}</span> `;
+                    html += `<span style="color:#888;">2:</span><span style="color:#e74c3c;">${m.cotes?.cote_2 || '-'}</span>`;
+                    html += mlBadge;
+                    html += `</div>`;
+
+                    html += `<div style="text-align:right;min-width:60px;font-size:11px;">`;
+                    html += `<span style="color:#9b59b6;">O2.5: ${m.prob_over_25 ? (m.prob_over_25).toFixed(0)+'%' : '-'}</span>`;
+                    html += `</div>`;
+
+                    html += `<div style="text-align:right;min-width:80px;font-size:11px;">`;
+                    html += `<span style="color:#2ecc71;">1X:${m.cotes?.dc_1X || '-'}</span> `;
+                    html += `<span style="color:#e74c3c;">X2:${m.cotes?.dc_X2 || '-'}</span>`;
+                    html += `</div>`;
+
+                    html += `</div>`;
+                }
+
+                html += `</div></div>`;
+            }
+
+            if (!totalMatches) {
+                html = '<div class="no-data">Aucun match trouve avec ces filtres</div>';
+            }
+
+            summary.innerHTML = `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:15px;">
+                ${card('Rounds visibles', data.n_rounds || 0, '#3498db')}
+                ${card('Matchs', totalMatches, '#2ecc71')}
+                ${card('Pari 1X', total1X, '#2ecc71')}
+                ${card('Haute conf (>=75%)', totalHighConf, '#f39c12')}
+            </div>`;
+
+            container.innerHTML = html;
+        }
+
+        function card(label, value, color) {
+            return `<div style="background:#151b30;border:1px solid ${color}33;border-radius:8px;padding:12px;text-align:center">
+                <div style="color:#888;font-size:11px">${label}</div>
+                <div style="color:${color};font-size:20px;font-weight:bold;margin-top:4px">${value}</div>
+            </div>`;
+        }
+
+        async function loadH2HTeams() {
+            try {
+                const res = await fetch('/api/h2h');
+                const data = await res.json();
+                const teams = data.teams || [];
+                ['h2h-home', 'h2h-away'].forEach(id => {
+                    const sel = document.getElementById(id);
+                    const val = sel.value;
+                    sel.innerHTML = '<option value="">' + (id === 'h2h-home' ? 'Domicile' : 'Exterieur') + '</option>' +
+                        teams.map(t => '<option value="' + t + '">' + t + '</option>').join('');
+                    sel.value = val;
+                });
+            } catch (e) {}
+        }
+
+        async function loadH2H() {
+            const home = document.getElementById('h2h-home').value;
+            const away = document.getElementById('h2h-away').value;
+            if (!home || !away) { alert('Selectionnez les deux equipes'); return; }
+            const res = await fetch('/api/h2h?home=' + encodeURIComponent(home) + '&away=' + encodeURIComponent(away));
+            const data = await res.json();
+            renderH2HDetail(data);
+        }
+
+        async function loadH2HFull() {
+            const container = document.getElementById('h2h-container');
+            container.innerHTML = '<div class="loading">Analyse en cours...</div>';
+            const res = await fetch('/api/futurs_rounds');
+            const data = await res.json();
+            const round = data.rounds && data.rounds[0];
+            if (!round || !round.matches) { container.innerHTML = '<div class="no-data">Pas de matchs</div>'; return; }
+
+            let html = '<div style="font-size:13px;font-weight:bold;color:#e67e22;margin-bottom:10px">MATCHS EXPLOITABLES - Round ' + round.round + '</div>';
+            for (const m of round.matches) {
+                const h2hRes = await fetch('/api/h2h?home=' + encodeURIComponent(m.home_team) + '&away=' + encodeURIComponent(m.away_team));
+                const h2hData = await h2hRes.json();
+                if (!h2hData.exploits || !h2hData.exploits.length) continue;
+
+                html += '<div style="background:#0a0e17;border:1px solid #2c3e50;border-radius:8px;padding:10px;margin-bottom:8px">';
+                html += '<div style="font-weight:bold;color:#ccc;margin-bottom:6px">' + m.home_team + ' vs ' + m.away_team + '</div>';
+
+                for (const exp of h2hData.exploits) {
+                    const color = exp.confidence >= 90 ? '#2ecc71' : exp.confidence >= 80 ? '#f39c12' : '#3498db';
+                    const icon = exp.confidence >= 90 ? '\u2b50' : exp.confidence >= 80 ? '\u26a1' : '\u2139';
+                    html += '<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-top:1px dashed #1e2540">';
+                    html += '<span style="background:' + color + ';color:#000;padding:2px 6px;border-radius:4px;font-weight:bold;font-size:10px">' + exp.pick + '</span>';
+                    html += '<span style="color:' + color + ';font-weight:bold">' + exp.confidence + '%</span>';
+                    html += '<span style="color:#888;font-size:10px">' + exp.source + ' (' + exp.n_matches + ' matchs)</span>';
+                    html += '<span style="color:#555;font-size:10px">Cote: ~' + exp.cote_typique + '</span>';
+                    html += '<span>' + icon + '</span>';
+                    html += '</div>';
+                }
+
+                if (h2hData.h2h) {
+                    const h = h2hData.h2h;
+                    html += '<div style="display:flex;gap:12px;margin-top:6px;padding-top:6px;border-top:1px solid #1e2540;font-size:10px;color:#555">';
+                    html += '<span>H2H: ' + h.n + ' matchs</span>';
+                    html += '<span>1X:' + h.dc_1x_pct + '%</span>';
+                    html += '<span>Under2.5:' + h.under_25_pct + '%</span>';
+                    html += '<span>BTTS:' + h.btts_pct + '%</span>';
+                    html += '</div>';
+                }
+
+                html += '</div>';
+            }
+
+            container.innerHTML = html || '<div class="no-data">Aucun match exploitable ce round</div>';
+        }
+
+        function renderH2HDetail(data) {
+            const container = document.getElementById('h2h-container');
+            let html = '<div style="background:#0a0e17;border:1px solid #2c3e50;border-radius:8px;padding:12px">';
+
+            html += '<div style="font-size:14px;font-weight:bold;color:#ccc;margin-bottom:10px">' + data.home + ' vs ' + data.away + '</div>';
+
+            if (data.h2h) {
+                const h = data.h2h;
+                html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px">';
+                html += card('DC 1X', h.dc_1x_pct + '%', h.dc_1x_pct >= 80 ? '#2ecc71' : '#f39c12');
+                html += card('DC X2', h.dc_x2_pct + '%', h.dc_x2_pct >= 80 ? '#2ecc71' : '#f39c12');
+                html += card('Under 2.5', h.under_25_pct + '%', h.under_25_pct >= 80 ? '#2ecc71' : '#f39c12');
+                html += card('BTTS', h.btts_pct + '%', h.btts_pct >= 60 ? '#e67e22' : '#9b59b6');
+                html += '</div>';
+                html += '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:10px">';
+                html += card('Dom', h.hw_pct + '%', '#3498db');
+                html += card('Nul', h.dr_pct + '%', '#f39c12');
+                html += card('Ext', h.aw_pct + '%', '#e74c3c');
+                html += card('Under 1.5', h.under_15_pct + '%', '#9b59b6');
+                html += card('Buts/m', h.avg_goals, '#2ecc71');
+                html += '</div>';
+                html += '<div style="color:#555;font-size:10px;margin-bottom:10px">' + h.n + ' matchs historiques</div>';
+            }
+
+            if (data.exploits && data.exploits.length) {
+                html += '<div style="font-size:12px;font-weight:bold;color:#e67e22;margin-bottom:6px">PARI RECOMMANDE:</div>';
+                for (const exp of data.exploits) {
+                    const color = exp.confidence >= 90 ? '#2ecc71' : exp.confidence >= 80 ? '#f39c12' : '#3498db';
+                    html += '<div style="display:flex;align-items:center;gap:8px;padding:6px;background:#151b30;border-radius:6px;margin-bottom:4px;border-left:3px solid ' + color + '">';
+                    html += '<span style="background:' + color + ';color:#000;padding:2px 8px;border-radius:4px;font-weight:bold;font-size:11px">' + exp.pick + '</span>';
+                    html += '<span style="color:' + color + ';font-weight:bold;font-size:13px">' + exp.confidence + '%</span>';
+                    html += '<span style="color:#888;font-size:11px">' + exp.label + '</span>';
+                    html += '</div>';
+                }
+            } else {
+                html += '<div style="color:#e74c3c;font-size:12px;padding:10px">Aucun exploit detecte pour ce match-up</div>';
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        async function loadProfilingTeams() {
+            try {
+                const res = await fetch('/api/team_profile');
+                const data = await res.json();
+                const sel = document.getElementById('profiling-team');
+                if (data.teams && sel.options.length <= 1) {
+                    sel.innerHTML = '<option value="">Selectionner une equipe...</option>' +
+                        data.teams.map(t => '<option value="' + t + '">' + t + '</option>').join('');
+                }
+            } catch(e) {}
+        }
+
+        async function loadTeamProfile() {
+            const team = document.getElementById('profiling-team').value;
+            if (!team) return;
+            const container = document.getElementById('profiling-container');
+            container.innerHTML = '<div class="loading">Analyse de ' + team + '...</div>';
+            try {
+                const res = await fetch('/api/team_profile?team=' + encodeURIComponent(team));
+                const data = await res.json();
+                renderTeamProfile(data);
+            } catch(e) {
+                container.innerHTML = '<div class="no-data">Erreur: ' + e.message + '</div>';
+            }
+        }
+
+        async function loadAllTeamProfiles() {
+            const container = document.getElementById('profiling-container');
+            const summary = document.getElementById('profiling-summary');
+            container.innerHTML = '<div class="loading">Chargement des profils de toutes les equipes...</div>';
+            try {
+                const res = await fetch('/api/team_profiles_all');
+                const data = await res.json();
+                renderAllProfiles(data);
+            } catch(e) {
+                container.innerHTML = '<div class="no-data">Erreur: ' + e.message + '</div>';
+            }
+        }
+
+        function renderTeamProfile(data) {
+            const container = document.getElementById('profiling-container');
+            const team = data.team;
+            const p = data.profile;
+            const f = data.form;
+            const odds = data.odds_ranges || {};
+            const upsets = data.high_odds_upsets || [];
+            const btts = data.btts_profile || {};
+            const conds = data.conditional_patterns || [];
+            const insights = data.key_insights || [];
+            const cycles = data.cycle_patterns || {};
+
+            let html = '';
+
+            html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px;">';
+            html += profCard('Matchs (CSV)', data.n_matches_csv || p.overall.n, '#3498db');
+            html += profCard('Win Rate', (p.overall.win_rate * 100).toFixed(0) + '%', p.overall.win_rate > 0.5 ? '#2ecc71' : '#e74c3c');
+            html += profCard('Buts/match', p.overall.gf_avg.toFixed(1) + ' / ' + p.overall.ga_avg.toFixed(1), '#f39c12');
+            html += profCard('Forme', f.streak, f.recent_momentum > 0.5 ? '#2ecc71' : '#e74c3c');
+            html += '</div>';
+
+            html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:15px;">';
+            html += '<div style="background:#111827;border-radius:8px;padding:12px;border:1px solid #1e2540;">';
+            html += '<div style="font-size:12px;font-weight:bold;color:#3498db;margin-bottom:8px">DOMICILE (' + p.home.n + ' matchs)</div>';
+            html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">';
+            html += profMini('Victoires', (p.home.win_rate*100).toFixed(0)+'%', '#2ecc71');
+            html += profMini('Nuls', (p.home.draw_rate*100).toFixed(0)+'%', '#f39c12');
+            html += profMini('Defaites', (p.home.loss_rate*100).toFixed(0)+'%', '#e74c3c');
+            html += profMini('GF/match', p.home.gf_avg.toFixed(1), '#3498db');
+            html += profMini('GA/match', p.home.ga_avg.toFixed(1), '#e74c3c');
+            html += profMini('Over 2.5', (p.home.over25_rate*100).toFixed(0)+'%', '#9b59b6');
+            html += '</div></div>';
+
+            html += '<div style="background:#111827;border-radius:8px;padding:12px;border:1px solid #1e2540;">';
+            html += '<div style="font-size:12px;font-weight:bold;color:#e67e22;margin-bottom:8px">EXTERIEUR (' + p.away.n + ' matchs)</div>';
+            html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">';
+            html += profMini('Victoires', (p.away.win_rate*100).toFixed(0)+'%', '#2ecc71');
+            html += profMini('Nuls', (p.away.draw_rate*100).toFixed(0)+'%', '#f39c12');
+            html += profMini('Defaites', (p.away.loss_rate*100).toFixed(0)+'%', '#e74c3c');
+            html += profMini('GF/match', p.away.gf_avg.toFixed(1), '#3498db');
+            html += profMini('GA/match', p.away.ga_avg.toFixed(1), '#e74c3c');
+            html += profMini('Over 2.5', (p.away.over25_rate*100).toFixed(0)+'%', '#9b59b6');
+            html += '</div></div></div>';
+
+            if (insights.length > 0) {
+                html += '<div style="background:#0d1117;border-radius:8px;padding:12px;margin-bottom:15px;border:1px solid #1e2540;">';
+                html += '<div style="font-size:13px;font-weight:bold;color:#f39c12;margin-bottom:8px">KEY INSIGHTS</div>';
+                insights.forEach(ins => {
+                    const color = ins.severity === 'high' ? '#2ecc71' : ins.severity === 'danger' ? '#e74c3c' : ins.severity === 'info' ? '#3498db' : '#f39c12';
+                    html += '<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid #1e2540;">';
+                    html += '<span style="background:' + color + ';color:#000;font-size:10px;padding:1px 6px;border-radius:3px;font-weight:bold;white-space:nowrap">' + ins.type.toUpperCase() + '</span>';
+                    html += '<span style="color:#e0e0e0;font-size:12px">' + ins.desc + '</span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+
+            html += '<div style="background:#111827;border-radius:8px;padding:12px;margin-bottom:15px;border:1px solid #1e2540;">';
+            html += '<div style="font-size:13px;font-weight:bold;color:#9b59b6;margin-bottom:8px">ZONES DE COTES</div>';
+            html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">';
+            for (const [bk, bv] of Object.entries(odds)) {
+                const bg = bv.always_win ? '#0a2e12' : bv.never_lose ? '#1a2510' : bv.always_lose ? '#2e0a0a' : '#111827';
+                const border = bv.always_win ? '#2ecc71' : bv.never_lose ? '#f39c12' : bv.always_lose ? '#e74c3c' : '#1e2540';
+                html += '<div style="background:' + bg + ';border:1px solid ' + border + ';border-radius:6px;padding:8px;">';
+                html += '<div style="font-size:11px;color:#888">' + bv.desc + '</div>';
+                html += '<div style="font-size:16px;font-weight:bold;color:' + border + '">' + bv.wins + 'W/' + bv.draws + 'D/' + bv.losses + 'L</div>';
+                html += '<div style="font-size:12px;color:#e0e0e0">WR: ' + (bv.win_rate*100).toFixed(0) + '% | ' + bv.n + ' matchs</div>';
+                if (bv.always_win) html += '<div style="font-size:10px;color:#2ecc71;font-weight:bold">GAGNE TOUJOURS</div>';
+                if (bv.never_lose) html += '<div style="font-size:10px;color:#f39c12;font-weight:bold">NE PERD JAMAIS</div>';
+                if (bv.always_lose) html += '<div style="font-size:10px;color:#e74c3c;font-weight:bold">PERD TOUJOURS</div>';
+                html += '</div>';
+            }
+            html += '</div></div>';
+
+            if (conds.length > 0) {
+                html += '<div style="background:#111827;border-radius:8px;padding:12px;margin-bottom:15px;border:1px solid #1e2540;">';
+                html += '<div style="font-size:13px;font-weight:bold;color:#2ecc71;margin-bottom:8px">PATTERNS CONDITIONNELS (>=85% fiabilite)</div>';
+                conds.slice(0, 10).forEach(pat => {
+                    const conf = pat.confidence;
+                    const col = conf > 0.8 ? '#2ecc71' : conf > 0.6 ? '#f39c12' : '#e74c3c';
+                    html += '<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #1e2540;">';
+                    html += '<span style="background:' + col + ';color:#000;font-size:10px;padding:2px 6px;border-radius:3px;font-weight:bold">' + (pat.rate*100).toFixed(0) + '%</span>';
+                    html += '<span style="color:#aaa;font-size:11px">Quand <b>' + pat.conditions.join(' + ') + '</b></span>';
+                    html += '<span style="color:#e0e0e0;font-size:12px">-> ' + pat.outcome + ' (' + pat.hits + '/' + pat.total + ')</span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+
+            if (upsets.length > 0) {
+                html += '<div style="background:#111827;border-radius:8px;padding:12px;margin-bottom:15px;border:1px solid #1e2540;">';
+                html += '<div style="font-size:13px;font-weight:bold;color:#e74c3c;margin-bottom:8px">GROSSES SURPRISES (victoire a cote elevee)</div>';
+                upsets.forEach(u => {
+                    html += '<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid #1e2540;">';
+                    html += '<span style="background:#e74c3c;color:#fff;font-size:10px;padding:2px 6px;border-radius:3px;font-weight:bold">' + u.odds.toFixed(2) + '</span>';
+                    html += '<span style="color:#e0e0e0;font-size:12px">vs ' + u.opponent + ' (' + u.venue + ', R' + u.round + ', ' + u.score + ')</span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+
+            if (Object.keys(cycles).length > 0) {
+                html += '<div style="background:#111827;border-radius:8px;padding:12px;margin-bottom:15px;border:1px solid #1e2540;">';
+                html += '<div style="font-size:13px;font-weight:bold;color:#f39c12;margin-bottom:8px">PATTERNS PAR CYCLE</div>';
+                html += '<div style="display:grid;grid-template-columns:repeat(' + Math.min(Object.keys(cycles).length, 4) + ',1fr);gap:8px;">';
+                for (const [c, cv] of Object.entries(cycles)) {
+                    html += '<div style="text-align:center;background:#0a0e17;border-radius:6px;padding:8px;">';
+                    html += '<div style="font-size:11px;color:#888">Cycle ' + c + '</div>';
+                    html += '<div style="font-size:18px;font-weight:bold;color:' + (cv.win_rate > 0.5 ? '#2ecc71' : cv.win_rate < 0.4 ? '#e74c3c' : '#f39c12') + '">' + (cv.win_rate*100).toFixed(0) + '%</div>';
+                    html += '<div style="font-size:11px;color:#888">' + cv.wins + 'W/' + cv.draws + 'D/' + cv.losses + 'L (' + cv.n + 'm)</div>';
+                    html += '<div style="font-size:10px;color:#aaa">GF=' + cv.gf_avg.toFixed(1) + ' GA=' + cv.ga_avg.toFixed(1) + '</div>';
+                    html += '</div>';
+                }
+                html += '</div></div>';
+            }
+
+            html += '<div style="background:#111827;border-radius:8px;padding:12px;border:1px solid #1e2540;">';
+            html += '<div style="font-size:13px;font-weight:bold;color:#3498db;margin-bottom:8px">BTTS / GOALS</div>';
+            html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">';
+            html += profMini('BTTS Oui', (btts.btts_oui_rate*100).toFixed(0)+'%', '#2ecc71');
+            html += profMini('BTTS Non', (btts.btts_non_rate*100).toFixed(0)+'%', '#e74c3c');
+            html += profMini('BTTS a Domicile', (btts.btts_as_home*100).toFixed(0)+'%', '#3498db');
+            html += profMini('BTTS a Exterieur', (btts.btts_as_away*100).toFixed(0)+'%', '#e67e22');
+            html += '</div></div>';
+
+            container.innerHTML = html;
+        }
+
+        function profCard(label, val, color) {
+            return '<div style="background:#111827;border-radius:8px;padding:12px;text-align:center;border:1px solid #1e2540;">' +
+                '<div style="font-size:20px;font-weight:bold;color:' + color + '">' + val + '</div>' +
+                '<div style="font-size:11px;color:#888">' + label + '</div></div>';
+        }
+
+        function profMini(label, val, color) {
+            return '<div style="text-align:center;padding:4px;">' +
+                '<div style="font-size:14px;font-weight:bold;color:' + color + '">' + val + '</div>' +
+                '<div style="font-size:10px;color:#888">' + label + '</div></div>';
+        }
+
+        function renderAllProfiles(data) {
+            const container = document.getElementById('profiling-container');
+            const summary = document.getElementById('profiling-summary');
+            const sums = data.summaries || {};
+            const cross = data.cross_patterns || {};
+
+            let html = '';
+
+            if (cross.never_lose_at_home_ranges && cross.never_lose_at_home_ranges.length > 0) {
+                html += '<div style="background:#0d1117;border-radius:8px;padding:12px;margin-bottom:12px;border:1px solid #2ecc71">';
+                html += '<div style="font-size:13px;font-weight:bold;color:#2ecc71;margin-bottom:8px">NE PERDENT JAMAIS (par zone de cotes)</div>';
+                cross.never_lose_at_home_ranges.forEach(z => {
+                    html += '<div style="display:flex;gap:8px;padding:3px 0;color:#e0e0e0;font-size:12px;">';
+                    html += '<span style="color:#2ecc71;font-weight:bold">' + z.team + '</span>';
+                    html += '<span style="color:#888">' + z.range + '</span>';
+                    html += '<span>' + z.n + 'm | WR=' + (z.wr*100).toFixed(0) + '%</span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+
+            html += '<div style="background:#111827;border-radius:8px;padding:12px;border:1px solid #1e2540;">';
+            html += '<div style="font-size:13px;font-weight:bold;color:#3498db;margin-bottom:8px">TABLEAU COMPARATIF (' + Object.keys(sums).length + ' equipes)</div>';
+            html += '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;">';
+            html += '<tr style="border-bottom:2px solid #1e2540;"><th style="text-align:left;padding:6px;color:#888">Equipe</th>';
+            html += '<th style="padding:6px;color:#888">WR</th><th style="padding:6px;color:#888">Home</th>';
+            html += '<th style="padding:6px;color:#888">Away</th><th style="padding:6px;color:#888">GF</th>';
+            html += '<th style="padding:6px;color:#888">GA</th><th style="padding:6px;color:#888">BTTS%</th>';
+            html += '<th style="padding:6px;color:#888">Forme</th><th style="padding:6px;color:#888">Patterns</th></tr>';
+            const sorted = Object.entries(sums).sort((a,b) => b[1].home_wr - a[1].home_wr);
+            sorted.forEach(([team, s]) => {
+                const formCol = s.form > 0.5 ? '#2ecc71' : s.form < 0.35 ? '#e74c3c' : '#f39c12';
+                html += '<tr style="border-bottom:1px solid #1e2540;cursor:pointer" onclick="document.getElementById(\'profiling-team\').value=\'' + team + '\';loadTeamProfile()">';
+                html += '<td style="padding:6px;color:#e0e0e0;font-weight:bold">' + team + '</td>';
+                html += '<td style="padding:6px;text-align:center;color:' + (s.win_rate > 0.5 ? '#2ecc71' : '#e0e0e0') + '">' + (s.win_rate*100).toFixed(0) + '%</td>';
+                html += '<td style="padding:6px;text-align:center;color:' + (s.home_wr > 0.55 ? '#2ecc71' : '#e0e0e0') + '">' + (s.home_wr*100).toFixed(0) + '%</td>';
+                html += '<td style="padding:6px;text-align:center">' + (s.away_wr*100).toFixed(0) + '%</td>';
+                html += '<td style="padding:6px;text-align:center">' + s.gf_avg.toFixed(1) + '</td>';
+                html += '<td style="padding:6px;text-align:center">' + s.ga_avg.toFixed(1) + '</td>';
+                html += '<td style="padding:6px;text-align:center;color:' + (s.btts_oui_rate > 0.5 ? '#2ecc71' : '#888') + '">' + (s.btts_oui_rate*100).toFixed(0) + '%</td>';
+                html += '<td style="padding:6px;text-align:center;color:' + formCol + '">' + s.streak + '</td>';
+                html += '<td style="padding:6px;text-align:center">' + (s.n_patterns || 0) + '</td>';
+                html += '</tr>';
+            });
+            html += '</table></div></div>';
+
+            summary.innerHTML = '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px;">' +
+                profCard('Equipes', Object.keys(sums).length, '#3498db') +
+                profCard('Patterns forts', Object.values(sums).reduce((a,s) => a + (s.n_patterns||0), 0), '#2ecc71') +
+                profCard('Zones cotes', Object.values(sums).reduce((a,s) => a + (s.n_odds_zones||0), 0), '#f39c12') +
+                profCard('Surprises', Object.values(sums).reduce((a,s) => a + (s.n_upsets||0), 0), '#e74c3c') +
+                '</div>';
+
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
