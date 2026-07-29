@@ -6,7 +6,7 @@ services:
     startCommand: python app.py
     plan: free
     healthCheckPath: /
-    autoDeploy: false
+    autoDeploy: true
     envVars:
       - key: PYTHONUNBUFFERED
         value: "1"
