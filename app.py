@@ -100,10 +100,21 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
 
+def _keep_alive(port):
+    while True:
+        time.sleep(300)
+        try:
+            import urllib.request
+            urllib.request.urlopen("http://localhost:%d" % port, timeout=10)
+        except Exception:
+            pass
+
 def main():
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 10000
     t = threading.Thread(target=collecteur_live.main, daemon=True)
     t.start()
+    ka = threading.Thread(target=_keep_alive, args=(port,), daemon=True)
+    ka.start()
     time.sleep(2)
     server = HTTPServer(("0.0.0.0", port), Handler)
     print("[Web] Status: http://0.0.0.0:%d" % port)

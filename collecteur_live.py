@@ -28,6 +28,7 @@ HEADERS = {
     "referer": "https://bet261.mg/",
 }
 
+STATE_FILE = os.path.join(BASE_DIR, "collector_state.json")
 TARGET_MIN = 20000
 POLL_INTERVAL = 30
 CSV_LOCK = threading.Lock()
@@ -50,6 +51,25 @@ def _log(msg):
     except Exception:
         pass
 
+
+def _load_state():
+    global _cycle, _last_round
+    try:
+        if os.path.exists(STATE_FILE):
+            with open(STATE_FILE, "r") as f:
+                s = json.load(f)
+            _cycle = s.get("cycle", 1)
+            _last_round = s.get("last_round", None)
+            _log("Etat charge: cycle=%d last_round=%s" % (_cycle, _last_round))
+    except Exception as e:
+        _log("Erreur chargement etat: %s" % e)
+
+def _save_state():
+    try:
+        with open(STATE_FILE, "w") as f:
+            json.dump({"cycle": _cycle, "last_round": _last_round, "updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, f)
+    except Exception as e:
+        _log("Erreur sauvegarde etat: %s" % e)
 
 def _detect_cycle():
     global _cycle
@@ -342,6 +362,7 @@ def _count_live_rows():
 
 def _main_loop():
     global _last_round, _running
+    _load_state()
     _detect_cycle()
     _ensure_csv()
 
@@ -361,6 +382,7 @@ def _main_loop():
                     if matches:
                         _odds_cache[current_round] = _extract_odds(matches)
                     _log("Round: R%d" % current_round)
+                    _save_state()
                 elif current_round != _last_round:
                     was = _last_round
                     _last_round = current_round
@@ -368,6 +390,7 @@ def _main_loop():
                     if matches:
                         _odds_cache[current_round] = _extract_odds(matches)
                     _handle_transition(was, current_round)
+                    _save_state()
                     retrain_count += 1
                     if retrain_count % 10 == 0:
                         threading.Thread(target=_try_retrain, daemon=True).start()
