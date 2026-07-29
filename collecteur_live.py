@@ -38,6 +38,7 @@ _last_round = None
 _running = True
 _shutdown_requested = False
 _odds_cache = {}
+_pending_playouts = []
 
 
 def _log(msg):
@@ -291,16 +292,21 @@ def _write_csv_rows(rows):
 
 
 def _process_round(rnd):
+    global _pending_playouts
     if _csv_has_round(rnd, _cycle):
         return
 
     cotes = _odds_cache.pop(rnd, [])
     pr = _fetch_playout(rnd)
     if not pr:
-        _log("Pas de playout pour R%d" % rnd)
+        if rnd not in _pending_playouts:
+            _pending_playouts.append(rnd)
+            _log("Playout R%d en attente..." % rnd)
         return
+    if rnd in _pending_playouts:
+        _pending_playouts.remove(rnd)
 
-    _, matches = _fetch_api_matches()
+    matches = _fetch_api_matches()[1]
     api_list = _get_positions_from_matches(matches)
 
     rows = []
@@ -337,7 +343,7 @@ def _process_round(rnd):
 
 
 def _handle_transition(old_round, new_round):
-    global _cycle
+    global _cycle, _pending_playouts
     if old_round and new_round < old_round:
         _cycle += 1
         _log("Cycle %d! R%d -> R%d" % (_cycle, old_round, new_round))
@@ -361,7 +367,7 @@ def _count_live_rows():
 
 
 def _main_loop():
-    global _last_round, _running
+    global _last_round, _running, _pending_playouts
     _load_state()
     _detect_cycle()
     _ensure_csv()
@@ -404,6 +410,16 @@ def _main_loop():
                     if rankings:
                         _save_ranking_snapshot(current_round, _cycle, rankings)
                         ranking_saved_for.add(rk_key)
+
+            if _pending_playouts:
+                retry = []
+                for rnd in _pending_playouts:
+                    _process_round(rnd)
+                    if _csv_has_round(rnd, _cycle):
+                        _log("Playout R%d rattrape!" % rnd)
+                    else:
+                        retry.append(rnd)
+                _pending_playouts[:] = retry
 
             if _shutdown_requested and stop_at_cycle is None:
                 total = _count_live_rows()
