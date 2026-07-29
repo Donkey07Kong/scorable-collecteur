@@ -17,7 +17,35 @@ import collecteur_live
 
 
 class Handler(BaseHTTPRequestHandler):
+    def _log_tail(self, n=20):
+        try:
+            with open("server_err.log", "r", encoding="utf-8") as f:
+                lines = f.readlines()
+                return "".join(lines[-n:])
+        except Exception:
+            return "(pas de logs)"
+
     def do_GET(self):
+        if self.path == "/debug":
+            ts = time.strftime("%Y-%m-%d %H:%M:%S")
+            logs = self._log_tail(30)
+            body = (
+                "<html><body style='font-family:monospace;padding:2em'>"
+                "<h3>Debug - %s</h3>"
+                "<p>Cycle: %s | Last round: %s | Running: %s | Shutdown: %s</p>"
+                "<pre>%s</pre>"
+                "</body></html>"
+            ) % (ts, collecteur_live._cycle, collecteur_live._last_round or "None",
+                  collecteur_live._running, collecteur_live._shutdown_requested,
+                  logs)
+            self.send_response(200)
+            enc = body.encode("utf-8")
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(enc)))
+            self.end_headers()
+            self.wfile.write(enc)
+            return
+
         ts = time.strftime("%Y-%m-%d %H:%M:%S")
 
         fsize = 0
