@@ -13,6 +13,12 @@ try:
 except ImportError:
     from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 
+try:
+    from http.server import ThreadingHTTPServer
+    SERVER_CLASS = ThreadingHTTPServer
+except ImportError:
+    SERVER_CLASS = HTTPServer
+
 import collecteur_live
 
 
@@ -110,14 +116,26 @@ def _keep_alive(port):
         except Exception:
             pass
 
+def _log_exception(exc_type, exc_value, exc_tb):
+    import traceback
+    msg = "".join(traceback.format_exception(exc_type, exc_value, exc_tb))
+    print("[CRASH] %s" % msg)
+    try:
+        with open("server_err.log", "a", encoding="utf-8") as f:
+            f.write("[CRASH] %s" % msg)
+    except Exception:
+        pass
+
 def main():
+    sys.excepthook = _log_exception
+    threading.excepthook = _log_exception
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 10000
     t = threading.Thread(target=collecteur_live.main, daemon=True)
     t.start()
     ka = threading.Thread(target=_keep_alive, args=(port,), daemon=True)
     ka.start()
     time.sleep(2)
-    server = HTTPServer(("0.0.0.0", port), Handler)
+    server = SERVER_CLASS(("0.0.0.0", port), Handler)
     print("[Web] Status: http://0.0.0.0:%d" % port)
     server.serve_forever()
 

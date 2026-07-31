@@ -422,7 +422,11 @@ def _process_round(rnd):
     if rows:
         _write_csv_rows(rows)
         _log("R%d sauv: %d matchs, %d avec cotes" % (rnd, len(rows), len(cotes)))
-        _backup_all()
+        _save_state()
+        try:
+            threading.Thread(target=_backup_all, daemon=True).start()
+        except Exception:
+            pass
 
 
 def _handle_transition(old_round, new_round):
@@ -480,6 +484,7 @@ def _main_loop():
                     _log("Transition: R%d -> R%d" % (was, current_round))
                     if matches:
                         _odds_cache[current_round] = _extract_odds(matches)
+                    _save_state()
                     _handle_transition(was, current_round)
                     _save_state()
                     retrain_count += 1
