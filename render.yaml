@@ -13,6 +13,6 @@ services:
       - key: GH_TOKEN
         sync: false
       - key: GH_REPO
-        value: "Donkey07Kong/scorable-collecteur"
+        value: "Donkey07Kong/scorable-data"
       - key: GH_DATA_PATH
         value: "data"

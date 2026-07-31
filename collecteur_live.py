@@ -34,7 +34,7 @@ POLL_INTERVAL = 30
 CSV_LOCK = threading.Lock()
 
 GH_TOKEN = os.environ.get("GH_TOKEN", "")
-GH_REPO = os.environ.get("GH_REPO", "Donkey07Kong/scorable-collecteur")
+GH_REPO = os.environ.get("GH_REPO", "Donkey07Kong/scorable-data")
 GH_BRANCH = os.environ.get("GH_BRANCH", "master")
 GH_DATA_PATH = os.environ.get("GH_DATA_PATH", "data")
 
