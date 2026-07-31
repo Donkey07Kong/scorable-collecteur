@@ -10,3 +10,9 @@ services:
     envVars:
       - key: PYTHONUNBUFFERED
         value: "1"
+      - key: GH_TOKEN
+        sync: false
+      - key: GH_REPO
+        value: "Donkey07Kong/scorable-collecteur"
+      - key: GH_DATA_PATH
+        value: "data"

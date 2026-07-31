@@ -101,11 +101,12 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def _keep_alive(port):
+    target = os.environ.get("RENDER_EXTERNAL_URL", "http://localhost:%d" % port)
     while True:
         time.sleep(300)
         try:
             import urllib.request
-            urllib.request.urlopen("http://localhost:%d" % port, timeout=10)
+            urllib.request.urlopen(target, timeout=15)
         except Exception:
             pass
 

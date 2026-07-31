@@ -33,6 +33,11 @@ TARGET_MIN = 20000
 POLL_INTERVAL = 30
 CSV_LOCK = threading.Lock()
 
+GH_TOKEN = os.environ.get("GH_TOKEN", "")
+GH_REPO = os.environ.get("GH_REPO", "Donkey07Kong/scorable-collecteur")
+GH_BRANCH = os.environ.get("GH_BRANCH", "master")
+GH_DATA_PATH = os.environ.get("GH_DATA_PATH", "data")
+
 _cycle = 1
 _last_round = None
 _running = True
@@ -71,6 +76,83 @@ def _save_state():
             json.dump({"cycle": _cycle, "last_round": _last_round, "updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, f)
     except Exception as e:
         _log("Erreur sauvegarde etat: %s" % e)
+
+def _gh_upload(path, content_bytes):
+    if not GH_TOKEN:
+        return False
+    import base64
+    try:
+        url = "https://api.github.com/repos/%s/contents/%s" % (GH_REPO, path)
+        headers = {
+            "Authorization": "token %s" % GH_TOKEN,
+            "Accept": "application/vnd.github.v3+json",
+        }
+        sha = None
+        try:
+            r = requests.get(url, headers=headers, timeout=15)
+            if r.status_code == 200:
+                sha = r.json().get("sha")
+        except Exception:
+            pass
+        data = {
+            "message": "backup %s" % datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "content": base64.b64encode(content_bytes).decode(),
+            "branch": GH_BRANCH,
+        }
+        if sha:
+            data["sha"] = sha
+        r = requests.put(url, json=data, headers=headers, timeout=20)
+        return r.status_code in (200, 201)
+    except Exception as e:
+        _log("Backup GH erreur: %s" % e)
+        return False
+
+
+def _gh_download(path):
+    try:
+        r = requests.get("https://raw.githubusercontent.com/%s/%s/%s" % (GH_REPO, GH_BRANCH, path), timeout=15)
+        if r.status_code == 200:
+            return r.content
+    except Exception:
+        pass
+    return None
+
+
+def _backup_all():
+    try:
+        if os.path.exists(LIVE_CSV):
+            with open(LIVE_CSV, "rb") as f:
+                _gh_upload("%s/live_data.csv" % GH_DATA_PATH, f.read())
+        if os.path.exists(STATE_FILE):
+            with open(STATE_FILE, "rb") as f:
+                _gh_upload("%s/collector_state.json" % GH_DATA_PATH, f.read())
+        if os.path.exists(RANKING_FILE):
+            with open(RANKING_FILE, "rb") as f:
+                _gh_upload("%s/rankings_per_round.json" % GH_DATA_PATH, f.read())
+    except Exception as e:
+        _log("Backup GH erreur globale: %s" % e)
+
+
+def _restore_from_gh():
+    try:
+        data = _gh_download("%s/live_data.csv" % GH_DATA_PATH)
+        if data and not os.path.exists(LIVE_CSV):
+            with open(LIVE_CSV, "wb") as f:
+                f.write(data)
+            _log("CSV restaure depuis GitHub (%d octets)" % len(data))
+        data = _gh_download("%s/collector_state.json" % GH_DATA_PATH)
+        if data:
+            with open(STATE_FILE, "wb") as f:
+                f.write(data)
+            _log("Etat restaure depuis GitHub")
+        data = _gh_download("%s/rankings_per_round.json" % GH_DATA_PATH)
+        if data and not os.path.exists(RANKING_FILE):
+            with open(RANKING_FILE, "wb") as f:
+                f.write(data)
+            _log("Rankings restores depuis GitHub")
+    except Exception as e:
+        _log("Restauration GH erreur: %s" % e)
+
 
 def _detect_cycle():
     global _cycle
@@ -340,6 +422,7 @@ def _process_round(rnd):
     if rows:
         _write_csv_rows(rows)
         _log("R%d sauv: %d matchs, %d avec cotes" % (rnd, len(rows), len(cotes)))
+        _backup_all()
 
 
 def _handle_transition(old_round, new_round):
@@ -368,6 +451,8 @@ def _count_live_rows():
 
 def _main_loop():
     global _last_round, _running, _pending_playouts
+    _load_state()
+    _restore_from_gh()
     _load_state()
     _detect_cycle()
     _ensure_csv()
