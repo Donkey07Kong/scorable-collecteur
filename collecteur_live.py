@@ -44,6 +44,8 @@ _running = True
 _shutdown_requested = False
 _odds_cache = {}
 _pending_playouts = []
+_reset_pending = False
+_ranking_saved_for = set()
 
 
 def _log(msg):
@@ -131,6 +133,71 @@ def _backup_all():
                 _gh_upload("%s/rankings_per_round.json" % GH_DATA_PATH, f.read())
     except Exception as e:
         _log("Backup GH erreur globale: %s" % e)
+
+
+def _gh_delete(path):
+    if not GH_TOKEN:
+        return
+    try:
+        url = "https://api.github.com/repos/%s/contents/%s" % (GH_REPO, path)
+        headers = {"Authorization": "token %s" % GH_TOKEN, "Accept": "application/vnd.github.v3+json"}
+        r = requests.get(url, headers=headers, timeout=15)
+        if r.status_code == 200:
+            sha = r.json().get("sha")
+            data = {"message": "delete %s" % datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "sha": sha, "branch": GH_BRANCH}
+            requests.delete(url, json=data, headers=headers, timeout=20)
+    except Exception:
+        pass
+
+
+def _check_control():
+    global _reset_pending
+    if not GH_TOKEN:
+        return
+    try:
+        import base64
+        url = "https://api.github.com/repos/%s/contents/%s/control.json" % (GH_REPO, GH_DATA_PATH)
+        headers = {"Authorization": "token %s" % GH_TOKEN, "Accept": "application/vnd.github.v3+json"}
+        r = requests.get(url, headers=headers, timeout=15)
+        if r.status_code == 200:
+            try:
+                cmd = json.loads(base64.b64decode(r.json().get("content", "")).decode())
+            except Exception:
+                cmd = {}
+            if cmd.get("reset") and not _reset_pending:
+                _reset_pending = True
+                _log("Commande RESET recue - application au prochain R1")
+                try:
+                    sha = r.json().get("sha")
+                    data = {"message": "reset ack", "content": base64.b64encode(b"{}").decode(),
+                            "sha": sha, "branch": GH_BRANCH}
+                    requests.put(url, json=data, headers=headers, timeout=20)
+                except Exception:
+                    pass
+    except Exception as e:
+        _log("Erreur check control: %s" % e)
+
+
+def _apply_reset():
+    global _cycle, _last_round, _pending_playouts, _reset_pending, _odds_cache
+    for path in (LIVE_CSV, STATE_FILE, RANKING_FILE):
+        try:
+            if os.path.exists(path):
+                os.remove(path)
+        except Exception:
+            pass
+    for path in ("%s/live_data.csv" % GH_DATA_PATH,
+                 "%s/collector_state.json" % GH_DATA_PATH,
+                 "%s/rankings_per_round.json" % GH_DATA_PATH):
+        _gh_delete(path)
+    _cycle = 1
+    _last_round = None
+    _pending_playouts = []
+    _odds_cache = {}
+    _reset_pending = False
+    _ensure_csv()
+    _log("RESET applique - redemarrage propre (cycle=1)")
 
 
 def _restore_from_gh():
@@ -454,25 +521,34 @@ def _count_live_rows():
 
 
 def _main_loop():
-    global _last_round, _running, _pending_playouts
+    global _last_round, _running, _pending_playouts, _ranking_saved_for
     _load_state()
     _restore_from_gh()
     _load_state()
     _detect_cycle()
+    _check_control()
     _ensure_csv()
 
     retrain_count = 0
-    ranking_saved_for = set()
     stop_at_cycle = None
 
     _log("Demarrage (cycle=%d, target=%d matchs)" % (_cycle, TARGET_MIN))
 
     while _running:
         try:
+            _check_control()
             current_round, matches = _fetch_api_matches()
 
             if current_round:
-                if _last_round is None:
+                if _reset_pending and current_round == 1:
+                    _apply_reset()
+                    _ranking_saved_for.clear()
+                    if matches:
+                        _odds_cache[1] = _extract_odds(matches)
+                    _last_round = 1
+                    _log("R1 detecte apres reset - collecte propre demarree")
+                    _save_state()
+                elif _last_round is None:
                     _last_round = current_round
                     if matches:
                         _odds_cache[current_round] = _extract_odds(matches)
@@ -495,11 +571,11 @@ def _main_loop():
                         _odds_cache[current_round] = _extract_odds(matches)
 
                 rk_key = "%d_%d" % (current_round, _cycle)
-                if rk_key not in ranking_saved_for:
+                if rk_key not in _ranking_saved_for:
                     rankings = _fetch_ranking()
                     if rankings:
                         _save_ranking_snapshot(current_round, _cycle, rankings)
-                        ranking_saved_for.add(rk_key)
+                        _ranking_saved_for.add(rk_key)
 
             if _pending_playouts:
                 retry = []
