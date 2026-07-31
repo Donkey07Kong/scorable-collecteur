@@ -1,0 +1,343 @@
+{
+  "30_1": {
+    "timestamp": "2026-07-31 01:40:42",
+    "rankings": {
+      "South Africa": {
+        "position": 1,
+        "points": 58,
+        "won": 18,
+        "draw": 4,
+        "lost": 7,
+        "history": [
+          "Lost",
+          "Draw",
+          "Won",
+          "Won",
+          "Won"
+        ]
+      },
+      "Morocco": {
+        "position": 2,
+        "points": 54,
+        "won": 15,
+        "draw": 9,
+        "lost": 5,
+        "history": [
+          "Won",
+          "Draw",
+          "Draw",
+          "Won",
+          "Lost"
+        ]
+      },
+      "Egypt": {
+        "position": 3,
+        "points": 54,
+        "won": 14,
+        "draw": 12,
+        "lost": 3,
+        "history": [
+          "Won",
+          "Won",
+          "Draw",
+          "Draw",
+          "Draw"
+        ]
+      },
+      "Mali": {
+        "position": 4,
+        "points": 52,
+        "won": 14,
+        "draw": 10,
+        "lost": 5,
+        "history": [
+          "Lost",
+          "Won",
+          "Lost",
+          "Draw",
+          "Lost"
+        ]
+      },
+      "Zambia": {
+        "position": 5,
+        "points": 51,
+        "won": 14,
+        "draw": 9,
+        "lost": 6,
+        "history": [
+          "Won",
+          "Won",
+          "Won",
+          "Draw",
+          "Won"
+        ]
+      },
+      "Nigeria": {
+        "position": 6,
+        "points": 50,
+        "won": 13,
+        "draw": 11,
+        "lost": 5,
+        "history": [
+          "Lost",
+          "Won",
+          "Draw",
+          "Draw",
+          "Draw"
+        ]
+      },
+      "Tunisia": {
+        "position": 7,
+        "points": 49,
+        "won": 13,
+        "draw": 10,
+        "lost": 6,
+        "history": [
+          "Won",
+          "Lost",
+          "Won",
+          "Won",
+          "Lost"
+        ]
+      },
+      "Senegal": {
+        "position": 8,
+        "points": 46,
+        "won": 11,
+        "draw": 13,
+        "lost": 5,
+        "history": [
+          "Won",
+          "Draw",
+          "Draw",
+          "Won",
+          "Draw"
+        ]
+      },
+      "Algeria": {
+        "position": 9,
+        "points": 45,
+        "won": 11,
+        "draw": 12,
+        "lost": 6,
+        "history": [
+          "Draw",
+          "Won",
+          "Lost",
+          "Won",
+          "Won"
+        ]
+      },
+      "Cameroon": {
+        "position": 10,
+        "points": 42,
+        "won": 10,
+        "draw": 12,
+        "lost": 7,
+        "history": [
+          "Won",
+          "Draw",
+          "Won",
+          "Draw",
+          "Draw"
+        ]
+      },
+      "DR Congo": {
+        "position": 11,
+        "points": 42,
+        "won": 10,
+        "draw": 12,
+        "lost": 7,
+        "history": [
+          "Lost",
+          "Draw",
+          "Lost",
+          "Lost",
+          "Draw"
+        ]
+      },
+      "Ivory Coast": {
+        "position": 12,
+        "points": 40,
+        "won": 10,
+        "draw": 10,
+        "lost": 9,
+        "history": [
+          "Won",
+          "Lost",
+          "Won",
+          "Lost",
+          "Won"
+        ]
+      },
+      "Zimbabwe": {
+        "position": 13,
+        "points": 40,
+        "won": 10,
+        "draw": 10,
+        "lost": 9,
+        "history": [
+          "Won",
+          "Won",
+          "Won",
+          "Draw",
+          "Won"
+        ]
+      },
+      "Uganda": {
+        "position": 14,
+        "points": 36,
+        "won": 8,
+        "draw": 12,
+        "lost": 9,
+        "history": [
+          "Lost",
+          "Won",
+          "Lost",
+          "Draw",
+          "Draw"
+        ]
+      },
+      "Angola": {
+        "position": 15,
+        "points": 34,
+        "won": 7,
+        "draw": 13,
+        "lost": 9,
+        "history": [
+          "Draw",
+          "Lost",
+          "Draw",
+          "Draw",
+          "Lost"
+        ]
+      },
+      "Mozambique": {
+        "position": 16,
+        "points": 32,
+        "won": 7,
+        "draw": 11,
+        "lost": 11,
+        "history": [
+          "Won",
+          "Draw",
+          "Draw",
+          "Draw",
+          "Won"
+        ]
+      },
+      "Comoros": {
+        "position": 17,
+        "points": 31,
+        "won": 6,
+        "draw": 13,
+        "lost": 10,
+        "history": [
+          "Won",
+          "Lost",
+          "Won",
+          "Draw",
+          "Lost"
+        ]
+      },
+      "Tanzania": {
+        "position": 18,
+        "points": 30,
+        "won": 4,
+        "draw": 18,
+        "lost": 7,
+        "history": [
+          "Lost",
+          "Draw",
+          "Won",
+          "Draw",
+          "Draw"
+        ]
+      },
+      "Benin": {
+        "position": 19,
+        "points": 27,
+        "won": 6,
+        "draw": 9,
+        "lost": 14,
+        "history": [
+          "Draw",
+          "Lost",
+          "Draw",
+          "Lost",
+          "Draw"
+        ]
+      },
+      "Gabon": {
+        "position": 20,
+        "points": 25,
+        "won": 4,
+        "draw": 13,
+        "lost": 12,
+        "history": [
+          "Lost",
+          "Lost",
+          "Draw",
+          "Lost",
+          "Won"
+        ]
+      },
+      "Equatorial Guinea": {
+        "position": 21,
+        "points": 22,
+        "won": 5,
+        "draw": 7,
+        "lost": 17,
+        "history": [
+          "Lost",
+          "Draw",
+          "Lost",
+          "Draw",
+          "Draw"
+        ]
+      },
+      "Sudan": {
+        "position": 22,
+        "points": 22,
+        "won": 5,
+        "draw": 7,
+        "lost": 17,
+        "history": [
+          "Lost",
+          "Lost",
+          "Lost",
+          "Lost",
+          "Lost"
+        ]
+      },
+      "Burkina Faso": {
+        "position": 23,
+        "points": 20,
+        "won": 5,
+        "draw": 5,
+        "lost": 19,
+        "history": [
+          "Draw",
+          "Draw",
+          "Lost",
+          "Lost",
+          "Draw"
+        ]
+      },
+      "Botswana": {
+        "position": 24,
+        "points": 18,
+        "won": 4,
+        "draw": 6,
+        "lost": 19,
+        "history": [
+          "Lost",
+          "Draw",
+          "Lost",
+          "Won",
+          "Lost"
+        ]
+      }
+    }
+  }
+}
